@@ -76,6 +76,7 @@ DraftCrane inherits the Venture Crane standard stack. Deviations require an ADR 
 | **Auth** | Clerk | When user accounts are needed |
 | **File Storage** | Google Drive (user's account) | Canonical manuscript storage via OAuth |
 | **AI** | Anthropic Claude API | Writing partner, source intelligence |
+| **AI Agents** | Claude Code SDK | Custom agents for drafting, source analysis, consistency checks |
 | **Export** | PDF/EPUB generation library | TBD during Phase 0 |
 | **Repo** | GitHub (draftcrane org) | All code, issues, PRs |
 | **CI/CD** | GitHub Actions | Lint, typecheck, test, deploy |
@@ -236,6 +237,7 @@ These should be resolved via ADRs as development begins:
 3. **AI provider integration** — Direct Anthropic API vs. Cloudflare AI Gateway
 4. **PDF/EPUB generation** — Server-side vs. client-side, which library
 5. **Data model** — What lives in D1 vs. what lives in Google Drive
+6. **AI agent architecture** — Where Claude Code SDK agents fit in the stack (Craft Buttons, Source Intelligence, Consistency Engine are all candidates for purpose-built agents rather than raw API calls)
 
 ---
 
