@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+.env.*.local
+.dev.vars
+
+# Build
+.next/
+dist/
+.wrangler/
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Test
+coverage/
+
+# Infisical
+.infisical.json

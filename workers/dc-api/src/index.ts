@@ -1,0 +1,20 @@
+import { Hono } from "hono";
+import type { Env } from "./types/index.js";
+import { errorHandler, corsMiddleware } from "./middleware/index.js";
+import { health } from "./routes/health.js";
+
+const app = new Hono<{ Bindings: Env }>();
+
+// Global middleware
+app.use("*", errorHandler);
+app.use("*", corsMiddleware());
+
+// Route mounting
+app.route("/health", health);
+
+// 404 fallback
+app.notFound((c) => {
+  return c.json({ error: "Not found", code: "NOT_FOUND" }, 404);
+});
+
+export default app;
