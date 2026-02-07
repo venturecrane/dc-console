@@ -8,12 +8,11 @@
 ## Current State
 
 ### In Progress
-None. All planning and backlog creation work is complete.
+- #45 PR: Foundation scaffolding and infrastructure setup (pending merge)
 
 ### Ready to Pick Up (P0 -- start here)
 - #2 ADR-001: Choose editor library (Tiptap vs Lexical vs Plate) -- **Blocks all editor work**
 - #3 ADR-004: PDF/EPUB generation approach -- **Blocks all export work**
-- #7 Foundation: Project scaffolding and infrastructure setup -- **Blocks all feature work**
 - #9 US-001: Sign up with Google or email
 - #10 US-002: Sign in and resume writing
 - #14 US-005: Connect Google Drive via OAuth
@@ -35,56 +34,75 @@ None. All planning and backlog creation work is complete.
 - #44 Approve D1 paid tier for Phase 0
 
 ### Blocked
-None currently, but editor stories (#19-#28) are effectively blocked by ADR-001 (#2).
+Editor stories (#19-#28) are effectively blocked by ADR-001 (#2).
 
 ---
 
-## Session Summary (2026-02-06)
+## Session Summary (2026-02-06, Session 2: Infra-E / S1)
 
 ### Accomplished
 
-**PRD Team Review & Rewrite (complete)**
-- Executed 3 rounds of parallel 6-agent contributions (Product Manager, Technical Lead, Business Analyst, UX Lead, Target Customer persona, Competitor Analyst)
-- Round 1: Initial contributions from all 6 roles
-- Round 2: Cross-pollination where each role read all others and refined
-- Round 3: Final polish with cross-role conflict resolution
-- Synthesized all Round 3 outputs into a single 963-line PRD at `docs/pm/prd.md` (19 sections + appendix of 8 unresolved issues)
-- Cross-role conflicts resolved using PM's decisions as authoritative (2s debounce, US Trade page size, freeform AI included, chapter reorder included, SSE streaming required)
-
-**GitHub Backlog Created (43 issues)**
-- 5 ADRs (#2-#6): Editor library, Drive sync, AI integration, PDF/EPUB generation, data model split
-- 1 Foundation issue (#7): Project scaffolding and infrastructure
-- 5 Epics (#8, #13, #18, #29, #33): Auth, Drive, Editor, AI Rewrite, Export
-- 24 User stories (#9-#12, #14-#17, #19-#28, #30-#32, #34-#37): All Phase 0 features with acceptance criteria
-- 1 Landing page issue (#38)
-- 7 Decision issues (#39-#44, #43): Unresolved issues requiring human input
+**Foundation Scaffolding (Issue #7) -- Complete**
+- Scaffolded Next.js frontend in `web/` (TypeScript + Tailwind + ESLint)
+- Created Hono Worker API in `workers/dc-api/` with full modular structure:
+  - `src/index.ts` -- route mounting only
+  - `src/middleware/` -- CORS (no wildcards) and error handling (`{ error, code }`)
+  - `src/routes/` -- health check endpoint
+  - `src/services/` -- empty, ready for business logic
+  - `src/types/` -- Env bindings, API error types, pagination types
+  - `src/utils/` -- empty, ready for utilities
+  - `test/` -- health endpoint test (Vitest + Workers pool)
+- Created 6 D1 migrations matching PRD Section 11 schema:
+  - `0001_create_users.sql` -- Clerk user ID as PK
+  - `0002_create_projects.sql` -- with ULID PKs, user isolation index
+  - `0003_create_chapters.sql` -- unique (project_id, sort_order), no content column
+  - `0004_create_drive_connections.sql` -- unique per user, encrypted token fields
+  - `0005_create_ai_interactions.sql` -- action enum, no user content
+  - `0006_create_export_jobs.sql` -- format/status enums, R2/Drive references
+- Provisioned Cloudflare resources:
+  - D1 database: `dc-main` (ID: `da753071-4176-4efa-9b7f-4f744b8e1aa2`)
+  - R2 bucket: `dc-exports`
+  - KV namespace: `dc-cache` (ID: `15db632cefe04003a94f1e6e7460c858`)
+- All migrations applied to both local and remote D1
+- Worker deployed at: `https://dc-api.automation-ab6.workers.dev`
+- GitHub Actions CI pipeline: lint, typecheck, test
+- Monorepo with npm workspaces (`web`, `workers/*`)
+- Prettier configured at root, ESLint per workspace
+- `.env.example` documenting all required environment variables
+- PR #45 created
 
 ### Left Off
-All planning work is complete. The project is ready to begin development.
+Foundation is complete and deployed. Ready to merge #45 and begin feature work.
 
 ### Needs Attention
-- **8 unresolved issues** in the PRD appendix need human decisions before certain features can be finalized (see triage issues above)
-- **ADR-001 (editor library)** is the single highest priority -- it blocks the entire editor epic
-- **ADR-004 (PDF/EPUB generation)** is the second highest priority -- blocks all export work
-- The `docs/pm/prd-contributions/` directory contains all 18 intermediate files from the 3 rounds (6 roles x 3 rounds) -- these are reference material, not active documents
+- **Merge PR #45** to unblock all feature development
+- **ADR-001 (editor library)** remains the highest priority -- blocks the entire editor epic
+- **ADR-004 (PDF/EPUB generation)** is second priority -- blocks all export work
+- **Captain needs to set up**: Clerk app, Google Cloud OAuth creds, Anthropic API key (see `.env.example`)
+- **D1 paid tier** (#44) needs human decision for production readiness
 
 ---
 
 ## Next Session Guidance
 
-### Recommended Start Order
-1. **Resolve ADR-001** (#2) -- 2-day prototype spike with Tiptap and Lexical on physical iPad
-2. **Resolve ADR-004** (#3) -- 3-day spike: EPUB generator, Browser Rendering PDF test, fallback plan
-3. **Foundation scaffolding** (#7) -- Next.js + Hono + D1/R2/KV setup, CI/CD, D1 migrations
-4. **Auth epic** (#8) -- Clerk integration, webhook, sign-in/out
-5. **Drive epic** (#13) -- OAuth, folder creation, chapter file read/write
-6. **Editor epic** (#18) -- Core writing experience (depends on ADR-001)
-7. **AI Rewrite** (#29) and **Export** (#33) can proceed in parallel after editor basics work
+### Recommended Start Order (per execution plan)
+1. **Spike-R: ADR-001** (#2) -- Tiptap + Lexical iPad prototypes. Captain runs 8-point test on physical iPad.
+2. **Spike-R: ADR-004** (#3) -- EPUB generator in Worker, Browser Rendering PDF test, DocRaptor fallback.
+3. **Spike-R: ADR-002/003/005** (#4, #5, #6) -- Drive sync, AI provider, data model lightweight ratifications.
+4. **Back-E: Auth** (#9, #10, #11, #12) -- Clerk webhook, `GET /users/me`, session middleware.
+5. **Front-E: Auth UI** (#38, #9, #10) -- Landing page, Clerk integration, sign-up/sign-in.
+
+### API Contract (for Front-E)
+Worker base URL: `https://dc-api.automation-ab6.workers.dev`
+- `GET /health` -- `{ status: "ok", service: "dc-api" }`
+- Error format: `{ error: string, code: string }` (see `src/types/api.ts` for ErrorCode union)
+- CORS: configured for `FRONTEND_URL` env var (currently `https://draftcrane.com`)
 
 ### Key Files
-- `docs/pm/prd.md` -- The synthesized PRD (963 lines, authoritative)
-- `docs/process/dc-project-instructions.md` -- Project instructions (overrides PRD on conflicts)
-- `docs/pm/prd-contributions/round-3/` -- Final round contributions (reference)
+- `docs/pm/prd.md` -- The synthesized PRD (authoritative)
+- `docs/process/dc-project-instructions.md` -- Project instructions
+- `workers/dc-api/wrangler.toml` -- All Cloudflare bindings
+- `.env.example` -- All required environment variables
 
 ---
 
