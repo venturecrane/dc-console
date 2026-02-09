@@ -5,6 +5,8 @@ import { health } from "./routes/health.js";
 import { auth } from "./routes/auth.js";
 import { users } from "./routes/users.js";
 import { drive } from "./routes/drive.js";
+import { projects } from "./routes/projects.js";
+import { chapters } from "./routes/chapters.js";
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -17,6 +19,8 @@ app.route("/health", health);
 app.route("/auth", auth);
 app.route("/users", users);
 app.route("/drive", drive);
+app.route("/projects", projects);
+app.route("/", chapters);
 
 // 404 fallback
 app.notFound((c) => {
