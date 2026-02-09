@@ -2,6 +2,8 @@ import { Hono } from "hono";
 import type { Env } from "./types/index.js";
 import { errorHandler, corsMiddleware } from "./middleware/index.js";
 import { health } from "./routes/health.js";
+import { auth } from "./routes/auth.js";
+import { users } from "./routes/users.js";
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -11,6 +13,8 @@ app.use("*", corsMiddleware());
 
 // Route mounting
 app.route("/health", health);
+app.route("/auth", auth);
+app.route("/users", users);
 
 // 404 fallback
 app.notFound((c) => {
