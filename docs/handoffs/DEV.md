@@ -1,6 +1,6 @@
 # Dev Team Handoff
 
-**Last Updated:** 2026-02-06
+**Last Updated:** 2026-02-09
 **Repository:** draftcrane/dc-console
 
 ---
@@ -8,101 +8,125 @@
 ## Current State
 
 ### In Progress
-- #45 PR: Foundation scaffolding and infrastructure setup (pending merge)
+*Nothing currently in progress*
 
 ### Ready to Pick Up (P0 -- start here)
-- #2 ADR-001: Choose editor library (Tiptap vs Lexical vs Plate) -- **Blocks all editor work**
-- #3 ADR-004: PDF/EPUB generation approach -- **Blocks all export work**
-- #9 US-001: Sign up with Google or email
-- #10 US-002: Sign in and resume writing
-- #14 US-005: Connect Google Drive via OAuth
-- #15 US-006: Auto-create Book Folder in Drive
+- **ADR-001: Editor library spike** -- 2-day Tiptap vs Lexical evaluation on physical iPad. Blocks US-011, US-015, AI Rewrite.
+- **ADR-004: PDF/EPUB generation approach** -- Blocks US-019-022 export epic.
+- #39 Decision: Content storage when Drive not connected
+- #43 Decision: Dual Google OAuth token conflict
+
+### Implemented (close these issues)
 - #19 US-009: Create a project
 - #20 US-010: Create a chapter
-- #21 US-011: Edit chapter content (rich text editor)
-- #22 US-012: Chapter navigation sidebar
-- #26 US-015: Auto-save with three-tier architecture
-- #30 US-016: Select text for AI Rewrite
-- #31 US-017: Request AI Rewrite with streaming response
-- #32 US-018: Accept, reject, or retry AI rewrite
-
-### Needs Triage (decisions required)
-- #39 Content storage when Drive not connected (IndexedDB-only vs R2 buffer)
-- #40 Voice sample field in Phase 0 (customer wants it, PM excluded it)
-- #41 PDF vs EPUB priority if only one can be excellent
-- #42 Chapter completion definition for kill criteria
-- #44 Approve D1 paid tier for Phase 0
+- #22 US-012: Chapter navigation sidebar (shell implemented)
 
 ### Blocked
-Editor stories (#19-#28) are effectively blocked by ADR-001 (#2).
+- US-011, US-015: Edit/Auto-save -- Blocked by ADR-001
+- US-016-018: AI Rewrite epic -- Blocked by ADR-001
+- US-019-022: Export epic -- Blocked by ADR-004
 
 ---
 
-## Session Summary (2026-02-06, Session 2: Infra-E / S1)
+## Session Summary (2026-02-09)
 
 ### Accomplished
 
-**Foundation Scaffolding (Issue #7) -- Complete**
-- Scaffolded Next.js frontend in `web/` (TypeScript + Tailwind + ESLint)
-- Created Hono Worker API in `workers/dc-api/` with full modular structure:
-  - `src/index.ts` -- route mounting only
-  - `src/middleware/` -- CORS (no wildcards) and error handling (`{ error, code }`)
-  - `src/routes/` -- health check endpoint
-  - `src/services/` -- empty, ready for business logic
-  - `src/types/` -- Env bindings, API error types, pagination types
-  - `src/utils/` -- empty, ready for utilities
-  - `test/` -- health endpoint test (Vitest + Workers pool)
-- Created 6 D1 migrations matching PRD Section 11 schema:
-  - `0001_create_users.sql` -- Clerk user ID as PK
-  - `0002_create_projects.sql` -- with ULID PKs, user isolation index
-  - `0003_create_chapters.sql` -- unique (project_id, sort_order), no content column
-  - `0004_create_drive_connections.sql` -- unique per user, encrypted token fields
-  - `0005_create_ai_interactions.sql` -- action enum, no user content
-  - `0006_create_export_jobs.sql` -- format/status enums, R2/Drive references
-- Provisioned Cloudflare resources:
-  - D1 database: `dc-main` (ID: `da753071-4176-4efa-9b7f-4f744b8e1aa2`)
-  - R2 bucket: `dc-exports`
-  - KV namespace: `dc-cache` (ID: `15db632cefe04003a94f1e6e7460c858`)
-- All migrations applied to both local and remote D1
-- Worker deployed at: `https://dc-api.automation-ab6.workers.dev`
-- GitHub Actions CI pipeline: lint, typecheck, test
-- Monorepo with npm workspaces (`web`, `workers/*`)
-- Prettier configured at root, ESLint per workspace
-- `.env.example` documenting all required environment variables
-- PR #45 created
+**PR #46 Merged: DraftCrane Phase 0 Core Implementation**
+- 28 files changed, 5,206 insertions
+- Executed parallel agent plan with 3 phases
+
+**Phase A (Auth Foundation):**
+- Clerk JWT verification middleware for API routes
+- Webhook handler for Clerk user events (create/update/delete)
+- `GET /users/me` endpoint with Drive status and project summary
+- ClerkProvider integration in Next.js
+- Sign-in/sign-up pages with Clerk components
+- Protected route middleware
+
+**Phase B (3 Parallel Agents):**
+- B1: Landing page with author-friendly copy, enhanced auth UI
+- B2: Google Drive OAuth flow (`/drive/authorize`, `/drive/callback`, `/drive/folders`, `/drive/connection`)
+- B2: DriveService with AES-256-GCM token encryption
+- B3: Full project CRUD (`POST/GET/PATCH/DELETE /projects`)
+- B3: Full chapter CRUD with reorder support
+- B3: ProjectService with user authorization
+- B3: Book Setup UI page
+- B3: Sidebar component with chapter navigation
+
+**Phase C (Integration):**
+- Dashboard page with project redirect logic
+- Writing Environment shell (3-zone layout: sidebar, toolbar, editor)
+- Drive connection banner component
+- Project switcher dropdown
+- Editor placeholder (pending ADR-001)
+
+**User Stories Implemented:**
+- US-001: Sign Up
+- US-002: Sign In
+- US-003: Sign Out
+- US-004: Session Persistence
+- US-005: Connect Google Drive
+- US-006: Create Book Folder
+- US-009: Create a Project
+- US-010: Create a Chapter
+- US-012: Chapter Navigation Sidebar (shell)
+- US-013: Rename a Chapter
+- US-014: Delete a Chapter
+- US-012A: Reorder Chapters
 
 ### Left Off
-Foundation is complete and deployed. Ready to merge #45 and begin feature work.
+All Phase 0 parallel execution plan work is merged. Editor area displays placeholder pending ADR-001 decision.
 
 ### Needs Attention
-- **Merge PR #45** to unblock all feature development
-- **ADR-001 (editor library)** remains the highest priority -- blocks the entire editor epic
-- **ADR-004 (PDF/EPUB generation)** is second priority -- blocks all export work
-- **Captain needs to set up**: Clerk app, Google Cloud OAuth creds, Anthropic API key (see `.env.example`)
-- **D1 paid tier** (#44) needs human decision for production readiness
+- **Close GitHub issues:** #19, #20, #22 (just implemented)
+- **ADR-001 spike is highest priority** -- unblocks the most work
+- **Decision issues** #39, #43 need resolution for implementation clarity
 
 ---
 
 ## Next Session Guidance
 
-### Recommended Start Order (per execution plan)
-1. **Spike-R: ADR-001** (#2) -- Tiptap + Lexical iPad prototypes. Captain runs 8-point test on physical iPad.
-2. **Spike-R: ADR-004** (#3) -- EPUB generator in Worker, Browser Rendering PDF test, DocRaptor fallback.
-3. **Spike-R: ADR-002/003/005** (#4, #5, #6) -- Drive sync, AI provider, data model lightweight ratifications.
-4. **Back-E: Auth** (#9, #10, #11, #12) -- Clerk webhook, `GET /users/me`, session middleware.
-5. **Front-E: Auth UI** (#38, #9, #10) -- Landing page, Clerk integration, sign-up/sign-in.
+1. **Close completed issues** -- #19 (US-009), #20 (US-010), #22 (US-012 partial)
 
-### API Contract (for Front-E)
-Worker base URL: `https://dc-api.automation-ab6.workers.dev`
-- `GET /health` -- `{ status: "ok", service: "dc-api" }`
-- Error format: `{ error: string, code: string }` (see `src/types/api.ts` for ErrorCode union)
-- CORS: configured for `FRONTEND_URL` env var (currently `https://draftcrane.com`)
+2. **ADR-001 Editor Library Spike** (Highest Priority)
+   - 2-day evaluation of Tiptap vs Lexical
+   - Test on physical iPad with 8-point protocol from PRD
+   - Score 1-5 per test, decision from real-device testing only
+   - Unblocks: US-011 (edit), US-015 (auto-save), US-016-018 (AI Rewrite)
 
-### Key Files
-- `docs/pm/prd.md` -- The synthesized PRD (authoritative)
-- `docs/process/dc-project-instructions.md` -- Project instructions
-- `workers/dc-api/wrangler.toml` -- All Cloudflare bindings
-- `.env.example` -- All required environment variables
+3. **Resolve decision issues**
+   - #39: Content storage when Drive not connected (IndexedDB-only vs R2 buffer)
+   - #43: Dual OAuth token conflict (use separate Google OAuth client IDs)
+
+4. **After ADR-001 resolved**
+   - Implement US-011: Edit chapter content (rich text editor)
+   - Implement US-015: Auto-save with three-tier architecture
+
+---
+
+## API Endpoints Implemented
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/auth/webhook` | Clerk webhook handler |
+| GET | `/users/me` | Current user profile + Drive status |
+| GET | `/drive/authorize` | Google OAuth URL |
+| GET | `/drive/callback` | OAuth token exchange |
+| POST | `/drive/folders` | Create Book Folder |
+| GET | `/drive/folders/:id/children` | List files |
+| DELETE | `/drive/connection` | Disconnect Drive |
+| POST | `/projects` | Create project |
+| GET | `/projects` | List projects |
+| GET | `/projects/:id` | Get project with chapters |
+| PATCH | `/projects/:id` | Update project |
+| DELETE | `/projects/:id` | Soft delete project |
+| POST | `/projects/:id/chapters` | Create chapter |
+| GET | `/projects/:id/chapters` | List chapters |
+| PATCH | `/projects/:id/chapters/reorder` | Reorder chapters |
+| GET | `/chapters/:id` | Get chapter |
+| PATCH | `/chapters/:id` | Update chapter |
+| DELETE | `/chapters/:id` | Delete chapter |
 
 ---
 
@@ -111,5 +135,14 @@ Worker base URL: `https://dc-api.automation-ab6.workers.dev`
 | Command | When to Use |
 |---------|-------------|
 | `/sod` | Start of session |
+| `/status` | View full work queue |
 | `/eod` | End of session |
-| `/commit` | Create commit with good message |
+
+---
+
+## Previous Session (2026-02-06)
+
+**Foundation Scaffolding (PR #45) -- Merged**
+- Next.js frontend, Hono Worker API, 6 D1 migrations
+- Cloudflare resources provisioned (D1, R2, KV)
+- GitHub Actions CI pipeline
