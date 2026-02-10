@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import { Sidebar, SidebarOverlay, type ChapterData } from "@/components/sidebar";
 import { DriveBanner } from "@/components/drive-banner";
+import { ChapterEditor } from "@/components/chapter-editor";
 
 interface Project {
   id: string;
@@ -64,6 +65,12 @@ export default function EditorPage() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileOverlayOpen, setMobileOverlayOpen] = useState(false);
 
+  // Editor state
+  const [chapterContent, setChapterContent] = useState<Record<string, string>>({});
+  const [editingTitle, setEditingTitle] = useState(false);
+  const [titleValue, setTitleValue] = useState("");
+  const [saveStatus, setSaveStatus] = useState<"saved" | "saving" | "unsaved">("saved");
+
   // Fetch project data and drive status
   useEffect(() => {
     async function fetchData() {
@@ -114,6 +121,11 @@ export default function EditorPage() {
     fetchData();
   }, [projectId, getToken, router, activeChapterId]);
 
+  // Get active chapter (needed early for handlers)
+  const activeChapter = projectData?.chapters.find(
+    (ch) => ch.id === activeChapterId
+  );
+
   // Handle chapter selection
   const handleChapterSelect = useCallback((chapterId: string) => {
     setActiveChapterId(chapterId);
@@ -162,6 +174,79 @@ export default function EditorPage() {
     }
   }, [projectData, projectId, getToken]);
 
+  // Handle content changes
+  const handleContentUpdate = useCallback((html: string) => {
+    if (!activeChapterId) return;
+    setChapterContent((prev) => ({ ...prev, [activeChapterId]: html }));
+    setSaveStatus("unsaved");
+  }, [activeChapterId]);
+
+  // Handle save (placeholder - real implementation in US-015)
+  const handleSave = useCallback(() => {
+    setSaveStatus("saving");
+    // TODO: Implement actual save to Drive/R2 in US-015
+    console.log("Save triggered for chapter:", activeChapterId);
+    setTimeout(() => setSaveStatus("saved"), 500);
+  }, [activeChapterId]);
+
+  // Handle chapter title update
+  const handleTitleSave = useCallback(async () => {
+    if (!activeChapterId || !titleValue.trim()) {
+      setEditingTitle(false);
+      return;
+    }
+
+    try {
+      const token = await getToken();
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/chapters/${activeChapterId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ title: titleValue.trim() }),
+        }
+      );
+
+      if (response.ok) {
+        // Update local state
+        setProjectData((prev) => {
+          if (!prev) return prev;
+          return {
+            ...prev,
+            chapters: prev.chapters.map((ch) =>
+              ch.id === activeChapterId ? { ...ch, title: titleValue.trim() } : ch
+            ),
+          };
+        });
+      }
+    } catch (err) {
+      console.error("Failed to update chapter title:", err);
+    } finally {
+      setEditingTitle(false);
+    }
+  }, [activeChapterId, titleValue, getToken]);
+
+  // Start editing title
+  const handleTitleEdit = useCallback(() => {
+    if (activeChapter) {
+      setTitleValue(activeChapter.title);
+      setEditingTitle(true);
+    }
+  }, [activeChapter]);
+
+  // Count words in HTML content
+  const countWords = useCallback((html: string): number => {
+    const text = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+    return text ? text.split(" ").length : 0;
+  }, []);
+
+  // Get current content for active chapter
+  const currentContent = activeChapterId ? chapterContent[activeChapterId] || "" : "";
+  const currentWordCount = countWords(currentContent);
+
   // Calculate total word count
   const totalWordCount =
     projectData?.chapters.reduce((sum, ch) => sum + ch.wordCount, 0) ?? 0;
@@ -174,11 +259,6 @@ export default function EditorPage() {
       wordCount: ch.wordCount,
       sortOrder: ch.sortOrder,
     })) ?? [];
-
-  // Get active chapter
-  const activeChapter = projectData?.chapters.find(
-    (ch) => ch.id === activeChapterId
-  );
 
   if (isLoading) {
     return (
@@ -261,8 +341,10 @@ export default function EditorPage() {
 
           {/* Toolbar actions */}
           <div className="flex items-center gap-2">
-            {/* Save status - placeholder */}
-            <span className="text-xs text-muted-foreground">Saved</span>
+            {/* Save status */}
+            <span className={`text-xs ${saveStatus === "unsaved" ? "text-amber-600" : "text-muted-foreground"}`}>
+              {saveStatus === "saving" ? "Saving..." : saveStatus === "unsaved" ? "Unsaved" : "Saved"}
+            </span>
 
             {/* Export button */}
             <button
@@ -313,40 +395,44 @@ export default function EditorPage() {
               </div>
             )}
 
-            {/* Chapter title - editable */}
-            <h1 className="text-3xl font-semibold text-foreground mb-6 outline-none">
-              {activeChapter?.title || "Untitled Chapter"}
-            </h1>
+            {/* Chapter title - editable via double-click */}
+            {editingTitle ? (
+              <input
+                type="text"
+                value={titleValue}
+                onChange={(e) => setTitleValue(e.target.value)}
+                onBlur={handleTitleSave}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleTitleSave();
+                  if (e.key === "Escape") setEditingTitle(false);
+                }}
+                className="text-3xl font-semibold text-foreground mb-6 outline-none w-full
+                           border-b-2 border-blue-500 bg-transparent"
+                autoFocus
+                maxLength={200}
+              />
+            ) : (
+              <h1
+                className="text-3xl font-semibold text-foreground mb-6 outline-none cursor-text
+                           hover:bg-gray-50 rounded px-1 -mx-1 transition-colors"
+                onDoubleClick={handleTitleEdit}
+                title="Double-click to edit"
+              >
+                {activeChapter?.title || "Untitled Chapter"}
+              </h1>
+            )}
 
-            {/* Editor placeholder - pending ADR-001 */}
-            <div className="min-h-[400px] p-6 rounded-lg border-2 border-dashed border-gray-200 bg-gray-50">
-              <div className="text-center text-muted-foreground">
-                <svg
-                  className="w-12 h-12 mx-auto mb-4 text-gray-300"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                  />
-                </svg>
-                <p className="text-lg font-medium mb-2">Editor pending ADR-001 decision</p>
-                <p className="text-sm max-w-md mx-auto">
-                  The rich text editor is being evaluated. Once ADR-001 (Editor Library)
-                  is resolved, this area will contain the chapter editor with formatting
-                  tools and AI rewrite capabilities.
-                </p>
-              </div>
-            </div>
+            {/* Rich Text Editor */}
+            <ChapterEditor
+              content={currentContent}
+              onUpdate={handleContentUpdate}
+              onSave={handleSave}
+            />
 
             {/* Word count display */}
             <div className="mt-4 flex justify-end">
               <span className="text-sm text-muted-foreground tabular-nums">
-                {activeChapter?.wordCount.toLocaleString() ?? 0} words
+                {currentWordCount.toLocaleString()} words
               </span>
             </div>
           </div>
