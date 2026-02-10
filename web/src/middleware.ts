@@ -4,11 +4,7 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
  * Routes that are publicly accessible without authentication.
  * Per PRD Section 7: Landing page is pre-auth.
  */
-const isPublicRoute = createRouteMatcher([
-  "/",
-  "/sign-in(.*)",
-  "/sign-up(.*)",
-]);
+const isPublicRoute = createRouteMatcher(["/", "/sign-in(.*)", "/sign-up(.*)"]);
 
 /**
  * Clerk middleware for route protection.

@@ -72,9 +72,7 @@ export function ProjectSwitcher({ currentProject, projects }: ProjectSwitcherPro
         aria-expanded={isOpen}
         aria-haspopup="listbox"
       >
-        <span className="text-sm font-medium text-foreground truncate">
-          {currentProject.title}
-        </span>
+        <span className="text-sm font-medium text-foreground truncate">{currentProject.title}</span>
         <svg
           className={`w-4 h-4 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`}
           fill="none"
@@ -117,7 +115,12 @@ export function ProjectSwitcher({ currentProject, projects }: ProjectSwitcherPro
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
                 </svg>
               )}
             </button>
@@ -134,7 +137,12 @@ export function ProjectSwitcher({ currentProject, projects }: ProjectSwitcherPro
                        hover:bg-gray-50 transition-colors text-blue-600"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
             </svg>
             <span className="text-sm font-medium">New Book</span>
           </Link>

@@ -57,14 +57,8 @@ export function DriveBanner({ connected, email, dismissible = true }: DriveBanne
           </div>
 
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-green-800">
-              Google Drive connected
-            </p>
-            {email && (
-              <p className="text-sm text-green-700 truncate">
-                Connected as {email}
-              </p>
-            )}
+            <p className="text-sm font-medium text-green-800">Google Drive connected</p>
+            {email && <p className="text-sm text-green-700 truncate">Connected as {email}</p>}
           </div>
 
           {/* View in Drive link */}
@@ -86,14 +80,11 @@ export function DriveBanner({ connected, email, dismissible = true }: DriveBanne
     setIsConnecting(true);
     try {
       const token = await getToken();
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/drive/authorize`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/drive/authorize`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Failed to get authorization URL");
@@ -133,7 +124,8 @@ export function DriveBanner({ connected, email, dismissible = true }: DriveBanne
             Connect your Google Drive to keep your book safe
           </p>
           <p className="text-sm text-amber-700 mt-1">
-            Your work is saved on this device only. Connect Drive to save your chapters in your own cloud account.
+            Your work is saved on this device only. Connect Drive to save your chapters in your own
+            cloud account.
           </p>
 
           <div className="mt-3 flex items-center gap-4">

@@ -59,16 +59,16 @@ DraftCrane Phase 0 has three deployment boundaries:
 
 ### Layer Responsibilities
 
-| Layer | Technology | Responsibility | Does NOT Do |
-|-------|-----------|----------------|-------------|
-| **Frontend** | Next.js + Tailwind | Rendering, editor state, local auto-save buffer, user interactions | Store canonical content, call external APIs directly, hold OAuth tokens |
-| **Backend** | Hono on CF Workers | API gateway, business logic, Drive/AI orchestration, token management | Render UI, hold long-lived state, run >30s operations |
-| **D1** | Cloudflare D1 (SQLite) | User metadata, project structure, chapter ordering, AI logs | Store manuscript content (that belongs in Drive) |
-| **R2** | Cloudflare R2 | Export artifacts (PDF/EPUB), cached images | Long-term content storage (Drive is canonical) |
-| **KV** | Cloudflare KV | Session data, Drive API response caching, rate limit counters | Relational queries, large objects |
-| **Clerk** | External SaaS | User authentication, session management, JWT issuance | Authorization logic (we own that) |
-| **Google Drive** | External API | Canonical manuscript storage, user file ownership | Indexing, search, metadata queries |
-| **Claude API** | External API | Text rewriting, expansion, simplification | Autonomous content generation, training on user data |
+| Layer            | Technology             | Responsibility                                                        | Does NOT Do                                                             |
+| ---------------- | ---------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| **Frontend**     | Next.js + Tailwind     | Rendering, editor state, local auto-save buffer, user interactions    | Store canonical content, call external APIs directly, hold OAuth tokens |
+| **Backend**      | Hono on CF Workers     | API gateway, business logic, Drive/AI orchestration, token management | Render UI, hold long-lived state, run >30s operations                   |
+| **D1**           | Cloudflare D1 (SQLite) | User metadata, project structure, chapter ordering, AI logs           | Store manuscript content (that belongs in Drive)                        |
+| **R2**           | Cloudflare R2          | Export artifacts (PDF/EPUB), cached images                            | Long-term content storage (Drive is canonical)                          |
+| **KV**           | Cloudflare KV          | Session data, Drive API response caching, rate limit counters         | Relational queries, large objects                                       |
+| **Clerk**        | External SaaS          | User authentication, session management, JWT issuance                 | Authorization logic (we own that)                                       |
+| **Google Drive** | External API           | Canonical manuscript storage, user file ownership                     | Indexing, search, metadata queries                                      |
+| **Claude API**   | External API           | Text rewriting, expansion, simplification                             | Autonomous content generation, training on user data                    |
 
 ### Request Flow: Three Core Operations
 
@@ -95,6 +95,7 @@ DraftCrane Phase 0 has three deployment boundaries:
 ```
 
 **Key design decisions:**
+
 - OAuth tokens never reach the frontend. Stored server-side in D1, encrypted at rest.
 - We request `drive.file` scope (not full Drive access) -- only files created by or explicitly shared with our app.
 - Refresh token rotation: dc-api handles token refresh transparently on every Drive API call.
@@ -127,6 +128,7 @@ Edge cases:
 ```
 
 **Key design decisions:**
+
 - Content flows: Editor -> dc-api -> Google Drive. D1 never stores chapter body text.
 - Optimistic versioning: each save increments a version counter in D1. Conflicts detected server-side.
 - Auto-save debounce in the frontend, not the backend. Reduces unnecessary API calls.
@@ -162,6 +164,7 @@ Edge cases:
 ```
 
 **Key design decisions:**
+
 - AI never modifies content directly. User always sees a preview and explicitly accepts or rejects.
 - Surrounding context (before/after the selection) is sent to preserve tone continuity.
 - SSE streaming gives the user immediate feedback -- they see the rewrite appear token by token.
@@ -176,16 +179,16 @@ Edge cases:
 
 D1 stores everything needed to render the UI, enforce authorization, and track state. Google Drive stores everything the user would want to keep if DraftCrane disappeared.
 
-| Data | Storage | Rationale |
-|------|---------|-----------|
-| User profile, preferences | D1 | App-internal, not user-owned content |
-| Project structure (title, settings) | D1 | Metadata about the book, not the book itself |
-| Chapter ordering, titles, word counts | D1 | Navigation structure, frequently queried |
-| Chapter body content | Google Drive | User's canonical manuscript. Sacred. |
-| OAuth tokens (encrypted) | D1 | Server-side only, never exposed to client |
-| AI interaction logs | D1 | Analytics, cost tracking. No user content stored. |
-| Export artifacts (PDF/EPUB) | R2 | Temporary; also written back to user's Drive |
-| Session/cache data | KV | Ephemeral, performance optimization |
+| Data                                  | Storage      | Rationale                                         |
+| ------------------------------------- | ------------ | ------------------------------------------------- |
+| User profile, preferences             | D1           | App-internal, not user-owned content              |
+| Project structure (title, settings)   | D1           | Metadata about the book, not the book itself      |
+| Chapter ordering, titles, word counts | D1           | Navigation structure, frequently queried          |
+| Chapter body content                  | Google Drive | User's canonical manuscript. Sacred.              |
+| OAuth tokens (encrypted)              | D1           | Server-side only, never exposed to client         |
+| AI interaction logs                   | D1           | Analytics, cost tracking. No user content stored. |
+| Export artifacts (PDF/EPUB)           | R2           | Temporary; also written back to user's Drive      |
+| Session/cache data                    | KV           | Ephemeral, performance optimization               |
 
 ### D1 Schema (Phase 0)
 
@@ -330,82 +333,82 @@ Book Folder (user-selected)/
 
 ### 3.1 Platform Compatibility
 
-| Requirement | Target | How to Verify |
-|-------------|--------|---------------|
-| iPad Safari support | iOS/iPadOS 17.0+ (Safari 17+) | Manual testing on iPad Air 5th gen or later; BrowserStack for coverage |
-| Desktop browser support | Chrome 120+, Firefox 120+, Safari 17+ | Automated E2E tests via Playwright |
-| Minimum viewport | 768px width (iPad portrait) | CSS breakpoint testing |
-| Touch interaction | All primary actions completable via touch only | Manual QA checklist: no hover-dependent functionality |
-| Virtual keyboard | Editor must not break when iOS keyboard appears/disappears | Manual test: type in editor, keyboard appears, scroll position and toolbar remain accessible |
-| No native dependencies | Zero plugins, extensions, or app installs required | Verify via clean Safari profile |
+| Requirement             | Target                                                     | How to Verify                                                                                |
+| ----------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| iPad Safari support     | iOS/iPadOS 17.0+ (Safari 17+)                              | Manual testing on iPad Air 5th gen or later; BrowserStack for coverage                       |
+| Desktop browser support | Chrome 120+, Firefox 120+, Safari 17+                      | Automated E2E tests via Playwright                                                           |
+| Minimum viewport        | 768px width (iPad portrait)                                | CSS breakpoint testing                                                                       |
+| Touch interaction       | All primary actions completable via touch only             | Manual QA checklist: no hover-dependent functionality                                        |
+| Virtual keyboard        | Editor must not break when iOS keyboard appears/disappears | Manual test: type in editor, keyboard appears, scroll position and toolbar remain accessible |
+| No native dependencies  | Zero plugins, extensions, or app installs required         | Verify via clean Safari profile                                                              |
 
 ### 3.2 Performance Budgets
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Largest Contentful Paint (LCP) | < 2.5 seconds on WiFi | Lighthouse on iPad Safari; throttled to "Fast 3G" as stress test |
-| Time to Interactive (TTI) | < 3.5 seconds on WiFi | Lighthouse, same conditions |
-| Chapter load (open existing chapter) | < 2 seconds for chapters under 10,000 words | Custom timing: from navigation click to editor content visible |
-| Chapter load (large) | < 5 seconds for chapters up to 50,000 words | Same measurement, larger payload |
-| Auto-save round trip | < 3 seconds from trigger to "Saved" confirmation | Custom timing: from debounce fire to server response |
-| AI rewrite first token | < 2 seconds from request to first visible token | Custom timing: SSE stream onset |
-| AI rewrite complete | < 15 seconds for rewrites of up to 500 words | End-to-end timing including streaming display |
-| JS bundle size (initial) | < 300 KB gzipped | Build output analysis; tree-shaking verification |
-| Editor JS (lazy loaded) | < 200 KB gzipped | Separate chunk; loaded on first editor navigation |
+| Metric                               | Target                                           | Measurement                                                      |
+| ------------------------------------ | ------------------------------------------------ | ---------------------------------------------------------------- |
+| Largest Contentful Paint (LCP)       | < 2.5 seconds on WiFi                            | Lighthouse on iPad Safari; throttled to "Fast 3G" as stress test |
+| Time to Interactive (TTI)            | < 3.5 seconds on WiFi                            | Lighthouse, same conditions                                      |
+| Chapter load (open existing chapter) | < 2 seconds for chapters under 10,000 words      | Custom timing: from navigation click to editor content visible   |
+| Chapter load (large)                 | < 5 seconds for chapters up to 50,000 words      | Same measurement, larger payload                                 |
+| Auto-save round trip                 | < 3 seconds from trigger to "Saved" confirmation | Custom timing: from debounce fire to server response             |
+| AI rewrite first token               | < 2 seconds from request to first visible token  | Custom timing: SSE stream onset                                  |
+| AI rewrite complete                  | < 15 seconds for rewrites of up to 500 words     | End-to-end timing including streaming display                    |
+| JS bundle size (initial)             | < 300 KB gzipped                                 | Build output analysis; tree-shaking verification                 |
+| Editor JS (lazy loaded)              | < 200 KB gzipped                                 | Separate chunk; loaded on first editor navigation                |
 
 ### 3.3 Auto-Save Reliability
 
-| Requirement | Specification |
-|-------------|---------------|
-| Save trigger | Debounced: 5 seconds after last keystroke |
-| Save indicator | Three states visible to user: "Saving...", "Saved [timestamp]", "Save failed" |
-| Failure retry | Exponential backoff: 2s, 4s, 8s. Max 3 retries. Then surface error to user. |
-| Conflict detection | Optimistic versioning: `version` counter in D1. Server rejects save if client version does not match. |
-| Conflict resolution | User-facing prompt: "This chapter was modified elsewhere. View changes / Overwrite / Reload." No silent data loss. |
-| Offline behavior | Detect `navigator.onLine` transitions. When offline: queue saves in IndexedDB, show "Offline" indicator. When back online: flush queue in order, resolve conflicts per above. |
-| Crash recovery | On editor mount, check IndexedDB for unsaved content newer than Drive version. If found, prompt user to restore or discard. |
-| Maximum data loss window | 5 seconds of typing (one debounce interval). IndexedDB write happens on every keystroke as a safety net. |
+| Requirement              | Specification                                                                                                                                                                 |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Save trigger             | Debounced: 5 seconds after last keystroke                                                                                                                                     |
+| Save indicator           | Three states visible to user: "Saving...", "Saved [timestamp]", "Save failed"                                                                                                 |
+| Failure retry            | Exponential backoff: 2s, 4s, 8s. Max 3 retries. Then surface error to user.                                                                                                   |
+| Conflict detection       | Optimistic versioning: `version` counter in D1. Server rejects save if client version does not match.                                                                         |
+| Conflict resolution      | User-facing prompt: "This chapter was modified elsewhere. View changes / Overwrite / Reload." No silent data loss.                                                            |
+| Offline behavior         | Detect `navigator.onLine` transitions. When offline: queue saves in IndexedDB, show "Offline" indicator. When back online: flush queue in order, resolve conflicts per above. |
+| Crash recovery           | On editor mount, check IndexedDB for unsaved content newer than Drive version. If found, prompt user to restore or discard.                                                   |
+| Maximum data loss window | 5 seconds of typing (one debounce interval). IndexedDB write happens on every keystroke as a safety net.                                                                      |
 
 ### 3.4 Security Model
 
-| Requirement | Specification |
-|-------------|---------------|
-| Authentication | Clerk-managed; session tokens as httpOnly, Secure, SameSite=Lax cookies |
-| Authorization | All D1 queries include `WHERE user_id = ?` clause. No query returns data across users. Enforced in service layer, not just route handlers. |
-| OAuth token storage | Google OAuth tokens encrypted at rest in D1 using a Worker-level secret (AES-256-GCM). Never sent to frontend. |
-| OAuth scope | `https://www.googleapis.com/auth/drive.file` -- access only to files created by or opened with DraftCrane. Not full Drive access. |
-| Token refresh | Automatic refresh when `token_expires_at` is within 5 minutes of current time. Old refresh tokens invalidated after use (rotation). |
-| Content isolation | User A must never see User B's projects, chapters, or AI interactions. Verified via integration tests with two test users. |
-| API rate limiting | Per-user rate limits enforced via KV counters: 60 requests/minute for standard endpoints, 10 requests/minute for AI endpoints. |
-| Input validation | All user input validated and sanitized at the API boundary. HTML content sanitized with an allowlist of safe tags before storage. |
-| CORS | Production: only the DraftCrane frontend origin. No wildcards. |
+| Requirement         | Specification                                                                                                                              |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Authentication      | Clerk-managed; session tokens as httpOnly, Secure, SameSite=Lax cookies                                                                    |
+| Authorization       | All D1 queries include `WHERE user_id = ?` clause. No query returns data across users. Enforced in service layer, not just route handlers. |
+| OAuth token storage | Google OAuth tokens encrypted at rest in D1 using a Worker-level secret (AES-256-GCM). Never sent to frontend.                             |
+| OAuth scope         | `https://www.googleapis.com/auth/drive.file` -- access only to files created by or opened with DraftCrane. Not full Drive access.          |
+| Token refresh       | Automatic refresh when `token_expires_at` is within 5 minutes of current time. Old refresh tokens invalidated after use (rotation).        |
+| Content isolation   | User A must never see User B's projects, chapters, or AI interactions. Verified via integration tests with two test users.                 |
+| API rate limiting   | Per-user rate limits enforced via KV counters: 60 requests/minute for standard endpoints, 10 requests/minute for AI endpoints.             |
+| Input validation    | All user input validated and sanitized at the API boundary. HTML content sanitized with an allowlist of safe tags before storage.          |
+| CORS                | Production: only the DraftCrane frontend origin. No wildcards.                                                                             |
 
 ### 3.5 Cloudflare Platform Constraints
 
 These are hard limits that constrain the architecture. Design within them.
 
-| Constraint | Limit | Implication |
-|-----------|-------|-------------|
-| Worker CPU time | 30ms (bundled), 30s (unbound) | Use unbound Workers for AI and export routes. Keep standard routes under 30ms CPU. |
-| Worker memory | 128 MB | Cannot load entire large manuscripts into memory. Process chapter-by-chapter. |
-| Worker request size | 100 MB | Not a concern for text; relevant for future image handling. |
-| Worker subrequests | 1,000 per invocation | Batch Drive API calls. A 50-chapter export must not make 50+ serial subrequests. |
-| D1 row size | 1 MB max | No concern for metadata-only rows. Validates decision to keep content out of D1. |
-| D1 database size | 2 GB (free), 10 GB (paid) | Monitor table sizes. Millions of AI interaction logs could grow. Add TTL-based cleanup. |
-| D1 rows read/write | 5M reads/day, 100K writes/day (free) | Phase 0 with <100 users is fine. Monitor for export-heavy usage patterns. |
-| R2 object size | 5 GB max | Sufficient for any PDF/EPUB. |
-| R2 operations | 10M Class A, 10M Class B/month (free) | Generous for Phase 0. |
-| KV value size | 25 MB max | Sufficient for cached Drive responses. |
-| KV operations | 100K reads/day, 1K writes/day (free) | Tight. Use KV for hot-path reads only (session validation, rate limit checks). Evaluate paid plan thresholds. |
+| Constraint          | Limit                                 | Implication                                                                                                   |
+| ------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Worker CPU time     | 30ms (bundled), 30s (unbound)         | Use unbound Workers for AI and export routes. Keep standard routes under 30ms CPU.                            |
+| Worker memory       | 128 MB                                | Cannot load entire large manuscripts into memory. Process chapter-by-chapter.                                 |
+| Worker request size | 100 MB                                | Not a concern for text; relevant for future image handling.                                                   |
+| Worker subrequests  | 1,000 per invocation                  | Batch Drive API calls. A 50-chapter export must not make 50+ serial subrequests.                              |
+| D1 row size         | 1 MB max                              | No concern for metadata-only rows. Validates decision to keep content out of D1.                              |
+| D1 database size    | 2 GB (free), 10 GB (paid)             | Monitor table sizes. Millions of AI interaction logs could grow. Add TTL-based cleanup.                       |
+| D1 rows read/write  | 5M reads/day, 100K writes/day (free)  | Phase 0 with <100 users is fine. Monitor for export-heavy usage patterns.                                     |
+| R2 object size      | 5 GB max                              | Sufficient for any PDF/EPUB.                                                                                  |
+| R2 operations       | 10M Class A, 10M Class B/month (free) | Generous for Phase 0.                                                                                         |
+| KV value size       | 25 MB max                             | Sufficient for cached Drive responses.                                                                        |
+| KV operations       | 100K reads/day, 1K writes/day (free)  | Tight. Use KV for hot-path reads only (session validation, rate limit checks). Evaluate paid plan thresholds. |
 
 ### 3.6 Reliability & Data Integrity
 
-| Requirement | Specification |
-|-------------|---------------|
-| Data durability | Google Drive is the system of record. D1 metadata is reconstructible from Drive if lost. |
-| Backup strategy | D1: rely on Cloudflare's automatic backups. Drive: user's own Google Workspace backup. No additional backup in Phase 0. |
-| Error handling | All API errors return structured JSON: `{ error: string, code: string, details?: object }`. No stack traces in production responses. |
-| Uptime target | No formal SLA in Phase 0. Rely on Cloudflare's platform SLA (99.9%). Monitor informally. |
+| Requirement     | Specification                                                                                                                        |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Data durability | Google Drive is the system of record. D1 metadata is reconstructible from Drive if lost.                                             |
+| Backup strategy | D1: rely on Cloudflare's automatic backups. Drive: user's own Google Workspace backup. No additional backup in Phase 0.              |
+| Error handling  | All API errors return structured JSON: `{ error: string, code: string, details?: object }`. No stack traces in production responses. |
+| Uptime target   | No formal SLA in Phase 0. Rely on Cloudflare's platform SLA (99.9%). Monitor informally.                                             |
 
 ---
 
@@ -418,6 +421,7 @@ These are hard limits that constrain the architecture. Design within them.
 **The problem:** Browser-based rich text editors rely heavily on the `contenteditable` API and `Selection`/`Range` APIs, both of which have long-standing inconsistencies in Safari. Known issues include: cursor positioning bugs after formatting changes, selection jumping when virtual keyboard appears/disappears, toolbar interactions causing focus loss, and inconsistent paste handling from other iPad apps.
 
 **Specific concerns:**
+
 - Tiptap (ProseMirror-based) has the strongest iPad track record but still has open issues with iOS selection.
 - Lexical (Meta) is newer and has fewer Safari battle scars in production.
 - Plate (Slate-based) has documented iOS problems.
@@ -436,11 +440,13 @@ These are hard limits that constrain the architecture. Design within them.
 **The problem:** Every chapter open and every auto-save requires a Google Drive API call. Drive API latency is typically 200-500ms but can spike to 2-3 seconds. Rate limits are 12,000 queries per user per minute (generous) but 20,000 per project per 100 seconds (relevant at scale).
 
 **Specific concerns:**
+
 - Auto-save every 5 seconds means ~12 Drive writes per minute per active user. At 50 concurrent users, that is 600 writes/minute -- well within limits but worth monitoring.
 - Opening a chapter requires reading file content from Drive. If the user navigates quickly between chapters, requests pile up.
 - Token refresh adds an extra round trip (~500ms) when the access token expires (every hour).
 
 **Mitigation:**
+
 - Cache chapter content in the frontend after first load. Only fetch from Drive on chapter open, not on every render.
 - Pre-fetch the next/previous chapter content when the user is reading the current one.
 - Implement token refresh proactively (5 minutes before expiry) rather than reactively.
@@ -457,11 +463,13 @@ These are hard limits that constrain the architecture. Design within them.
 **The problem:** Auto-save has multiple failure modes: network dropout (especially on WiFi), Drive API errors (quota, transient failures, token expiry), browser crash/tab close, and version conflicts (user opens same chapter on two devices).
 
 **Specific concerns:**
+
 - iPad Safari aggressively suspends background tabs. If the user switches to another app and back, pending saves may be lost.
 - The `beforeunload` event is unreliable on iPad Safari for triggering a final save.
 - IndexedDB for local buffering works on iPad Safari but has storage pressure limits (the OS can evict data under storage pressure).
 
 **Mitigation:**
+
 - Write to IndexedDB on every keystroke (cheap, local, fast). Treat it as a write-ahead log.
 - On editor mount, compare IndexedDB content with Drive version. If IndexedDB is newer, offer recovery.
 - Use the `visibilitychange` event (more reliable than `beforeunload` on iOS) to trigger an immediate save when the tab goes to background.
@@ -478,12 +486,14 @@ These are hard limits that constrain the architecture. Design within them.
 **The problem:** Claude API response time for a 500-word rewrite is typically 3-8 seconds end-to-end. If the user perceives this as "frozen," they will click again or abandon the feature. Non-streaming responses feel much slower than streaming ones.
 
 **Specific concerns:**
+
 - Anthropic API rate limits: 4,000 requests/minute on the Growth tier. Phase 0 traffic is well within this.
 - Cost: roughly $0.003-0.01 per rewrite (Sonnet-class model). At 50 rewrites/user/month, approximately $0.50/user/month. Manageable.
 - SSE streaming from a Cloudflare Worker to the browser is well-supported but adds implementation complexity.
 - Context window: sending surrounding paragraphs for tone matching increases input tokens and cost.
 
 **Mitigation:**
+
 - Stream responses via SSE. The user sees tokens appear within 1-2 seconds.
 - Show a clear loading state with "Rewriting..." indicator.
 - Limit context to 500 characters before and after the selection (enough for tone, not expensive).
@@ -500,12 +510,14 @@ These are hard limits that constrain the architecture. Design within them.
 **The problem:** Workers have no filesystem, no headless browser, and a 128 MB memory limit. Traditional PDF generation libraries (Puppeteer, wkhtmltopdf, Prince) will not run. EPUB generation (which is essentially a ZIP of HTML/CSS files) is more feasible but still constrained by memory.
 
 **Specific concerns:**
+
 - A 50-chapter book at 5,000 words per chapter = 250,000 words of HTML. Generating a PDF from this in a Worker is not straightforward.
 - PDF libraries that work in Workers/edge environments are limited: `@react-pdf/renderer` (React-based, generates in browser), `jsPDF` (basic, poor typographic quality), `pdf-lib` (low-level PDF manipulation, not layout).
 - EPUB generation is more tractable: it is a ZIP file with XHTML content files, a manifest, and CSS. Libraries like `epub-gen` could work with adaptation.
 - Cloudflare Browser Rendering API exists but is in beta and has usage limits.
 
 **Mitigation options (to be decided via ADR):**
+
 1. **Client-side generation:** Use `@react-pdf/renderer` or `print-to-pdf` in the browser. Works on iPad Safari. Quality may be limited.
 2. **Workers + pdf-lib:** Construct PDF programmatically in the Worker. Full control but significant development effort for typographic layout.
 3. **Cloudflare Browser Rendering:** Spin up a headless browser via the Browser Rendering API. Render HTML to PDF. Best quality but beta dependency and per-request cost.
@@ -523,11 +535,11 @@ These are hard limits that constrain the architecture. Design within them.
 
 **Options:**
 
-| Option | Pros | Cons |
-|--------|------|------|
-| **Tiptap (ProseMirror)** | Most mature iPad Safari support; large ecosystem of extensions; collaborative editing foundation for future; strong TypeScript support; active commercial backing | Larger bundle size (~150 KB); some extensions are paid (Tiptap Pro); ProseMirror learning curve for custom behavior |
-| **Lexical (Meta)** | Smallest bundle (~30 KB core); designed for extensibility; excellent React integration; accessibility-first design; active Meta investment | Younger project, fewer production deployments on iPad; smaller extension ecosystem; iOS Safari support is improving but less battle-tested |
-| **Plate (Slate)** | Rich plugin ecosystem; highly customizable UI; good React integration | Known iOS Safari issues (selection, IME); Slate's architecture has had stability concerns; smaller team than Tiptap/Lexical |
+| Option                   | Pros                                                                                                                                                              | Cons                                                                                                                                       |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Tiptap (ProseMirror)** | Most mature iPad Safari support; large ecosystem of extensions; collaborative editing foundation for future; strong TypeScript support; active commercial backing | Larger bundle size (~150 KB); some extensions are paid (Tiptap Pro); ProseMirror learning curve for custom behavior                        |
+| **Lexical (Meta)**       | Smallest bundle (~30 KB core); designed for extensibility; excellent React integration; accessibility-first design; active Meta investment                        | Younger project, fewer production deployments on iPad; smaller extension ecosystem; iOS Safari support is improving but less battle-tested |
+| **Plate (Slate)**        | Rich plugin ecosystem; highly customizable UI; good React integration                                                                                             | Known iOS Safari issues (selection, IME); Slate's architecture has had stability concerns; smaller team than Tiptap/Lexical                |
 
 **Preliminary recommendation:** Tiptap. The iPad Safari constraint makes maturity the deciding factor. Tiptap/ProseMirror has the most production deployments on iOS Safari. The bundle size cost is acceptable given lazy loading.
 
@@ -541,11 +553,11 @@ These are hard limits that constrain the architecture. Design within them.
 
 **Options:**
 
-| Option | Pros | Cons |
-|--------|------|------|
-| **On-save (debounced)** | Simple to implement; predictable Drive API usage; clear mental model for users ("save" means "write to Drive") | 5-second data loss window; user must be online to save; no real-time sync between devices |
-| **Periodic background sync** | Decouples save from Drive write; can batch multiple changes; more resilient to transient Drive errors | More complex state management; user may see stale data if switching devices; harder to reason about "current" version |
-| **Real-time (operational transforms)** | Google-Docs-like experience; multi-device support | Enormous complexity for Phase 0; Drive API is not designed for OT; would need a separate sync layer (e.g., Yjs + WebSocket server); overkill for single-user |
+| Option                                 | Pros                                                                                                           | Cons                                                                                                                                                         |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **On-save (debounced)**                | Simple to implement; predictable Drive API usage; clear mental model for users ("save" means "write to Drive") | 5-second data loss window; user must be online to save; no real-time sync between devices                                                                    |
+| **Periodic background sync**           | Decouples save from Drive write; can batch multiple changes; more resilient to transient Drive errors          | More complex state management; user may see stale data if switching devices; harder to reason about "current" version                                        |
+| **Real-time (operational transforms)** | Google-Docs-like experience; multi-device support                                                              | Enormous complexity for Phase 0; Drive API is not designed for OT; would need a separate sync layer (e.g., Yjs + WebSocket server); overkill for single-user |
 
 **Preliminary recommendation:** On-save (debounced). Phase 0 is single-user. The simplest approach that works is the right one. Multi-device sync is a Phase 2+ concern.
 
@@ -559,11 +571,11 @@ These are hard limits that constrain the architecture. Design within them.
 
 **Options:**
 
-| Option | Pros | Cons |
-|--------|------|------|
-| **Direct Anthropic API** | Simplest integration; full control over prompts and streaming; no additional abstraction layer; best documentation and SDK support | No built-in caching, rate limiting, or analytics from the gateway; must implement observability ourselves |
-| **Cloudflare AI Gateway** | Built-in request logging, caching, rate limiting, and fallback; analytics dashboard; potential cost savings from response caching | Adds a dependency and abstraction layer; may introduce latency; caching only helps if identical prompts recur (unlikely for rewrites); less control over streaming behavior |
-| **Workers AI (Cloudflare's own models)** | Zero egress cost; lowest latency (same network); simple binding | Model quality not comparable to Claude for writing tasks; limited model selection; not suitable as primary AI for a writing tool |
+| Option                                   | Pros                                                                                                                               | Cons                                                                                                                                                                        |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Direct Anthropic API**                 | Simplest integration; full control over prompts and streaming; no additional abstraction layer; best documentation and SDK support | No built-in caching, rate limiting, or analytics from the gateway; must implement observability ourselves                                                                   |
+| **Cloudflare AI Gateway**                | Built-in request logging, caching, rate limiting, and fallback; analytics dashboard; potential cost savings from response caching  | Adds a dependency and abstraction layer; may introduce latency; caching only helps if identical prompts recur (unlikely for rewrites); less control over streaming behavior |
+| **Workers AI (Cloudflare's own models)** | Zero egress cost; lowest latency (same network); simple binding                                                                    | Model quality not comparable to Claude for writing tasks; limited model selection; not suitable as primary AI for a writing tool                                            |
 
 **Preliminary recommendation:** Direct Anthropic API for Phase 0. The AI Gateway benefits (caching, analytics) are more valuable at scale. In Phase 0 with <100 users, the simplicity of a direct integration wins. We can add the gateway later without changing the API surface -- just swap the HTTP endpoint in the service layer.
 
@@ -577,15 +589,16 @@ These are hard limits that constrain the architecture. Design within them.
 
 **Options:**
 
-| Option | Pros | Cons |
-|--------|------|------|
-| **Client-side (browser)** | No server constraints; works within Workers limits; user can preview before saving; `react-pdf` for PDF, custom ZIP for EPUB | PDF typographic quality is limited; large documents may strain iPad memory; browser print-to-PDF varies by platform; EPUB packaging in browser is unusual |
-| **Worker-side (pdf-lib + custom EPUB)** | Full server control; consistent output across clients; can use R2 for staging; EPUB is tractable (ZIP of XHTML) | `pdf-lib` is low-level (no automatic text layout, pagination, or styling from HTML); building a typographic layout engine is a project unto itself; memory-constrained for large books |
-| **Cloudflare Browser Rendering** | High-quality PDF via headless Chrome; renders HTML/CSS faithfully; Cloudflare-native integration | Beta product; per-session pricing; cold start latency (~2-5s); availability and limits may change; dependency on a beta API for a core feature |
+| Option                                  | Pros                                                                                                                         | Cons                                                                                                                                                                                   |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Client-side (browser)**               | No server constraints; works within Workers limits; user can preview before saving; `react-pdf` for PDF, custom ZIP for EPUB | PDF typographic quality is limited; large documents may strain iPad memory; browser print-to-PDF varies by platform; EPUB packaging in browser is unusual                              |
+| **Worker-side (pdf-lib + custom EPUB)** | Full server control; consistent output across clients; can use R2 for staging; EPUB is tractable (ZIP of XHTML)              | `pdf-lib` is low-level (no automatic text layout, pagination, or styling from HTML); building a typographic layout engine is a project unto itself; memory-constrained for large books |
+| **Cloudflare Browser Rendering**        | High-quality PDF via headless Chrome; renders HTML/CSS faithfully; Cloudflare-native integration                             | Beta product; per-session pricing; cold start latency (~2-5s); availability and limits may change; dependency on a beta API for a core feature                                         |
 
 **Preliminary recommendation:** Hybrid approach. EPUB generation in the Worker (it is fundamentally a ZIP of XHTML -- tractable). PDF generation via Cloudflare Browser Rendering if available and stable; fall back to client-side `window.print()` styled export as MVP. This is the highest-risk ADR and needs prototyping before committing.
 
 **To decide:** Three spikes, 1 day each:
+
 1. Build an EPUB generator in a Worker: take 3 chapters of HTML, produce a valid EPUB file, write to R2, verify it opens in Apple Books.
 2. Test Cloudflare Browser Rendering: render a 10-chapter HTML manuscript to PDF. Measure quality, latency, and cost.
 3. Test client-side PDF generation: use `react-pdf` or `window.print()` on iPad Safari for the same 10-chapter manuscript. Evaluate quality and iPad performance.
@@ -600,11 +613,11 @@ Compare outputs side by side. Accept the approach that produces "good enough for
 
 **Options:**
 
-| Option | Pros | Cons |
-|--------|------|------|
-| **Metadata-only in D1** (proposed above) | Clean separation; user owns all content; D1 stays small; Drive is system of record; simplest mental model | Every chapter open requires a Drive API call; no full-text search without indexing content; export must re-fetch all chapters from Drive |
-| **Content cached in D1** | Faster chapter loads (no Drive API call after first load); enables full-text search; reduces Drive API dependency | Content duplication; sync complexity (which copy is authoritative?); D1 storage grows with content; must handle cache invalidation when user edits in Drive directly |
-| **Content in R2, metadata in D1** | R2 handles large objects well; no D1 size concerns; faster than Drive API for reads | Still duplicated content; R2 is not queryable (no search); adds another storage layer to keep in sync; user's Drive is no longer the live version |
+| Option                                   | Pros                                                                                                              | Cons                                                                                                                                                                 |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Metadata-only in D1** (proposed above) | Clean separation; user owns all content; D1 stays small; Drive is system of record; simplest mental model         | Every chapter open requires a Drive API call; no full-text search without indexing content; export must re-fetch all chapters from Drive                             |
+| **Content cached in D1**                 | Faster chapter loads (no Drive API call after first load); enables full-text search; reduces Drive API dependency | Content duplication; sync complexity (which copy is authoritative?); D1 storage grows with content; must handle cache invalidation when user edits in Drive directly |
+| **Content in R2, metadata in D1**        | R2 handles large objects well; no D1 size concerns; faster than Drive API for reads                               | Still duplicated content; R2 is not queryable (no search); adds another storage layer to keep in sync; user's Drive is no longer the live version                    |
 
 **Preliminary recommendation:** Metadata-only in D1 (Option 1). The "user's files are sacred" principle means Drive is always authoritative. The performance cost of Drive API reads is acceptable for Phase 0 given caching in the frontend and KV. If search becomes critical (Phase 2: Source Intelligence), we can add a search index at that point.
 
@@ -618,57 +631,57 @@ All routes are served by the `dc-api` Worker (Hono). All routes except `/auth/we
 
 ### Auth & User
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/auth/webhook` | Clerk webhook: user created/updated/deleted events. Syncs user record to D1. |
-| GET | `/users/me` | Returns current user profile and Drive connection status. |
+| Method | Path            | Description                                                                  |
+| ------ | --------------- | ---------------------------------------------------------------------------- |
+| POST   | `/auth/webhook` | Clerk webhook: user created/updated/deleted events. Syncs user record to D1. |
+| GET    | `/users/me`     | Returns current user profile and Drive connection status.                    |
 
 ### Google Drive
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/drive/authorize` | Returns Google OAuth authorization URL. Redirects user to Google consent screen. |
-| GET | `/drive/callback` | OAuth callback. Exchanges code for tokens, stores in D1, redirects to app. |
-| GET | `/drive/folders` | Lists folders in user's Drive root. Used for "Select Book Folder" UI. |
-| GET | `/drive/folders/:folderId/children` | Lists subfolders of a given folder. For folder navigation during selection. |
-| DELETE | `/drive/connection` | Disconnects Google Drive. Revokes token, deletes from D1. |
+| Method | Path                                | Description                                                                      |
+| ------ | ----------------------------------- | -------------------------------------------------------------------------------- |
+| GET    | `/drive/authorize`                  | Returns Google OAuth authorization URL. Redirects user to Google consent screen. |
+| GET    | `/drive/callback`                   | OAuth callback. Exchanges code for tokens, stores in D1, redirects to app.       |
+| GET    | `/drive/folders`                    | Lists folders in user's Drive root. Used for "Select Book Folder" UI.            |
+| GET    | `/drive/folders/:folderId/children` | Lists subfolders of a given folder. For folder navigation during selection.      |
+| DELETE | `/drive/connection`                 | Disconnects Google Drive. Revokes token, deletes from D1.                        |
 
 ### Projects
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/projects` | Creates a new book project. Links to Drive folder. |
-| GET | `/projects` | Lists all projects for the current user. |
-| GET | `/projects/:projectId` | Returns project details including chapter list. |
-| PATCH | `/projects/:projectId` | Updates project title or settings. |
+| Method | Path                   | Description                                        |
+| ------ | ---------------------- | -------------------------------------------------- |
+| POST   | `/projects`            | Creates a new book project. Links to Drive folder. |
+| GET    | `/projects`            | Lists all projects for the current user.           |
+| GET    | `/projects/:projectId` | Returns project details including chapter list.    |
+| PATCH  | `/projects/:projectId` | Updates project title or settings.                 |
 
 ### Chapters
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/projects/:projectId/chapters` | Creates a new chapter. Creates corresponding file in Google Drive. |
-| GET | `/projects/:projectId/chapters` | Lists chapters for a project (metadata only: title, order, word count). |
-| PATCH | `/chapters/:chapterId` | Updates chapter metadata (title, sort_order, status). |
-| GET | `/chapters/:chapterId/content` | Fetches chapter body content from Google Drive. Returns HTML. |
-| PUT | `/chapters/:chapterId/content` | Writes chapter body content to Google Drive. Accepts HTML. Expects `version` header for conflict detection. |
-| DELETE | `/chapters/:chapterId` | Deletes chapter metadata from D1. Optionally trashes Drive file (query param `?trash_drive=true`). |
-| PATCH | `/projects/:projectId/chapters/reorder` | Batch-updates sort_order for multiple chapters. Accepts `[{ id, sort_order }]`. |
+| Method | Path                                    | Description                                                                                                 |
+| ------ | --------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| POST   | `/projects/:projectId/chapters`         | Creates a new chapter. Creates corresponding file in Google Drive.                                          |
+| GET    | `/projects/:projectId/chapters`         | Lists chapters for a project (metadata only: title, order, word count).                                     |
+| PATCH  | `/chapters/:chapterId`                  | Updates chapter metadata (title, sort_order, status).                                                       |
+| GET    | `/chapters/:chapterId/content`          | Fetches chapter body content from Google Drive. Returns HTML.                                               |
+| PUT    | `/chapters/:chapterId/content`          | Writes chapter body content to Google Drive. Accepts HTML. Expects `version` header for conflict detection. |
+| DELETE | `/chapters/:chapterId`                  | Deletes chapter metadata from D1. Optionally trashes Drive file (query param `?trash_drive=true`).          |
+| PATCH  | `/projects/:projectId/chapters/reorder` | Batch-updates sort_order for multiple chapters. Accepts `[{ id, sort_order }]`.                             |
 
 ### AI
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/ai/rewrite` | Sends selected text + instruction to Claude API. Returns SSE stream of rewritten text. |
-| POST | `/ai/accept` | Records that the user accepted an AI suggestion. Updates ai_interactions log. |
-| POST | `/ai/reject` | Records that the user rejected an AI suggestion. Updates ai_interactions log. |
+| Method | Path          | Description                                                                            |
+| ------ | ------------- | -------------------------------------------------------------------------------------- |
+| POST   | `/ai/rewrite` | Sends selected text + instruction to Claude API. Returns SSE stream of rewritten text. |
+| POST   | `/ai/accept`  | Records that the user accepted an AI suggestion. Updates ai_interactions log.          |
+| POST   | `/ai/reject`  | Records that the user rejected an AI suggestion. Updates ai_interactions log.          |
 
 ### Export
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/projects/:projectId/export` | Initiates export job. Accepts `{ format: "pdf" | "epub" }`. Returns job ID. |
-| GET | `/export/:jobId` | Returns export job status. When completed, includes a signed R2 download URL. |
-| POST | `/export/:jobId/to-drive` | Uploads completed export artifact from R2 to user's Drive Book Folder. |
+| Method | Path                          | Description                                                                   |
+| ------ | ----------------------------- | ----------------------------------------------------------------------------- | -------------------------- |
+| POST   | `/projects/:projectId/export` | Initiates export job. Accepts `{ format: "pdf"                                | "epub" }`. Returns job ID. |
+| GET    | `/export/:jobId`              | Returns export job status. When completed, includes a signed R2 download URL. |
+| POST   | `/export/:jobId/to-drive`     | Uploads completed export artifact from R2 to user's Drive Book Folder.        |
 
 ### Conventions
 

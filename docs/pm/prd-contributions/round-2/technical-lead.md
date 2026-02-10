@@ -96,17 +96,17 @@ DraftCrane Phase 0 has three deployment boundaries:
 
 ### Layer Responsibilities
 
-| Layer | Technology | Responsibility | Does NOT Do |
-|-------|-----------|----------------|-------------|
-| **Frontend** | Next.js + Tailwind | Rendering, editor state, IndexedDB write-ahead log, debounced save orchestration, user interactions | Store canonical content long-term, call external APIs directly, hold OAuth tokens |
-| **Backend** | Hono on CF Workers | API gateway, business logic, Drive/AI orchestration, token management | Render UI, hold long-lived state, run >30s operations |
-| **D1** | Cloudflare D1 (SQLite) | User metadata, project structure, chapter ordering, AI interaction logs, export job tracking | Store manuscript content (that belongs in Drive) |
-| **R2** | Cloudflare R2 | Export artifacts (PDF/EPUB), cached images | Long-term content storage (Drive is canonical) |
-| **KV** | Cloudflare KV | Session data, Drive API response caching, rate limit counters | Relational queries, large objects |
-| **IndexedDB** | Browser-native | Keystroke-level content buffer, crash recovery, offline queue | Long-term storage, cross-device sync |
-| **Clerk** | External SaaS | User authentication, session management, JWT issuance | Authorization logic (we own that) |
-| **Google Drive** | External API | Canonical manuscript storage, user file ownership | Indexing, search, metadata queries |
-| **Claude API** | External API | Text rewriting, expansion, simplification | Autonomous content generation, training on user data |
+| Layer            | Technology             | Responsibility                                                                                      | Does NOT Do                                                                       |
+| ---------------- | ---------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| **Frontend**     | Next.js + Tailwind     | Rendering, editor state, IndexedDB write-ahead log, debounced save orchestration, user interactions | Store canonical content long-term, call external APIs directly, hold OAuth tokens |
+| **Backend**      | Hono on CF Workers     | API gateway, business logic, Drive/AI orchestration, token management                               | Render UI, hold long-lived state, run >30s operations                             |
+| **D1**           | Cloudflare D1 (SQLite) | User metadata, project structure, chapter ordering, AI interaction logs, export job tracking        | Store manuscript content (that belongs in Drive)                                  |
+| **R2**           | Cloudflare R2          | Export artifacts (PDF/EPUB), cached images                                                          | Long-term content storage (Drive is canonical)                                    |
+| **KV**           | Cloudflare KV          | Session data, Drive API response caching, rate limit counters                                       | Relational queries, large objects                                                 |
+| **IndexedDB**    | Browser-native         | Keystroke-level content buffer, crash recovery, offline queue                                       | Long-term storage, cross-device sync                                              |
+| **Clerk**        | External SaaS          | User authentication, session management, JWT issuance                                               | Authorization logic (we own that)                                                 |
+| **Google Drive** | External API           | Canonical manuscript storage, user file ownership                                                   | Indexing, search, metadata queries                                                |
+| **Claude API**   | External API           | Text rewriting, expansion, simplification                                                           | Autonomous content generation, training on user data                              |
 
 ### Three-Tier Save Architecture
 
@@ -170,6 +170,7 @@ Tier 3: D1 Metadata (on every successful Drive save)
 ```
 
 **Key design decisions:**
+
 - OAuth tokens never reach the frontend. Stored server-side in D1, encrypted at rest.
 - We request `drive.file` scope (not full Drive access) -- only files created by or explicitly shared with our app. Confirmed by BA OQ-2.
 - Redirect-based OAuth only. No popups. Per UX Lead Step 2 and BA US-005.
@@ -213,6 +214,7 @@ Edge cases (per BA Edge Cases section):
 ```
 
 **Key design decisions:**
+
 - Three-tier save: IndexedDB -> Drive -> D1 metadata. See architecture above.
 - 2-second debounce (revised from 5s per BA US-015 and target customer feedback).
 - `visibilitychange` event for background save (not `beforeunload`, which is unreliable on iOS).
@@ -289,6 +291,7 @@ Edge cases (per BA Edge Cases section):
 ```
 
 **Key design decisions:**
+
 - AI never modifies content directly. User always sees a preview and explicitly accepts or rejects. Per PM Principle 3, BA US-018.
 - SSE streaming is a requirement. First token visible in <2 seconds. Per UX Lead, target customer feedback.
 - "Try Again" supported within a single session. Original always preserved. Per UX Lead Section 5c.
@@ -304,17 +307,17 @@ Edge cases (per BA Edge Cases section):
 
 D1 stores everything needed to render the UI, enforce authorization, and track state. Google Drive stores everything the user would want to keep if DraftCrane disappeared. IndexedDB provides instant local persistence as crash protection.
 
-| Data | Storage | Rationale |
-|------|---------|-----------|
-| User profile, preferences | D1 | App-internal, not user-owned content |
-| Project structure (title, description, settings) | D1 | Metadata about the book, not the book itself |
-| Chapter ordering, titles, word counts | D1 | Navigation structure, frequently queried |
-| Chapter body content (canonical) | Google Drive | User's canonical manuscript. Sacred. (PM Principle 2) |
-| Chapter body content (local buffer) | IndexedDB | Crash recovery, offline queue. Ephemeral. |
-| OAuth tokens (encrypted) | D1 | Server-side only, never exposed to client |
-| AI interaction logs | D1 | Analytics, cost tracking. No user content stored. |
-| Export artifacts (PDF/EPUB) | R2 | Temporary; also written back to user's Drive |
-| Session/cache data | KV | Ephemeral, performance optimization |
+| Data                                             | Storage      | Rationale                                             |
+| ------------------------------------------------ | ------------ | ----------------------------------------------------- |
+| User profile, preferences                        | D1           | App-internal, not user-owned content                  |
+| Project structure (title, description, settings) | D1           | Metadata about the book, not the book itself          |
+| Chapter ordering, titles, word counts            | D1           | Navigation structure, frequently queried              |
+| Chapter body content (canonical)                 | Google Drive | User's canonical manuscript. Sacred. (PM Principle 2) |
+| Chapter body content (local buffer)              | IndexedDB    | Crash recovery, offline queue. Ephemeral.             |
+| OAuth tokens (encrypted)                         | D1           | Server-side only, never exposed to client             |
+| AI interaction logs                              | D1           | Analytics, cost tracking. No user content stored.     |
+| Export artifacts (PDF/EPUB)                      | R2           | Temporary; also written back to user's Drive          |
+| Session/cache data                               | KV           | Ephemeral, performance optimization                   |
 
 ### D1 Schema (Phase 0)
 
@@ -393,6 +396,7 @@ CREATE UNIQUE INDEX idx_chapters_sort ON chapters(project_id, sort_order);
 ```
 
 **Business rules enforced in service layer (per BA US-010, US-014):**
+
 - A project must always have at least one chapter (BA US-014). Enforce on delete, not on schema.
 - Chapter title must be non-empty; whitespace-only titles revert to "Untitled Chapter" (BA US-013). Max 200 characters (BA OQ-8).
 - No artificial chapter count limit. Performance test at 50+ chapters (BA OQ-5).
@@ -422,6 +426,7 @@ CREATE INDEX idx_ai_interactions_chapter ON ai_interactions(chapter_id);
 ```
 
 **Changes from Round 1:**
+
 - Added `instruction` column to track what the user asked for (the chip text or custom instruction). Useful for understanding which instruction types produce more accepts. Does not store user manuscript content.
 - Added `attempt_number` to track "Try Again" iterations per session. Helps us understand if users typically accept on first try or iterate.
 
@@ -478,12 +483,12 @@ New section. Not present in Round 1.
 // Object store: "chapter_buffer"
 
 interface ChapterBuffer {
-  chapterId: string;          // Matches D1 chapter ID
-  content: string;            // HTML content
-  localVersion: number;       // Incremented on every local change
-  serverVersion: number;      // Last known server (Drive) version
-  lastModified: number;       // Timestamp (Date.now())
-  pendingSave: boolean;       // True if not yet synced to Drive
+  chapterId: string; // Matches D1 chapter ID
+  content: string; // HTML content
+  localVersion: number; // Incremented on every local change
+  serverVersion: number; // Last known server (Drive) version
+  lastModified: number; // Timestamp (Date.now())
+  pendingSave: boolean; // True if not yet synced to Drive
 }
 ```
 
@@ -506,84 +511,84 @@ interface ChapterBuffer {
 
 ### 3.1 Platform Compatibility
 
-| Requirement | Target | How to Verify | Cross-Reference |
-|-------------|--------|---------------|-----------------|
-| iPad Safari support | iPadOS 17.0+ (Safari 17+) | Manual testing on iPad Air 5th gen or later; BrowserStack for coverage | UX Lead: primary target throughout |
-| Desktop browser support | Chrome 120+, Firefox 120+, Safari 17+ | Automated E2E tests via Playwright | -- |
-| Minimum viewport | 768px width (iPad portrait) | CSS breakpoint testing | UX Lead Section 4: portrait is secondary reading mode |
-| Touch interaction | All primary actions completable via touch only | Manual QA checklist: no hover-dependent functionality | UX Lead Section 4: 44x44pt minimum touch targets |
-| Virtual keyboard handling | Editor must not break when iOS keyboard appears/disappears. Cursor and active line always visible above keyboard. | Manual test: type in editor, keyboard appears, scroll adjusts. Use `visualViewport` API for keyboard detection. | UX Lead Section 4: Keyboard Handling |
-| `100dvh` viewport units | Use `100dvh` or `visualViewport` API, never raw `100vh` | CSS audit; iPad Safari manual test | UX Lead Section 4: Safari-Specific Limitations |
-| No native dependencies | Zero plugins, extensions, or app installs required | Verify via clean Safari profile | PM Principle 1 |
-| Split View resilience | App must not break in iPadOS Split View, even if not optimized | Manual test in 50/50 and 33/66 Split View | UX Lead Section 4: Split View |
-| Orientation change | Layout responds fluidly to landscape/portrait changes without content jumps or lost scroll position | Manual test: rotate iPad during editing | UX Lead Section 4: Landscape vs. Portrait |
-| `prefers-reduced-motion` | All animations disabled when user has Reduce Motion enabled | Automated CSS audit + manual test on iPadOS with setting enabled | UX Lead Section 6: Reduced Motion |
-| Pinch-to-zoom | App remains functional at 200% zoom. No `user-scalable=no` in viewport meta. | Manual test with pinch zoom on iPad | UX Lead Section 6: Zoom (WCAG AA) |
+| Requirement               | Target                                                                                                            | How to Verify                                                                                                   | Cross-Reference                                       |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| iPad Safari support       | iPadOS 17.0+ (Safari 17+)                                                                                         | Manual testing on iPad Air 5th gen or later; BrowserStack for coverage                                          | UX Lead: primary target throughout                    |
+| Desktop browser support   | Chrome 120+, Firefox 120+, Safari 17+                                                                             | Automated E2E tests via Playwright                                                                              | --                                                    |
+| Minimum viewport          | 768px width (iPad portrait)                                                                                       | CSS breakpoint testing                                                                                          | UX Lead Section 4: portrait is secondary reading mode |
+| Touch interaction         | All primary actions completable via touch only                                                                    | Manual QA checklist: no hover-dependent functionality                                                           | UX Lead Section 4: 44x44pt minimum touch targets      |
+| Virtual keyboard handling | Editor must not break when iOS keyboard appears/disappears. Cursor and active line always visible above keyboard. | Manual test: type in editor, keyboard appears, scroll adjusts. Use `visualViewport` API for keyboard detection. | UX Lead Section 4: Keyboard Handling                  |
+| `100dvh` viewport units   | Use `100dvh` or `visualViewport` API, never raw `100vh`                                                           | CSS audit; iPad Safari manual test                                                                              | UX Lead Section 4: Safari-Specific Limitations        |
+| No native dependencies    | Zero plugins, extensions, or app installs required                                                                | Verify via clean Safari profile                                                                                 | PM Principle 1                                        |
+| Split View resilience     | App must not break in iPadOS Split View, even if not optimized                                                    | Manual test in 50/50 and 33/66 Split View                                                                       | UX Lead Section 4: Split View                         |
+| Orientation change        | Layout responds fluidly to landscape/portrait changes without content jumps or lost scroll position               | Manual test: rotate iPad during editing                                                                         | UX Lead Section 4: Landscape vs. Portrait             |
+| `prefers-reduced-motion`  | All animations disabled when user has Reduce Motion enabled                                                       | Automated CSS audit + manual test on iPadOS with setting enabled                                                | UX Lead Section 6: Reduced Motion                     |
+| Pinch-to-zoom             | App remains functional at 200% zoom. No `user-scalable=no` in viewport meta.                                      | Manual test with pinch zoom on iPad                                                                             | UX Lead Section 6: Zoom (WCAG AA)                     |
 
 ### 3.2 Performance Budgets
 
-| Metric | Target | Measurement | Cross-Reference |
-|--------|--------|-------------|-----------------|
-| Largest Contentful Paint (LCP) | < 2.5 seconds on WiFi | Lighthouse on iPad Safari | -- |
-| Time to Interactive (TTI) | < 3.5 seconds on WiFi | Lighthouse, same conditions | UX Lead Step 5: "Time from Safari load to ready-to-type: target < 3 seconds" |
-| Chapter load (under 10K words) | < 2 seconds | Custom timing: navigation click to editor content visible | PM Section 9: "Document load < 3 seconds" |
-| Chapter load (up to 50K words) | < 5 seconds | Same measurement, larger payload | BA edge case: "User pastes 50,000+ words" |
-| Auto-save round trip | < 3 seconds from trigger to "Saved" | Custom timing: debounce fire to server response | -- |
-| IndexedDB local write | < 5ms per keystroke | Performance.now() measurement | New: ensures Tier 1 save has no perceived lag |
-| AI rewrite first token | < 2 seconds | Custom timing: SSE stream onset | UX Lead Step 7: streaming word-by-word |
-| AI rewrite complete (500 words) | < 15 seconds | End-to-end including streaming | -- |
-| JS bundle size (initial) | < 300 KB gzipped | Build output analysis | -- |
-| Editor JS (lazy loaded) | < 200 KB gzipped | Separate chunk | -- |
-| PDF export (10 chapters) | < 10 seconds | End-to-end from button click to file ready | UX Lead Step 9: "target < 10 seconds" |
+| Metric                          | Target                              | Measurement                                               | Cross-Reference                                                              |
+| ------------------------------- | ----------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Largest Contentful Paint (LCP)  | < 2.5 seconds on WiFi               | Lighthouse on iPad Safari                                 | --                                                                           |
+| Time to Interactive (TTI)       | < 3.5 seconds on WiFi               | Lighthouse, same conditions                               | UX Lead Step 5: "Time from Safari load to ready-to-type: target < 3 seconds" |
+| Chapter load (under 10K words)  | < 2 seconds                         | Custom timing: navigation click to editor content visible | PM Section 9: "Document load < 3 seconds"                                    |
+| Chapter load (up to 50K words)  | < 5 seconds                         | Same measurement, larger payload                          | BA edge case: "User pastes 50,000+ words"                                    |
+| Auto-save round trip            | < 3 seconds from trigger to "Saved" | Custom timing: debounce fire to server response           | --                                                                           |
+| IndexedDB local write           | < 5ms per keystroke                 | Performance.now() measurement                             | New: ensures Tier 1 save has no perceived lag                                |
+| AI rewrite first token          | < 2 seconds                         | Custom timing: SSE stream onset                           | UX Lead Step 7: streaming word-by-word                                       |
+| AI rewrite complete (500 words) | < 15 seconds                        | End-to-end including streaming                            | --                                                                           |
+| JS bundle size (initial)        | < 300 KB gzipped                    | Build output analysis                                     | --                                                                           |
+| Editor JS (lazy loaded)         | < 200 KB gzipped                    | Separate chunk                                            | --                                                                           |
+| PDF export (10 chapters)        | < 10 seconds                        | End-to-end from button click to file ready                | UX Lead Step 9: "target < 10 seconds"                                        |
 
 ### 3.3 Auto-Save Reliability
 
-| Requirement | Specification | Cross-Reference |
-|-------------|---------------|-----------------|
-| Save trigger | Debounced: 2 seconds after last keystroke (revised from 5s) | BA US-015, UX Lead Step 6 |
-| Local buffer | Every keystroke writes to IndexedDB. <5ms latency. | New: addresses target customer data loss anxiety |
-| Save indicator | Three states: "Saving...", "Saved [timestamp]", "Save failed" | UX Lead Step 6, BA US-015 |
-| Failure retry | Exponential backoff: 2s, 4s, 8s. Max 3 retries. Then persistent warning. | BA auto-save edge cases |
-| Conflict detection | Optimistic versioning: `version` counter in D1. Server rejects save if client version does not match. | -- |
-| Conflict resolution | User-facing prompt: "This chapter was modified elsewhere. View changes / Overwrite / Reload." No silent data loss. | BA US-015 |
-| Offline behavior | Detect `navigator.onLine` transitions. When offline: queue saves in IndexedDB, show "Offline" indicator. When back online: flush queue in order, resolve conflicts. | BA auto-save edge cases |
-| Crash recovery | On editor mount, check IndexedDB for unsaved content newer than Drive version. If found, prompt: "You have unsaved changes from your last session. Restore or discard?" | BA editor edge cases |
-| Tab background | Use `visibilitychange` event to trigger immediate save when tab goes to background. More reliable than `beforeunload` on iOS. | -- |
-| Maximum data loss window | 2 seconds of typing (one debounce interval). IndexedDB keystroke write reduces this to near-zero within browser lifetime. | Revised from 5s |
-| Cmd+S support | Triggers immediate save and "Saved" indicator update. No "you don't need to save" message. | UX Lead Section 4: Keyboard Handling |
+| Requirement              | Specification                                                                                                                                                           | Cross-Reference                                  |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| Save trigger             | Debounced: 2 seconds after last keystroke (revised from 5s)                                                                                                             | BA US-015, UX Lead Step 6                        |
+| Local buffer             | Every keystroke writes to IndexedDB. <5ms latency.                                                                                                                      | New: addresses target customer data loss anxiety |
+| Save indicator           | Three states: "Saving...", "Saved [timestamp]", "Save failed"                                                                                                           | UX Lead Step 6, BA US-015                        |
+| Failure retry            | Exponential backoff: 2s, 4s, 8s. Max 3 retries. Then persistent warning.                                                                                                | BA auto-save edge cases                          |
+| Conflict detection       | Optimistic versioning: `version` counter in D1. Server rejects save if client version does not match.                                                                   | --                                               |
+| Conflict resolution      | User-facing prompt: "This chapter was modified elsewhere. View changes / Overwrite / Reload." No silent data loss.                                                      | BA US-015                                        |
+| Offline behavior         | Detect `navigator.onLine` transitions. When offline: queue saves in IndexedDB, show "Offline" indicator. When back online: flush queue in order, resolve conflicts.     | BA auto-save edge cases                          |
+| Crash recovery           | On editor mount, check IndexedDB for unsaved content newer than Drive version. If found, prompt: "You have unsaved changes from your last session. Restore or discard?" | BA editor edge cases                             |
+| Tab background           | Use `visibilitychange` event to trigger immediate save when tab goes to background. More reliable than `beforeunload` on iOS.                                           | --                                               |
+| Maximum data loss window | 2 seconds of typing (one debounce interval). IndexedDB keystroke write reduces this to near-zero within browser lifetime.                                               | Revised from 5s                                  |
+| Cmd+S support            | Triggers immediate save and "Saved" indicator update. No "you don't need to save" message.                                                                              | UX Lead Section 4: Keyboard Handling             |
 
 ### 3.4 Security Model
 
-| Requirement | Specification | Cross-Reference |
-|-------------|---------------|-----------------|
-| Authentication | Clerk-managed; session tokens as httpOnly, Secure, SameSite=Lax cookies | BA US-001 through US-004 |
-| Authorization | All D1 queries include `WHERE user_id = ?` clause. No query returns data across users. Enforced in service layer. | BA: "User A must never see User B's data" |
-| OAuth token storage | Google OAuth tokens encrypted at rest in D1 using a Worker-level secret (AES-256-GCM). Never sent to frontend. | BA US-005, Project Instructions Section 3 |
-| OAuth scope | `drive.file` -- access only to files created by or opened with DraftCrane. Not full Drive access. | BA OQ-2, UX Lead Step 4 |
-| OAuth flow type | Redirect-based only. No popup OAuth. | UX Lead Step 2, BA US-005 (Safari popup blocker) |
-| Token refresh | Automatic refresh when `token_expires_at` is within 5 minutes of current time. Old refresh tokens invalidated after use (rotation). | BA Drive edge cases |
-| Content isolation | User A must never see User B's projects, chapters, or AI interactions. Verified via integration tests with two test users. | -- |
-| API rate limiting | Per-user via KV counters: 60 req/min standard, 10 req/min AI, 5 req/min export. | -- |
-| Input validation | All user input validated and sanitized at the API boundary. HTML content sanitized with an allowlist of safe tags before storage. | -- |
-| CORS | Production: only the DraftCrane frontend origin. No wildcards. | Project Instructions Section 3 |
+| Requirement         | Specification                                                                                                                       | Cross-Reference                                  |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| Authentication      | Clerk-managed; session tokens as httpOnly, Secure, SameSite=Lax cookies                                                             | BA US-001 through US-004                         |
+| Authorization       | All D1 queries include `WHERE user_id = ?` clause. No query returns data across users. Enforced in service layer.                   | BA: "User A must never see User B's data"        |
+| OAuth token storage | Google OAuth tokens encrypted at rest in D1 using a Worker-level secret (AES-256-GCM). Never sent to frontend.                      | BA US-005, Project Instructions Section 3        |
+| OAuth scope         | `drive.file` -- access only to files created by or opened with DraftCrane. Not full Drive access.                                   | BA OQ-2, UX Lead Step 4                          |
+| OAuth flow type     | Redirect-based only. No popup OAuth.                                                                                                | UX Lead Step 2, BA US-005 (Safari popup blocker) |
+| Token refresh       | Automatic refresh when `token_expires_at` is within 5 minutes of current time. Old refresh tokens invalidated after use (rotation). | BA Drive edge cases                              |
+| Content isolation   | User A must never see User B's projects, chapters, or AI interactions. Verified via integration tests with two test users.          | --                                               |
+| API rate limiting   | Per-user via KV counters: 60 req/min standard, 10 req/min AI, 5 req/min export.                                                     | --                                               |
+| Input validation    | All user input validated and sanitized at the API boundary. HTML content sanitized with an allowlist of safe tags before storage.   | --                                               |
+| CORS                | Production: only the DraftCrane frontend origin. No wildcards.                                                                      | Project Instructions Section 3                   |
 
 ### 3.5 Cloudflare Platform Constraints
 
 These are hard limits that constrain the architecture. Design within them.
 
-| Constraint | Limit | Implication |
-|-----------|-------|-------------|
-| Worker CPU time | 30ms (bundled), 30s (unbound) | Use unbound Workers for AI and export routes. Keep standard routes under 30ms CPU. |
-| Worker memory | 128 MB | Cannot load entire large manuscripts into memory. Process chapter-by-chapter during export. |
-| Worker request size | 100 MB | Not a concern for text; relevant for future image handling. |
-| Worker subrequests | 1,000 per invocation | Batch Drive API calls. A 50-chapter export must not make 50+ serial subrequests. Design export to batch-read chapter content. |
-| D1 row size | 1 MB max | No concern for metadata-only rows. Validates decision to keep content out of D1. |
-| D1 database size | 2 GB (free), 10 GB (paid) | Monitor table sizes. AI interaction logs will be the largest table. Add TTL-based cleanup at 90 days. |
-| D1 rows read/write | 5M reads/day, 100K writes/day (free) | Phase 0 with <100 users is fine. Auto-save at 2s debounce generates ~30 writes/min per active user. At 50 concurrent users: ~1,500 D1 metadata writes/min = 90K/hour. Monitor closely. |
-| R2 object size | 5 GB max | Sufficient for any PDF/EPUB. |
-| R2 operations | 10M Class A, 10M Class B/month (free) | Generous for Phase 0. |
-| KV value size | 25 MB max | Sufficient for cached Drive responses. |
-| KV operations | 100K reads/day, 1K writes/day (free) | Tight for writes. Use KV for hot-path reads only (session validation, rate limit checks). Rate limit counters at 10 writes/sec across all users could exhaust free tier quickly. Budget for paid KV or use D1 for rate limit tracking instead. |
+| Constraint          | Limit                                 | Implication                                                                                                                                                                                                                                    |
+| ------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Worker CPU time     | 30ms (bundled), 30s (unbound)         | Use unbound Workers for AI and export routes. Keep standard routes under 30ms CPU.                                                                                                                                                             |
+| Worker memory       | 128 MB                                | Cannot load entire large manuscripts into memory. Process chapter-by-chapter during export.                                                                                                                                                    |
+| Worker request size | 100 MB                                | Not a concern for text; relevant for future image handling.                                                                                                                                                                                    |
+| Worker subrequests  | 1,000 per invocation                  | Batch Drive API calls. A 50-chapter export must not make 50+ serial subrequests. Design export to batch-read chapter content.                                                                                                                  |
+| D1 row size         | 1 MB max                              | No concern for metadata-only rows. Validates decision to keep content out of D1.                                                                                                                                                               |
+| D1 database size    | 2 GB (free), 10 GB (paid)             | Monitor table sizes. AI interaction logs will be the largest table. Add TTL-based cleanup at 90 days.                                                                                                                                          |
+| D1 rows read/write  | 5M reads/day, 100K writes/day (free)  | Phase 0 with <100 users is fine. Auto-save at 2s debounce generates ~30 writes/min per active user. At 50 concurrent users: ~1,500 D1 metadata writes/min = 90K/hour. Monitor closely.                                                         |
+| R2 object size      | 5 GB max                              | Sufficient for any PDF/EPUB.                                                                                                                                                                                                                   |
+| R2 operations       | 10M Class A, 10M Class B/month (free) | Generous for Phase 0.                                                                                                                                                                                                                          |
+| KV value size       | 25 MB max                             | Sufficient for cached Drive responses.                                                                                                                                                                                                         |
+| KV operations       | 100K reads/day, 1K writes/day (free)  | Tight for writes. Use KV for hot-path reads only (session validation, rate limit checks). Rate limit counters at 10 writes/sec across all users could exhaust free tier quickly. Budget for paid KV or use D1 for rate limit tracking instead. |
 
 **Updated analysis (from Round 1):** The 2-second debounce interval increases D1 write frequency. Revised the D1 rows/write calculation. At 50 concurrent users with 2s debounce, we are writing ~90K metadata rows per hour. The free tier (100K writes/day) will be exceeded with just 2 hours of concurrent use. **Decision: Phase 0 must budget for the D1 paid tier ($0.75/million writes).** This is a trivial cost but must be accounted for.
 
@@ -591,27 +596,27 @@ These are hard limits that constrain the architecture. Design within them.
 
 New section. Not present in Round 1. Added based on UX Lead Section 6.
 
-| Requirement | Specification | How to Verify |
-|-------------|---------------|---------------|
-| WCAG level | 2.1 Level AA compliance | Automated: axe-core in CI. Manual: screen reader testing on iPad VoiceOver. |
-| Screen reader: editor | `role="textbox"` with `aria-multiline="true"` and chapter name as label | VoiceOver testing |
-| Screen reader: chapter list | Ordered list with position announcements ("Chapter 3 of 8") | VoiceOver testing |
-| Screen reader: save status | `aria-live="polite"` region for save state changes | VoiceOver testing |
-| Screen reader: AI bottom sheet | Focus trap while open. On close, focus returns to editor. | VoiceOver + keyboard testing |
-| Keyboard navigation | All functionality reachable via external keyboard. Logical tab order. | Manual testing with Smart Keyboard |
-| Color contrast | 4.5:1 for normal text, 3:1 for large text. No color-only indicators. | Automated: contrast checker in CI |
-| Font sizing | Minimum 16px in editor (prevents iOS auto-zoom). Relative units (`rem`). | CSS audit |
-| Reduced motion | Respect `prefers-reduced-motion`. All animations are non-essential. | Manual test with iPadOS Reduce Motion enabled |
-| Zoom | Functional at 200% browser zoom. No `user-scalable=no`. | Manual test |
+| Requirement                    | Specification                                                            | How to Verify                                                               |
+| ------------------------------ | ------------------------------------------------------------------------ | --------------------------------------------------------------------------- |
+| WCAG level                     | 2.1 Level AA compliance                                                  | Automated: axe-core in CI. Manual: screen reader testing on iPad VoiceOver. |
+| Screen reader: editor          | `role="textbox"` with `aria-multiline="true"` and chapter name as label  | VoiceOver testing                                                           |
+| Screen reader: chapter list    | Ordered list with position announcements ("Chapter 3 of 8")              | VoiceOver testing                                                           |
+| Screen reader: save status     | `aria-live="polite"` region for save state changes                       | VoiceOver testing                                                           |
+| Screen reader: AI bottom sheet | Focus trap while open. On close, focus returns to editor.                | VoiceOver + keyboard testing                                                |
+| Keyboard navigation            | All functionality reachable via external keyboard. Logical tab order.    | Manual testing with Smart Keyboard                                          |
+| Color contrast                 | 4.5:1 for normal text, 3:1 for large text. No color-only indicators.     | Automated: contrast checker in CI                                           |
+| Font sizing                    | Minimum 16px in editor (prevents iOS auto-zoom). Relative units (`rem`). | CSS audit                                                                   |
+| Reduced motion                 | Respect `prefers-reduced-motion`. All animations are non-essential.      | Manual test with iPadOS Reduce Motion enabled                               |
+| Zoom                           | Functional at 200% browser zoom. No `user-scalable=no`.                  | Manual test                                                                 |
 
 ### 3.7 Reliability & Data Integrity
 
-| Requirement | Specification |
-|-------------|---------------|
-| Data durability | Google Drive is the system of record. D1 metadata is reconstructible from Drive if lost. IndexedDB is ephemeral. |
-| Backup strategy | D1: rely on Cloudflare's automatic backups. Drive: user's own Google Workspace backup. No additional backup in Phase 0. |
-| Error handling | All API errors return structured JSON: `{ error: string, code: string, details?: object }`. No stack traces in production. |
-| Uptime target | No formal SLA in Phase 0. Rely on Cloudflare's platform SLA (99.9%). |
+| Requirement     | Specification                                                                                                              |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Data durability | Google Drive is the system of record. D1 metadata is reconstructible from Drive if lost. IndexedDB is ephemeral.           |
+| Backup strategy | D1: rely on Cloudflare's automatic backups. Drive: user's own Google Workspace backup. No additional backup in Phase 0.    |
+| Error handling  | All API errors return structured JSON: `{ error: string, code: string, details?: object }`. No stack traces in production. |
+| Uptime target   | No formal SLA in Phase 0. Rely on Cloudflare's platform SLA (99.9%).                                                       |
 
 ---
 
@@ -625,6 +630,7 @@ New section. Not present in Round 1. Added based on UX Lead Section 6.
 **The problem:** Browser-based rich text editors rely heavily on the `contenteditable` API and `Selection`/`Range` APIs, both of which have long-standing inconsistencies in Safari. Known issues include: cursor positioning bugs after formatting changes, selection jumping when virtual keyboard appears/disappears, toolbar interactions causing focus loss, and inconsistent paste handling from other iPad apps.
 
 **Specific concerns:**
+
 - Tiptap (ProseMirror-based) has the strongest iPad track record but still has open issues with iOS selection.
 - Lexical (Meta) is newer and has fewer Safari battle scars in production.
 - Plate (Slate-based) has documented iOS problems.
@@ -633,6 +639,7 @@ New section. Not present in Round 1. Added based on UX Lead Section 6.
 - The UX Lead specifies block quote as a Phase 0 formatting requirement (Section 5b). Verify editor candidate supports block quotes on iPad.
 
 **Mitigation:** Prototype the top 2 editor candidates (Tiptap and Lexical) on a physical iPad within the first sprint. Test the UX Lead's specific interaction patterns:
+
 1. Basic typing, formatting (bold/italic/heading/list/block quote)
 2. Text selection via touch (long-press, drag handles)
 3. Floating toolbar appearance near selection (custom toolbar positioning)
@@ -658,6 +665,7 @@ Score each on a 1-5 scale. Allocate 2 days. Decision must be made from real-devi
 **Updated concern (from Round 1):** With the 2-second debounce (revised from 5s), auto-save generates ~30 Drive writes per minute per active user (up from ~12). At 50 concurrent users, that is 1,500 writes/minute. Still within Drive's per-user limits (12,000 queries/user/minute) but worth monitoring.
 
 **Mitigation (unchanged):**
+
 - Cache chapter content in frontend + IndexedDB after first load.
 - Pre-fetch next/previous chapter content.
 - Proactive token refresh (5 minutes before expiry).
@@ -677,12 +685,14 @@ Score each on a 1-5 scale. Allocate 2 days. Decision must be made from real-devi
 **Updated analysis (from Round 1):** The three-tier save architecture (IndexedDB -> Drive -> D1 metadata) mitigates most failure modes. The remaining risk is iPadOS killing Safari under severe memory pressure, which would lose the IndexedDB buffer. This is an OS-level event we cannot prevent.
 
 **Specific iPad Safari concerns (per UX Lead Section 4):**
+
 - iPad Safari aggressively suspends background tabs. `visibilitychange` event is our best hook.
 - `beforeunload` is unreliable on iPad Safari. Do not depend on it.
 - IndexedDB has storage pressure limits -- iOS can evict data. However, this typically only happens under extreme storage pressure (device nearly full).
 - `position: fixed` and `position: sticky` behave inconsistently when the virtual keyboard is open. The save status indicator must be positioned correctly in both keyboard states.
 
 **Mitigation:**
+
 - IndexedDB write-ahead log on every keystroke (Tier 1).
 - `visibilitychange` for background save (Tier 2).
 - Recovery prompt on editor mount if IndexedDB has unsaved data.
@@ -703,6 +713,7 @@ Score each on a 1-5 scale. Allocate 2 days. Decision must be made from real-devi
 **Updated analysis:** SSE streaming (now a requirement, not optional) reduces perceived latency to under 2 seconds (first token). The UX Lead's word-by-word streaming pattern and the target customer's expectation of responsiveness make this a requirement, not an optimization.
 
 **Cost model (updated):**
+
 - Haiku for simple operations (simplify, shorten): ~$0.001/request
 - Sonnet for complex operations (rewrite, expand): ~$0.003-0.01/request
 - At 50 rewrites/user/month: ~$0.15-0.50/user/month
@@ -720,16 +731,19 @@ Score each on a 1-5 scale. Allocate 2 days. Decision must be made from real-devi
 **The problem (updated):** Workers have no filesystem, no headless browser, and a 128 MB memory limit. The competitor analyst's assessment makes this risk more acute: Atticus already delivers professional book formatting at $147.99 one-time. Reedsy offers decent formatting for free. If DraftCrane's Phase 0 export "looks like a printed web page" (Competitor Analyst Section 3.3), it undermines the entire "publishing is a button" principle and the psychological "artifact moment" (UX Lead Step 9).
 
 **The UX Lead's export requirements (Step 9):**
+
 - "Clean typography, chapter titles as headers, page numbers, the book title on a simple title page"
 - "Must look professional without me doing any formatting"
 - "Typography, margins, and spacing must feel intentionally designed"
 
 **The BA's export requirements (US-019):**
+
 - Title page, table of contents, all chapters in order
 - "Readable serif font, consistent margins and page numbers"
 - Page size: A5 recommended (BA OQ-15)
 
 **Mitigation options (to be decided via ADR-004):**
+
 1. **Cloudflare Browser Rendering + EPUB in Worker:** Best PDF quality (headless Chrome renders HTML/CSS faithfully). EPUB is tractable in-Worker (ZIP of XHTML). Risk: Browser Rendering is beta.
 2. **Client-side PDF + Worker EPUB:** Use `react-pdf` or styled `window.print()` on iPad. EPUB generated server-side. Risk: iPad Safari print quality varies.
 3. **Hybrid with external fallback:** Try Browser Rendering; if unavailable or low quality, fall back to a slim external service (e.g., DocRaptor) for PDF only.
@@ -748,11 +762,13 @@ Score each on a 1-5 scale. Allocate 2 days. Decision must be made from real-devi
 **The problem:** The UX Lead's journey allows users to write before connecting Google Drive. The BA specifies that disconnecting Drive mid-session should not block writing. This creates a state where content exists only in IndexedDB (local) and there is no server-side persistence.
 
 **Specific concerns:**
+
 - If the user writes 5,000 words without connecting Drive, that content exists only in their browser's IndexedDB. If they clear browser data, it is gone.
 - The "Maybe later" path needs careful UX: the save indicator must clearly communicate "Saved locally only" vs. "Saved to Google Drive."
 - When Drive is eventually connected, the existing content must be synced to Drive. This is a one-time migration per chapter.
 
 **Mitigation:**
+
 - Save indicator has three states: "Saved locally" (yellow), "Saved to Drive" (green), "Save failed" (red). Per BA edge case: "Google Drive is disconnected mid-editing session."
 - When Drive is connected, trigger an immediate full sync of all chapter content to Drive.
 - Show a persistent but dismissible banner: "Connect Google Drive to protect your work. Without Drive, your writing is only saved on this device."
@@ -770,16 +786,17 @@ Score each on a 1-5 scale. Allocate 2 days. Decision must be made from real-devi
 
 **Options:**
 
-| Option | Pros | Cons |
-|--------|------|------|
-| **Tiptap (ProseMirror)** | Most mature iPad Safari support; large extension ecosystem; collaborative editing foundation for future; strong TypeScript support; active commercial backing; block quote support out of the box | Larger bundle size (~150 KB); some extensions are paid (Tiptap Pro); ProseMirror learning curve for custom behavior |
-| **Lexical (Meta)** | Smallest bundle (~30 KB core); designed for extensibility; excellent React integration; accessibility-first design; active Meta investment | Younger project, fewer production deployments on iPad; smaller extension ecosystem; iOS Safari support improving but less battle-tested |
-| **Plate (Slate)** | Rich plugin ecosystem; highly customizable UI; good React integration | Known iOS Safari issues (selection, IME); Slate's architecture has had stability concerns; smallest team |
+| Option                   | Pros                                                                                                                                                                                              | Cons                                                                                                                                    |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **Tiptap (ProseMirror)** | Most mature iPad Safari support; large extension ecosystem; collaborative editing foundation for future; strong TypeScript support; active commercial backing; block quote support out of the box | Larger bundle size (~150 KB); some extensions are paid (Tiptap Pro); ProseMirror learning curve for custom behavior                     |
+| **Lexical (Meta)**       | Smallest bundle (~30 KB core); designed for extensibility; excellent React integration; accessibility-first design; active Meta investment                                                        | Younger project, fewer production deployments on iPad; smaller extension ecosystem; iOS Safari support improving but less battle-tested |
+| **Plate (Slate)**        | Rich plugin ecosystem; highly customizable UI; good React integration                                                                                                                             | Known iOS Safari issues (selection, IME); Slate's architecture has had stability concerns; smallest team                                |
 
 **Preliminary recommendation:** Tiptap. The iPad Safari constraint makes maturity the deciding factor.
 
 **Test protocol (per UX Lead interaction patterns):**
 Build a minimal editor prototype with Tiptap and Lexical. On a physical iPad (Air 5th gen, iPadOS 17+), test:
+
 1. Typing, formatting: bold, italic, H2, H3, bullet list, numbered list, block quote (per UX Lead Section 5b)
 2. Text selection: long-press, drag handles, extend selection (per UX Lead Section 5c)
 3. Custom floating toolbar near selection (for AI Rewrite trigger)
@@ -799,11 +816,11 @@ Score each on a 1-5 scale. Allocate 2 days. Decision from real-device testing on
 
 **Options:**
 
-| Option | Pros | Cons |
-|--------|------|------|
-| **On-save (debounced 2s)** | Simple to implement; predictable Drive API usage; clear mental model; IndexedDB provides local safety net | 2-second data loss window (mitigated by IndexedDB); user must be online for Drive persistence; no cross-device sync |
-| **Periodic background sync** | Decouples user action from Drive write; batches changes; more resilient to transient errors | More complex state management; harder to reason about "current" version; stale data risk |
-| **Real-time (operational transforms)** | Google-Docs-like experience; multi-device | Enormous complexity for Phase 0; Drive API not designed for OT; overkill for single-user |
+| Option                                 | Pros                                                                                                      | Cons                                                                                                                |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| **On-save (debounced 2s)**             | Simple to implement; predictable Drive API usage; clear mental model; IndexedDB provides local safety net | 2-second data loss window (mitigated by IndexedDB); user must be online for Drive persistence; no cross-device sync |
+| **Periodic background sync**           | Decouples user action from Drive write; batches changes; more resilient to transient errors               | More complex state management; harder to reason about "current" version; stale data risk                            |
+| **Real-time (operational transforms)** | Google-Docs-like experience; multi-device                                                                 | Enormous complexity for Phase 0; Drive API not designed for OT; overkill for single-user                            |
 
 **Recommendation:** On-save (debounced 2s). Phase 0 is single-user. IndexedDB provides the local safety net that makes 2-second debounce acceptable. The three-tier save architecture (IndexedDB -> Drive -> D1 metadata) handles all failure modes identified by the BA and UX Lead.
 
@@ -817,11 +834,11 @@ Score each on a 1-5 scale. Allocate 2 days. Decision from real-device testing on
 
 **Options:**
 
-| Option | Pros | Cons |
-|--------|------|------|
-| **Direct Anthropic API** | Simplest integration; full control over prompts and SSE streaming; best SDK support; no middleware | Must implement observability ourselves; no built-in caching |
-| **Cloudflare AI Gateway** | Built-in logging, caching, rate limiting, analytics dashboard | Adds latency hop; caching unlikely to help (rewrites are unique); less control over SSE streaming; adds dependency |
-| **Workers AI** | Zero egress cost; lowest latency | Model quality not comparable to Claude for writing tasks |
+| Option                    | Pros                                                                                               | Cons                                                                                                               |
+| ------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **Direct Anthropic API**  | Simplest integration; full control over prompts and SSE streaming; best SDK support; no middleware | Must implement observability ourselves; no built-in caching                                                        |
+| **Cloudflare AI Gateway** | Built-in logging, caching, rate limiting, analytics dashboard                                      | Adds latency hop; caching unlikely to help (rewrites are unique); less control over SSE streaming; adds dependency |
+| **Workers AI**            | Zero egress cost; lowest latency                                                                   | Model quality not comparable to Claude for writing tasks                                                           |
 
 **Recommendation:** Direct Anthropic API for Phase 0. SSE streaming support is critical (see Risk 4) and the Anthropic TypeScript SDK handles it well. AI Gateway's caching benefits do not apply to unique rewrite requests. Implement a thin `AIService` wrapper that can be re-pointed to AI Gateway later.
 
@@ -837,16 +854,17 @@ Score each on a 1-5 scale. Allocate 2 days. Decision from real-device testing on
 
 **Options:**
 
-| Option | Pros | Cons | Export Quality |
-|--------|------|------|----------------|
-| **Cloudflare Browser Rendering (PDF) + Worker (EPUB)** | High-quality PDF via headless Chrome; faithful HTML/CSS rendering; EPUB is tractable (ZIP of XHTML) | Browser Rendering is beta; per-session pricing; cold start ~2-5s | HIGH for PDF, GOOD for EPUB |
-| **Client-side (browser)** | No server constraints; works offline; user can preview | PDF quality limited; iPad memory for large books; varies by platform | LOW-MEDIUM for PDF |
-| **Worker-side (pdf-lib)** | Full server control; consistent output | No automatic HTML-to-PDF layout; building a typographic engine is a project | MEDIUM (with significant effort) |
-| **External service (DocRaptor/Prince)** | Professional typographic quality; handles complex CSS | External dependency; per-document pricing; latency | HIGH |
+| Option                                                 | Pros                                                                                                | Cons                                                                        | Export Quality                   |
+| ------------------------------------------------------ | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | -------------------------------- |
+| **Cloudflare Browser Rendering (PDF) + Worker (EPUB)** | High-quality PDF via headless Chrome; faithful HTML/CSS rendering; EPUB is tractable (ZIP of XHTML) | Browser Rendering is beta; per-session pricing; cold start ~2-5s            | HIGH for PDF, GOOD for EPUB      |
+| **Client-side (browser)**                              | No server constraints; works offline; user can preview                                              | PDF quality limited; iPad memory for large books; varies by platform        | LOW-MEDIUM for PDF               |
+| **Worker-side (pdf-lib)**                              | Full server control; consistent output                                                              | No automatic HTML-to-PDF layout; building a typographic engine is a project | MEDIUM (with significant effort) |
+| **External service (DocRaptor/Prince)**                | Professional typographic quality; handles complex CSS                                               | External dependency; per-document pricing; latency                          | HIGH                             |
 
 **Revised recommendation:** EPUB generation in the Worker (straightforward). For PDF, prototype Cloudflare Browser Rendering first. Design a single, well-crafted HTML+CSS book template (A5 trim, serif font, chapter title pages, page numbers, table of contents, generous margins). If Browser Rendering produces professional-quality output, use it. If not, fall back to an external service for PDF only. Do NOT ship a low-quality PDF. The competitor analyst and target customer agree: amateur-looking export will torpedo confidence.
 
 **Template design (new):** Allocate design effort for the default export template before the technical spike. The template CSS should target:
+
 - A5 page size (148mm x 210mm) per BA recommendation (OQ-15)
 - Body text: serif font (e.g., Georgia, Crimson Text), 11pt, 1.5 line height
 - Margins: 20mm inside, 15mm outside, 15mm top, 20mm bottom
@@ -858,6 +876,7 @@ Score each on a 1-5 scale. Allocate 2 days. Decision from real-device testing on
 This CSS template works with both Browser Rendering (renders it directly) and external services (pass the HTML+CSS). Design once, render anywhere.
 
 **Spikes (3 days total):**
+
 1. (Day 1) Design the HTML+CSS book template. Validate it looks good in a browser at A5 dimensions.
 2. (Day 1) Build an EPUB generator in a Worker: take 3 chapters of HTML, produce a valid EPUB. Verify in Apple Books.
 3. (Day 2) Test Cloudflare Browser Rendering: render 10-chapter HTML manuscript to PDF using the template. Measure quality, latency, cost.
@@ -871,11 +890,11 @@ This CSS template works with both Browser Rendering (renders it directly) and ex
 
 **Options:**
 
-| Option | Pros | Cons |
-|--------|------|------|
-| **Metadata-only in D1 + IndexedDB buffer** (proposed) | Clean separation; user owns all content; D1 stays small; Drive is system of record; IndexedDB provides local speed | Every chapter open requires a Drive API call; no full-text search; export re-fetches from Drive |
-| **Content cached in D1** | Faster reads; enables full-text search; reduces Drive dependency | Content duplication; sync complexity; D1 grows with content; contradicts "Drive is canonical" principle |
-| **Content in R2** | R2 handles large objects; no D1 size concern | Still duplicated; R2 is not queryable; another sync layer |
+| Option                                                | Pros                                                                                                               | Cons                                                                                                    |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| **Metadata-only in D1 + IndexedDB buffer** (proposed) | Clean separation; user owns all content; D1 stays small; Drive is system of record; IndexedDB provides local speed | Every chapter open requires a Drive API call; no full-text search; export re-fetches from Drive         |
+| **Content cached in D1**                              | Faster reads; enables full-text search; reduces Drive dependency                                                   | Content duplication; sync complexity; D1 grows with content; contradicts "Drive is canonical" principle |
+| **Content in R2**                                     | R2 handles large objects; no D1 size concern                                                                       | Still duplicated; R2 is not queryable; another sync layer                                               |
 
 **Recommendation:** Metadata-only in D1 + IndexedDB buffer (Option 1, refined with the three-tier save architecture). This is the architectural expression of PM Principle 2 and project instruction #3. The BA's concern about Drive read latency is addressed by IndexedDB caching on the client: after the first load, the chapter is in IndexedDB and subsequent opens do not require a Drive read (unless the server version is newer).
 
@@ -889,46 +908,47 @@ All routes are served by the `dc-api` Worker (Hono). All routes except `/auth/we
 
 ### Auth & User
 
-| Method | Path | Description | BA Story |
-|--------|------|-------------|----------|
-| POST | `/auth/webhook` | Clerk webhook: user created/updated/deleted events. Syncs user record to D1. | US-001 |
-| GET | `/users/me` | Returns current user profile, Drive connection status, and active project. | US-002, US-004 |
+| Method | Path            | Description                                                                  | BA Story       |
+| ------ | --------------- | ---------------------------------------------------------------------------- | -------------- |
+| POST   | `/auth/webhook` | Clerk webhook: user created/updated/deleted events. Syncs user record to D1. | US-001         |
+| GET    | `/users/me`     | Returns current user profile, Drive connection status, and active project.   | US-002, US-004 |
 
 ### Google Drive
 
-| Method | Path | Description | BA Story |
-|--------|------|-------------|----------|
-| GET | `/drive/authorize` | Returns Google OAuth authorization URL. Redirect-based flow only. | US-005 |
-| GET | `/drive/callback` | OAuth callback. Exchanges code for tokens, encrypts, stores in D1, redirects to app. | US-005 |
-| GET | `/drive/folders` | Lists folders in user's Drive root. Used for "Select Book Folder" UI. | US-006 |
-| GET | `/drive/folders/:folderId/children` | Lists subfolders of a given folder. For folder picker navigation. | US-006 |
-| POST | `/drive/folders` | Creates a new folder in Drive (for "Create New Folder" in folder picker). | US-006 |
-| DELETE | `/drive/connection` | Disconnects Google Drive. Revokes token, deletes from D1. Drive files untouched. | US-008 |
+| Method | Path                                | Description                                                                          | BA Story |
+| ------ | ----------------------------------- | ------------------------------------------------------------------------------------ | -------- |
+| GET    | `/drive/authorize`                  | Returns Google OAuth authorization URL. Redirect-based flow only.                    | US-005   |
+| GET    | `/drive/callback`                   | OAuth callback. Exchanges code for tokens, encrypts, stores in D1, redirects to app. | US-005   |
+| GET    | `/drive/folders`                    | Lists folders in user's Drive root. Used for "Select Book Folder" UI.                | US-006   |
+| GET    | `/drive/folders/:folderId/children` | Lists subfolders of a given folder. For folder picker navigation.                    | US-006   |
+| POST   | `/drive/folders`                    | Creates a new folder in Drive (for "Create New Folder" in folder picker).            | US-006   |
+| DELETE | `/drive/connection`                 | Disconnects Google Drive. Revokes token, deletes from D1. Drive files untouched.     | US-008   |
 
 **Change from Round 1:** Added `POST /drive/folders` to support the UX Lead's "Create New Folder" button in the folder picker (Step 4, point 4).
 
 ### Projects
 
-| Method | Path | Description | BA Story |
-|--------|------|-------------|----------|
-| POST | `/projects` | Creates a new book project. Accepts `{ title, description? }`. If Drive connected, links to Book Folder. Creates default "Chapter 1". | US-009 |
-| GET | `/projects` | Lists all projects for the current user. | US-009 |
-| GET | `/projects/:projectId` | Returns project details including chapter list with metadata. | US-009, US-012 |
-| PATCH | `/projects/:projectId` | Updates project title, description, or settings. | US-009 |
+| Method | Path                   | Description                                                                                                                           | BA Story       |
+| ------ | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| POST   | `/projects`            | Creates a new book project. Accepts `{ title, description? }`. If Drive connected, links to Book Folder. Creates default "Chapter 1". | US-009         |
+| GET    | `/projects`            | Lists all projects for the current user.                                                                                              | US-009         |
+| GET    | `/projects/:projectId` | Returns project details including chapter list with metadata.                                                                         | US-009, US-012 |
+| PATCH  | `/projects/:projectId` | Updates project title, description, or settings.                                                                                      | US-009         |
 
 ### Chapters
 
-| Method | Path | Description | BA Story |
-|--------|------|-------------|----------|
-| POST | `/projects/:projectId/chapters` | Creates a new chapter at end of list. Creates corresponding HTML file in Google Drive (if connected). Returns new chapter metadata. | US-010 |
-| GET | `/projects/:projectId/chapters` | Lists chapters for a project (metadata only: title, order, word count, status). | US-012 |
-| PATCH | `/chapters/:chapterId` | Updates chapter metadata (title, status). Title max 200 chars, non-empty. | US-013 |
-| GET | `/chapters/:chapterId/content` | Fetches chapter body content from Google Drive. Returns HTML. If Drive not connected, returns 404 with message to connect Drive. If chapter has no Drive file yet (written before Drive connection), returns content from the initial sync. | US-011 |
-| PUT | `/chapters/:chapterId/content` | Writes chapter body content to Google Drive. Accepts HTML + `version` header. Returns new version number. Rejects with 409 if version conflict. Updates word_count and updated_at in D1. | US-015 |
-| DELETE | `/chapters/:chapterId` | Deletes chapter from D1. Moves Drive file to trash (not permanent delete). Rejects if it is the last chapter in the project. Returns 400 with message. Query param `?keep_drive=true` to leave the Drive file untouched. | US-014 |
-| PATCH | `/projects/:projectId/chapters/reorder` | Batch-updates sort_order for multiple chapters. Accepts `[{ id, sort_order }]`. Single transaction. | UX Lead Step 6 (drag-to-reorder) |
+| Method | Path                                    | Description                                                                                                                                                                                                                                 | BA Story                         |
+| ------ | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| POST   | `/projects/:projectId/chapters`         | Creates a new chapter at end of list. Creates corresponding HTML file in Google Drive (if connected). Returns new chapter metadata.                                                                                                         | US-010                           |
+| GET    | `/projects/:projectId/chapters`         | Lists chapters for a project (metadata only: title, order, word count, status).                                                                                                                                                             | US-012                           |
+| PATCH  | `/chapters/:chapterId`                  | Updates chapter metadata (title, status). Title max 200 chars, non-empty.                                                                                                                                                                   | US-013                           |
+| GET    | `/chapters/:chapterId/content`          | Fetches chapter body content from Google Drive. Returns HTML. If Drive not connected, returns 404 with message to connect Drive. If chapter has no Drive file yet (written before Drive connection), returns content from the initial sync. | US-011                           |
+| PUT    | `/chapters/:chapterId/content`          | Writes chapter body content to Google Drive. Accepts HTML + `version` header. Returns new version number. Rejects with 409 if version conflict. Updates word_count and updated_at in D1.                                                    | US-015                           |
+| DELETE | `/chapters/:chapterId`                  | Deletes chapter from D1. Moves Drive file to trash (not permanent delete). Rejects if it is the last chapter in the project. Returns 400 with message. Query param `?keep_drive=true` to leave the Drive file untouched.                    | US-014                           |
+| PATCH  | `/projects/:projectId/chapters/reorder` | Batch-updates sort_order for multiple chapters. Accepts `[{ id, sort_order }]`. Single transaction.                                                                                                                                         | UX Lead Step 6 (drag-to-reorder) |
 
 **Changes from Round 1:**
+
 - `DELETE` endpoint now enforces "minimum one chapter" rule per BA US-014.
 - `DELETE` moves Drive file to trash (not permanent delete) per UX Lead Step 8 ("moved to Drive's trash, not permanently deleted").
 - `PUT /chapters/:chapterId/content` now updates `word_count` in D1 on every save (needed for the chapter list metadata display and export analytics).
@@ -936,13 +956,14 @@ All routes are served by the `dc-api` Worker (Hono). All routes except `/auth/we
 
 ### AI
 
-| Method | Path | Description | BA Story |
-|--------|------|-------------|----------|
-| POST | `/ai/rewrite` | Sends selected text + instruction + context to Claude API. Returns SSE stream. Enforces: min 1 word, max 2,000 words selected text; max 500 chars context each side. Rate limited: 10 req/min/user. | US-016, US-017 |
-| POST | `/ai/interactions/:interactionId/accept` | Records that the user accepted an AI suggestion. Updates ai_interactions log. | US-018 |
-| POST | `/ai/interactions/:interactionId/reject` | Records that the user rejected/discarded an AI suggestion. Updates ai_interactions log. | US-018 |
+| Method | Path                                     | Description                                                                                                                                                                                         | BA Story       |
+| ------ | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| POST   | `/ai/rewrite`                            | Sends selected text + instruction + context to Claude API. Returns SSE stream. Enforces: min 1 word, max 2,000 words selected text; max 500 chars context each side. Rate limited: 10 req/min/user. | US-016, US-017 |
+| POST   | `/ai/interactions/:interactionId/accept` | Records that the user accepted an AI suggestion. Updates ai_interactions log.                                                                                                                       | US-018         |
+| POST   | `/ai/interactions/:interactionId/reject` | Records that the user rejected/discarded an AI suggestion. Updates ai_interactions log.                                                                                                             | US-018         |
 
 **Changes from Round 1:**
+
 - Accept/reject endpoints now use the interaction ID as a path parameter (cleaner REST).
 - SSE streaming is specified as the required response format for `/ai/rewrite`.
 - Content length limits documented inline per BA OQ-11 recommendation.
@@ -951,13 +972,14 @@ All routes are served by the `dc-api` Worker (Hono). All routes except `/auth/we
 
 ### Export
 
-| Method | Path | Description | BA Story |
-|--------|------|-------------|----------|
-| POST | `/projects/:projectId/export` | Initiates export job. Accepts `{ format: "pdf" \| "epub" }`. Rejects if no chapters have content. Returns job ID and initial status. Rate limited: 5 req/min/user. Queues if another export is in progress (per BA export edge case). | US-019, US-020 |
-| GET | `/export/:jobId` | Returns export job status. When completed, includes a signed R2 download URL (1-hour expiry). | US-019, US-020 |
-| POST | `/export/:jobId/to-drive` | Uploads completed export artifact from R2 to user's Drive Book Folder `_exports/` subfolder. File named `{Book Title} - {YYYY-MM-DD}.{format}`. | US-021 |
+| Method | Path                          | Description                                                                                                                                                                                                                           | BA Story       |
+| ------ | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| POST   | `/projects/:projectId/export` | Initiates export job. Accepts `{ format: "pdf" \| "epub" }`. Rejects if no chapters have content. Returns job ID and initial status. Rate limited: 5 req/min/user. Queues if another export is in progress (per BA export edge case). | US-019, US-020 |
+| GET    | `/export/:jobId`              | Returns export job status. When completed, includes a signed R2 download URL (1-hour expiry).                                                                                                                                         | US-019, US-020 |
+| POST   | `/export/:jobId/to-drive`     | Uploads completed export artifact from R2 to user's Drive Book Folder `_exports/` subfolder. File named `{Book Title} - {YYYY-MM-DD}.{format}`.                                                                                       | US-021         |
 
 **Changes from Round 1:**
+
 - Export rejects if no chapters have content (per BA US-019: "Add content to at least one chapter before exporting").
 - File naming uses timestamp format per BA OQ-14 recommendation.
 - Sequential queuing for concurrent export attempts per BA export edge case.

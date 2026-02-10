@@ -83,13 +83,13 @@ DraftCrane follows the Business Validation Machine methodology. We are entering 
 
 Phase 0 delivers the minimum tool that lets an author write and export a book.
 
-| Feature | What It Delivers |
-|---------|-----------------|
-| **Auth system** | User can sign in and have a persistent account |
-| **Google Drive integration** | Connect via OAuth, select a Book Folder, read/write files |
-| **Basic editor** | Chapter-based manuscript writing with auto-save |
-| **Simple AI rewrite** | Select text, ask AI to rewrite, expand, or simplify with accept/reject |
-| **PDF/EPUB export** | One-click generation of book files saved to Book Folder |
+| Feature                      | What It Delivers                                                       |
+| ---------------------------- | ---------------------------------------------------------------------- |
+| **Auth system**              | User can sign in and have a persistent account                         |
+| **Google Drive integration** | Connect via OAuth, select a Book Folder, read/write files              |
+| **Basic editor**             | Chapter-based manuscript writing with auto-save                        |
+| **Simple AI rewrite**        | Select text, ask AI to rewrite, expand, or simplify with accept/reject |
+| **PDF/EPUB export**          | One-click generation of book files saved to Book Folder                |
 
 **Explicitly NOT in Phase 0:**
 Book Blueprint, outline generation, Craft buttons, Idea Inbox, Source Intelligence, collaboration, cover toolkit, structural guidance, consistency engine, or any feature from Phases 1-4.
@@ -153,35 +153,35 @@ High-level scope: Consistency engine, developmental editing feedback, multi-book
 
 These are non-negotiable. If we hit a kill criterion, we stop building and assess whether to pivot or shut down. No heroics, no "one more feature."
 
-| Trigger Point | Kill Criterion | How Measured |
-|--------------|---------------|-------------|
-| After prototype (Phase 0 complete) | No user completes a full chapter in their first session | Observe 5-10 test users in moderated or unmoderated sessions. Track chapter completion via application data (D1 project/chapter records). |
-| After market test (Phase 1 beta) | Fewer than 3 of 10 beta users return for a second session | Track unique user logins by date in D1. A "return" = a session on a different calendar day from the first session. |
-| After 90 days of beta availability | No signal of willingness to pay | Direct user interviews or survey. "Would you pay for this? How much?" Acceptable signals: explicit "yes" with a price, or unprompted complaint about losing access. |
+| Trigger Point                      | Kill Criterion                                            | How Measured                                                                                                                                                        |
+| ---------------------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| After prototype (Phase 0 complete) | No user completes a full chapter in their first session   | Observe 5-10 test users in moderated or unmoderated sessions. Track chapter completion via application data (D1 project/chapter records).                           |
+| After market test (Phase 1 beta)   | Fewer than 3 of 10 beta users return for a second session | Track unique user logins by date in D1. A "return" = a session on a different calendar day from the first session.                                                  |
+| After 90 days of beta availability | No signal of willingness to pay                           | Direct user interviews or survey. "Would you pay for this? How much?" Acceptable signals: explicit "yes" with a price, or unprompted complaint about losing access. |
 
 ### Phase 0 Metrics
 
 These are the metrics we can actually measure during Phase 0 with the infrastructure we will have.
 
-| Metric | Target | Data Source | Measurable in Phase 0? |
-|--------|--------|-------------|----------------------|
-| Core flow completion rate | 80%+ of test users complete sign-in through export | Moderated test sessions (observed) | Yes |
-| Time to first chapter draft | Under 2 hours from sign-in to a chapter with 500+ words | Session observation + D1 chapter metadata | Yes |
-| Export success rate | 100% of export attempts produce a valid file | Application logs | Yes |
-| iPad Safari usability | No critical blockers on iPad Safari | Manual QA testing | Yes |
-| User-reported confusion points | Fewer than 3 per test session | Session notes from moderated testing | Yes |
+| Metric                         | Target                                                  | Data Source                               | Measurable in Phase 0? |
+| ------------------------------ | ------------------------------------------------------- | ----------------------------------------- | ---------------------- |
+| Core flow completion rate      | 80%+ of test users complete sign-in through export      | Moderated test sessions (observed)        | Yes                    |
+| Time to first chapter draft    | Under 2 hours from sign-in to a chapter with 500+ words | Session observation + D1 chapter metadata | Yes                    |
+| Export success rate            | 100% of export attempts produce a valid file            | Application logs                          | Yes                    |
+| iPad Safari usability          | No critical blockers on iPad Safari                     | Manual QA testing                         | Yes                    |
+| User-reported confusion points | Fewer than 3 per test session                           | Session notes from moderated testing      | Yes                    |
 
 ### Post-Validation Metrics (Phase 1+)
 
 These metrics matter but cannot be reliably measured until we have a real user base.
 
-| Metric | Target | Data Source | Earliest Phase |
-|--------|--------|-------------|---------------|
-| Monthly active writing users | 60%+ retention month-over-month | D1 session/login data | Phase 1 (beta cohort) |
-| % of users who export at least one book file | 40%+ | D1 export records | Phase 1 |
-| Average chapters completed per user | 6+ | D1 chapter records | Phase 1 |
-| Net Promoter Score | 40+ | User survey | Phase 1 |
-| Willingness to pay | 3+ of 10 beta users express willingness | User interviews | Phase 2 (90-day mark) |
+| Metric                                       | Target                                  | Data Source           | Earliest Phase        |
+| -------------------------------------------- | --------------------------------------- | --------------------- | --------------------- |
+| Monthly active writing users                 | 60%+ retention month-over-month         | D1 session/login data | Phase 1 (beta cohort) |
+| % of users who export at least one book file | 40%+                                    | D1 export records     | Phase 1               |
+| Average chapters completed per user          | 6+                                      | D1 chapter records    | Phase 1               |
+| Net Promoter Score                           | 40+                                     | User survey           | Phase 1               |
+| Willingness to pay                           | 3+ of 10 beta users express willingness | User interviews       | Phase 2 (90-day mark) |
 
 ### What We Are Not Measuring in Phase 0
 
@@ -199,28 +199,28 @@ Risks are ordered by a combination of likelihood and impact. The first four risk
 
 ### High Priority
 
-| # | Risk | Likelihood | Impact | Mitigation |
-|---|------|-----------|--------|-----------|
-| 1 | **Prototype tests the wrong hypothesis.** We build Phase 0 and learn nothing because the test users are not representative of real target users, or because the test scenario does not reflect real authoring behavior. | High | Critical | Recruit test users who match the target profile (non-technical professionals with existing expertise and a desire to write a book). Design test scenarios around realistic tasks ("bring your actual notes and start a chapter"), not synthetic demos. Define what we want to learn before building. |
-| 2 | **Editor is not good enough on iPad Safari.** Rich text editing in mobile browsers is notoriously fragile. We pick an editor library that does not work well on iPad, and the core writing experience is broken. | High | Critical | The editor library decision (ADR-001) is the highest-risk technical decision in Phase 0. Evaluate candidates specifically on iPad Safari behavior before committing. Build a throwaway editor spike early to validate. |
-| 3 | **Google Drive sync causes data loss or confusion.** The sync strategy between DraftCrane and Drive introduces bugs where content is overwritten, duplicated, or lost. Users lose trust in the tool. | Medium | Critical | The Drive sync strategy (ADR-002) must be decided early and tested extensively. Start with the simplest possible approach (likely save-on-demand rather than real-time sync). Make the sync state visible to the user. Never silently overwrite. |
-| 4 | **Scope creep kills velocity.** We start adding "just one more small thing" to Phase 0 and never ship. | High | High | Phase 0 scope is locked to exactly five features (auth, Drive, editor, AI rewrite, export). The project instructions list explicit exclusions. Any proposed addition must be challenged: "Does this prevent us from learning what we need to learn?" |
+| #   | Risk                                                                                                                                                                                                                    | Likelihood | Impact   | Mitigation                                                                                                                                                                                                                                                                                           |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Prototype tests the wrong hypothesis.** We build Phase 0 and learn nothing because the test users are not representative of real target users, or because the test scenario does not reflect real authoring behavior. | High       | Critical | Recruit test users who match the target profile (non-technical professionals with existing expertise and a desire to write a book). Design test scenarios around realistic tasks ("bring your actual notes and start a chapter"), not synthetic demos. Define what we want to learn before building. |
+| 2   | **Editor is not good enough on iPad Safari.** Rich text editing in mobile browsers is notoriously fragile. We pick an editor library that does not work well on iPad, and the core writing experience is broken.        | High       | Critical | The editor library decision (ADR-001) is the highest-risk technical decision in Phase 0. Evaluate candidates specifically on iPad Safari behavior before committing. Build a throwaway editor spike early to validate.                                                                               |
+| 3   | **Google Drive sync causes data loss or confusion.** The sync strategy between DraftCrane and Drive introduces bugs where content is overwritten, duplicated, or lost. Users lose trust in the tool.                    | Medium     | Critical | The Drive sync strategy (ADR-002) must be decided early and tested extensively. Start with the simplest possible approach (likely save-on-demand rather than real-time sync). Make the sync state visible to the user. Never silently overwrite.                                                     |
+| 4   | **Scope creep kills velocity.** We start adding "just one more small thing" to Phase 0 and never ship.                                                                                                                  | High       | High     | Phase 0 scope is locked to exactly five features (auth, Drive, editor, AI rewrite, export). The project instructions list explicit exclusions. Any proposed addition must be challenged: "Does this prevent us from learning what we need to learn?"                                                 |
 
 ### Medium Priority
 
-| # | Risk | Likelihood | Impact | Mitigation |
-|---|------|-----------|--------|-----------|
-| 5 | **AI rewrite quality is poor.** The simple AI rewrite produces output that authors find unhelpful, generic, or off-voice. Users reject most suggestions. | Medium | High | Start with a narrow, high-quality set of rewrite operations (rewrite, expand, simplify) rather than a broad set of mediocre ones. Use Claude API with well-crafted prompts. Measure acceptance/rejection rate in testing. Prompt engineering is cheaper than architecture changes. |
-| 6 | **PDF/EPUB export produces unprofessional output.** The generated files look amateurish, and users do not trust them for real publishing. | Medium | Medium | "Professional" in Phase 0 means "good enough that a user would share it with an editor or beta reader." It does not mean "ready for Amazon KDP." Set expectations with test users. Choose an export library that produces clean, standard output. Defer advanced formatting to Phase 3. |
-| 7 | **Google Drive API rate limits or quota issues.** The Drive API has per-user and per-project quotas that could throttle the application under normal use. | Low | Medium | Design Drive access to minimize API calls (cache aggressively, batch reads). Monitor quota usage during testing. Cloudflare R2 serves as a caching layer. This is unlikely to be a problem at Phase 0 scale but should be designed for. |
-| 8 | **Users fear lock-in despite owning their files.** Even though files live in the user's Drive, users do not feel confident about this and hesitate to commit content. | Medium | Medium | Make file ownership visible in the UI. Show the user where their files live in Drive. Let them browse their Book Folder directly. The "no lock-in" principle must be experienced, not just claimed. |
+| #   | Risk                                                                                                                                                                  | Likelihood | Impact | Mitigation                                                                                                                                                                                                                                                                              |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 5   | **AI rewrite quality is poor.** The simple AI rewrite produces output that authors find unhelpful, generic, or off-voice. Users reject most suggestions.              | Medium     | High   | Start with a narrow, high-quality set of rewrite operations (rewrite, expand, simplify) rather than a broad set of mediocre ones. Use Claude API with well-crafted prompts. Measure acceptance/rejection rate in testing. Prompt engineering is cheaper than architecture changes.      |
+| 6   | **PDF/EPUB export produces unprofessional output.** The generated files look amateurish, and users do not trust them for real publishing.                             | Medium     | Medium | "Professional" in Phase 0 means "good enough that a user would share it with an editor or beta reader." It does not mean "ready for Amazon KDP." Set expectations with test users. Choose an export library that produces clean, standard output. Defer advanced formatting to Phase 3. |
+| 7   | **Google Drive API rate limits or quota issues.** The Drive API has per-user and per-project quotas that could throttle the application under normal use.             | Low        | Medium | Design Drive access to minimize API calls (cache aggressively, batch reads). Monitor quota usage during testing. Cloudflare R2 serves as a caching layer. This is unlikely to be a problem at Phase 0 scale but should be designed for.                                                 |
+| 8   | **Users fear lock-in despite owning their files.** Even though files live in the user's Drive, users do not feel confident about this and hesitate to commit content. | Medium     | Medium | Make file ownership visible in the UI. Show the user where their files live in Drive. Let them browse their Book Folder directly. The "no lock-in" principle must be experienced, not just claimed.                                                                                     |
 
 ### Lower Priority (Phase 1+ Concerns)
 
-| # | Risk | Likelihood | Impact | Mitigation |
-|---|------|-----------|--------|-----------|
-| 9 | **AI hallucinations in source-aware features.** When Source Intelligence is added in Phase 2, the AI may fabricate citations or misrepresent source material. | Medium | High | Not a Phase 0 risk (no source intelligence in Phase 0). When we build it: source linking, explicit attribution, and user verification before insertion. Never present AI-generated citations as verified. |
-| 10 | **Market is too small or too competitive.** The nonfiction-author-who-is-not-technical niche may not support a standalone product. | Medium | Critical | This is exactly what the BVM methodology is designed to answer. Phase 0 and the market test will tell us. If the kill criteria are met, we kill the product. That is a successful outcome of the validation process, not a failure. |
+| #   | Risk                                                                                                                                                          | Likelihood | Impact   | Mitigation                                                                                                                                                                                                                          |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 9   | **AI hallucinations in source-aware features.** When Source Intelligence is added in Phase 2, the AI may fabricate citations or misrepresent source material. | Medium     | High     | Not a Phase 0 risk (no source intelligence in Phase 0). When we build it: source linking, explicit attribution, and user verification before insertion. Never present AI-generated citations as verified.                           |
+| 10  | **Market is too small or too competitive.** The nonfiction-author-who-is-not-technical niche may not support a standalone product.                            | Medium     | Critical | This is exactly what the BVM methodology is designed to answer. Phase 0 and the market test will tell us. If the kill criteria are met, we kill the product. That is a successful outcome of the validation process, not a failure. |
 
 ---
 
@@ -235,6 +235,7 @@ The following five decisions are listed in the project instructions as requiring
 **Why it matters:** The editor is the core of the product. Authors will spend most of their time in it. A poor choice here means a poor writing experience, and switching editors later is extremely expensive (it touches every feature). iPad Safari compatibility is the make-or-break factor.
 
 **Key tradeoffs:**
+
 - Tiptap: Higher-level API, good community, built on ProseMirror. May abstract away control we need later.
 - ProseMirror: Battle-tested, maximum control. Steep learning curve, more code to write.
 - Lexical: Meta-backed, modern architecture. Younger ecosystem, less proven on iPad.
@@ -249,6 +250,7 @@ The following five decisions are listed in the project instructions as requiring
 **Why it matters:** This directly affects data integrity (Principle 2: the user's files are sacred) and perceived reliability. Get it wrong and users lose content or lose trust. Get it right and users never think about it.
 
 **Key tradeoffs:**
+
 - Real-time sync: Best UX when it works. Hard to build reliably. Conflict resolution is complex. Higher API usage.
 - Periodic sync (e.g., every 30 seconds): Simpler than real-time. Risk of losing up to 30 seconds of work. Still needs conflict handling.
 - Save-on-demand (explicit save or auto-save on pause): Simplest to build. Familiar mental model (like Google Docs auto-save). Lowest API usage. Requires clear save-state indicator.
@@ -262,6 +264,7 @@ The following five decisions are listed in the project instructions as requiring
 **Why it matters:** This affects cost visibility, rate limiting, caching, and the ability to swap models later. AI Gateway adds observability but also adds a dependency and potential latency.
 
 **Key tradeoffs:**
+
 - Direct Anthropic API: Simpler architecture. Full control over prompts and responses. No middleware latency. Harder to monitor usage and costs at scale.
 - Cloudflare AI Gateway: Built-in logging, caching, rate limiting, and analytics. Adds a hop. Ties us to Cloudflare's gateway implementation. May limit prompt/response flexibility.
 
@@ -274,6 +277,7 @@ The following five decisions are listed in the project instructions as requiring
 **Why it matters:** Export quality is the payoff moment for the user. If the exported file looks bad or the generation fails, the entire product promise is broken. The choice also affects architecture — server-side generation has different constraints (Worker memory/CPU limits) than client-side (browser compatibility, large file handling).
 
 **Key tradeoffs:**
+
 - Server-side: Consistent output regardless of browser. Can use Node-based libraries. Subject to Worker resource limits (CPU time, memory). Easier to iterate on templates without client updates.
 - Client-side: No server cost. Works offline (post-validation concern). Limited library options in the browser. Output may vary by browser.
 - Library options: Need specific evaluation. EPUB is relatively straightforward (it is zipped HTML). PDF is harder (layout engine needed).
@@ -285,6 +289,7 @@ The following five decisions are listed in the project instructions as requiring
 **Why it matters:** This is the architectural expression of Principle 2 (no lock-in). The answer determines what happens when a user stops using DraftCrane, what happens if our database fails, and how we handle the boundary between "our data" and "their data."
 
 **Key tradeoffs:**
+
 - Maximally in Drive: The manuscript, chapter files, and project metadata all live as files in Google Drive. D1 stores only indexes, caches, and session data. Pro: strongest no-lock-in story. Con: more API calls, slower reads, harder to query.
 - Hybrid: Manuscript content lives in Drive. Project structure, AI interaction history, and settings live in D1. Pro: good performance, reasonable lock-in story. Con: some user data is in our database.
 - Minimally in Drive: Drive is used only for final exports. Working content lives in D1. Pro: fastest, simplest development. Con: contradicts the core "your files, your cloud" promise.
@@ -293,4 +298,4 @@ The following five decisions are listed in the project instructions as requiring
 
 ---
 
-*End of Product Manager contribution. This document is one input to the PRD rewrite. It does not represent final decisions on architecture, design, or engineering approach.*
+_End of Product Manager contribution. This document is one input to the PRD rewrite. It does not represent final decisions on architecture, design, or engineering approach._

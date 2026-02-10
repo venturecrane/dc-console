@@ -13,11 +13,13 @@
 **Mission:** Remove process friction so subject-matter experts can focus on writing, not tools. Turn scattered expertise into structured, publishable authority.
 
 **What DraftCrane Is:**
+
 - A guided writing environment for nonfiction authors
 - A source-to-manuscript pipeline that connects to the author's own cloud storage
 - An AI writing partner that respects the author's voice, sources, and ownership
 
 **What DraftCrane Is Not:**
+
 - Not a general-purpose word processor (Google Docs already exists)
 - Not a fiction/creative writing tool (Scrivener owns that)
 - Not an AI ghostwriter (the author writes; the AI assists)
@@ -42,6 +44,7 @@ We are entering **Design → Prototype**. The goal is to reach a functional writ
 ### Kill Criteria
 
 DraftCrane gets killed if:
+
 - After prototype: No user completes a full chapter in their first session
 - After market test: Fewer than 3 of 10 beta users return for a second session
 - After 90 days: No signal of willingness to pay
@@ -66,29 +69,29 @@ These are real. No heroics, no "one more feature."
 
 DraftCrane inherits the Venture Crane standard stack. Deviations require an ADR (Architecture Decision Record) with justification.
 
-| Layer | Choice | Notes |
-|-------|--------|-------|
-| **Frontend** | Next.js + Tailwind | Deployed on Cloudflare Pages or Vercel |
-| **Backend** | Cloudflare Workers (Hono) | AI orchestration, document processing |
-| **Database** | Cloudflare D1 | Indexing, metadata, user projects |
-| **Object Storage** | Cloudflare R2 | Image caching, export artifacts |
-| **Cache** | Cloudflare KV | Session data, fast lookups |
-| **Auth** | Clerk | When user accounts are needed |
-| **File Storage** | Google Drive (user's account) | Canonical manuscript storage via OAuth |
-| **AI** | Anthropic Claude API | Writing partner, source intelligence |
-| **AI Agents** | Claude Code SDK | Custom agents for drafting, source analysis, consistency checks |
-| **Export** | PDF/EPUB generation library | TBD during Phase 0 |
-| **Repo** | GitHub (draftcrane org) | All code, issues, PRs |
-| **CI/CD** | GitHub Actions | Lint, typecheck, test, deploy |
+| Layer              | Choice                        | Notes                                                           |
+| ------------------ | ----------------------------- | --------------------------------------------------------------- |
+| **Frontend**       | Next.js + Tailwind            | Deployed on Cloudflare Pages or Vercel                          |
+| **Backend**        | Cloudflare Workers (Hono)     | AI orchestration, document processing                           |
+| **Database**       | Cloudflare D1                 | Indexing, metadata, user projects                               |
+| **Object Storage** | Cloudflare R2                 | Image caching, export artifacts                                 |
+| **Cache**          | Cloudflare KV                 | Session data, fast lookups                                      |
+| **Auth**           | Clerk                         | When user accounts are needed                                   |
+| **File Storage**   | Google Drive (user's account) | Canonical manuscript storage via OAuth                          |
+| **AI**             | Anthropic Claude API          | Writing partner, source intelligence                            |
+| **AI Agents**      | Claude Code SDK               | Custom agents for drafting, source analysis, consistency checks |
+| **Export**         | PDF/EPUB generation library   | TBD during Phase 0                                              |
+| **Repo**           | GitHub (draftcrane org)       | All code, issues, PRs                                           |
+| **CI/CD**          | GitHub Actions                | Lint, typecheck, test, deploy                                   |
 
 ### Resource Naming Conventions
 
-| Resource | Pattern | Example |
-|----------|---------|---------|
-| D1 Database | `dc-{purpose}` | `dc-main`, `dc-sessions` |
-| R2 Bucket | `dc-{purpose}` | `dc-exports`, `dc-images` |
-| KV Namespace | `dc-{purpose}` | `dc-cache` |
-| Worker | `dc-{service}` | `dc-api`, `dc-ai` |
+| Resource     | Pattern        | Example                   |
+| ------------ | -------------- | ------------------------- |
+| D1 Database  | `dc-{purpose}` | `dc-main`, `dc-sessions`  |
+| R2 Bucket    | `dc-{purpose}` | `dc-exports`, `dc-images` |
+| KV Namespace | `dc-{purpose}` | `dc-cache`                |
+| Worker       | `dc-{service}` | `dc-api`, `dc-ai`         |
 
 ---
 
@@ -145,11 +148,11 @@ workers/dc-api/
 
 DraftCrane starts at **Golden Path Tier 1** (Validation):
 
-| Requirement | Status |
-|-------------|--------|
-| GitHub repo with CI | Done |
-| CLAUDE.md | Done |
-| TypeScript + ESLint | Template includes it |
+| Requirement          | Status               |
+| -------------------- | -------------------- |
+| GitHub repo with CI  | Done                 |
+| CLAUDE.md            | Done                 |
+| TypeScript + ESLint  | Template includes it |
 | No hardcoded secrets | Infisical configured |
 
 Graduate to **Tier 2** after market validation. Tier 2 adds Sentry, full CI/CD pipeline, branch protection, and uptime monitoring. Don't gold-plate before validation.
@@ -157,6 +160,7 @@ Graduate to **Tier 2** after market validation. Tier 2 adds Sentry, full CI/CD p
 ### Definition of Ready
 
 An issue is READY for development when:
+
 - GitHub Issue exists with acceptance criteria
 - Acceptance criteria are specific and testable
 - `status:ready` label applied
@@ -165,6 +169,7 @@ An issue is READY for development when:
 ### Definition of Done
 
 An issue is DONE when:
+
 - PR merged to main
 - All acceptance criteria verified
 - Deployed to production
@@ -178,11 +183,11 @@ An issue is DONE when:
 
 Every dev session follows the Crane workflow:
 
-| Command | When | What |
-|---------|------|------|
-| `/sod` | Start of session | Load context, see priorities, orient |
-| `/update` | During session | Sync progress mid-session |
-| `/eod` | End of session | Create handoff for next session |
+| Command   | When             | What                                 |
+| --------- | ---------------- | ------------------------------------ |
+| `/sod`    | Start of session | Load context, see priorities, orient |
+| `/update` | During session   | Sync progress mid-session            |
+| `/eod`    | End of session   | Create handoff for next session      |
 
 ### Issue Lifecycle
 
@@ -216,6 +221,7 @@ From the PRD, Phase 0 delivers a functional writing + export tool:
 - **PDF/EPUB export** — One-click generation saved to Book Folder
 
 **Explicitly NOT in Phase 0:**
+
 - Book Blueprint
 - Outline generation
 - Craft buttons
@@ -244,22 +250,26 @@ These should be resolved via ADRs as development begins:
 ## 8) What Belongs Where
 
 ### In dc-console (this repo)
+
 - Product requirements, specs, ADRs
 - Application source code
 - Infrastructure config (wrangler.toml, CI workflows)
 - Process documentation
 
 ### In crane-console (shared infrastructure)
+
 - Crane Relay, Classifier, Context worker code
 - Cross-venture standards and templates
 - Venture setup tooling
 
 ### In GitHub Issues
+
 - All work items, bugs, feature requests
 - Sprint planning and prioritization
 - Acceptance criteria and verification evidence
 
 ### NOT in this codebase
+
 - Strategic business decisions (Apple Notes / Captain's Log)
 - Entity/legal matters (SMDurgan LLC governance)
 - Marketing copy, brand assets (separate when needed)

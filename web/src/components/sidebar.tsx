@@ -72,9 +72,7 @@ export function Sidebar({
   if (collapsed) {
     // Collapsed state - show only a pill indicator
     const activeChapter = sortedChapters.find((ch) => ch.id === activeChapterId);
-    const activeIndex = activeChapter
-      ? sortedChapters.indexOf(activeChapter) + 1
-      : 1;
+    const activeIndex = activeChapter ? sortedChapters.indexOf(activeChapter) + 1 : 1;
 
     return (
       <button
@@ -152,9 +150,7 @@ export function Sidebar({
               </div>
               <span
                 className={`ml-2 text-xs tabular-nums ${
-                  isActive
-                    ? "text-blue-700 dark:text-blue-300"
-                    : "text-muted-foreground"
+                  isActive ? "text-blue-700 dark:text-blue-300" : "text-muted-foreground"
                 }`}
               >
                 {formatWordCount(chapter.wordCount)}w
@@ -224,16 +220,10 @@ export function SidebarOverlay({
   return (
     <div className="fixed inset-0 z-50 lg:hidden">
       {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/50"
-        onClick={onClose}
-        aria-hidden="true"
-      />
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} aria-hidden="true" />
 
       {/* Sidebar container */}
-      <div className="absolute left-0 top-0 bottom-0 w-[280px] max-w-[85vw]">
-        {children}
-      </div>
+      <div className="absolute left-0 top-0 bottom-0 w-[280px] max-w-[85vw]">{children}</div>
     </div>
   );
 }

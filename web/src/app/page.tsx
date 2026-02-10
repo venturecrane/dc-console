@@ -14,9 +14,7 @@ export default function LandingPage() {
     <div className="flex min-h-dvh flex-col items-center justify-center bg-white px-6 py-12">
       <main className="flex max-w-xl flex-col items-center text-center">
         {/* Logo/Title */}
-        <h1 className="mb-2 text-4xl font-semibold tracking-tight text-gray-900">
-          DraftCrane
-        </h1>
+        <h1 className="mb-2 text-4xl font-semibold tracking-tight text-gray-900">DraftCrane</h1>
 
         {/* Tagline */}
         <p className="mb-8 text-xl text-gray-600">
@@ -27,9 +25,9 @@ export default function LandingPage() {
 
         {/* Description */}
         <p className="mb-10 max-w-md text-lg leading-relaxed text-gray-700">
-          Write and organize your nonfiction book in one place. Get AI help when you need it.
-          Export to PDF or EPUB when you are ready. Your chapters stay in your Google Drive,
-          where they belong.
+          Write and organize your nonfiction book in one place. Get AI help when you need it. Export
+          to PDF or EPUB when you are ready. Your chapters stay in your Google Drive, where they
+          belong.
         </p>
 
         {/* CTA Button - 44pt minimum touch target for iPad */}

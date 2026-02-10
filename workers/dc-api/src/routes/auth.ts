@@ -42,8 +42,11 @@ auth.post("/webhook", async (c) => {
     case "user.created":
     case "user.updated": {
       const { id, email_addresses, first_name, last_name } = data;
-      const primaryEmail = email_addresses?.find((e) => e.id === data.primary_email_address_id)?.email_address;
-      const displayName = [first_name, last_name].filter(Boolean).join(" ") || primaryEmail || "User";
+      const primaryEmail = email_addresses?.find(
+        (e) => e.id === data.primary_email_address_id,
+      )?.email_address;
+      const displayName =
+        [first_name, last_name].filter(Boolean).join(" ") || primaryEmail || "User";
 
       if (!primaryEmail) {
         console.error("User has no primary email:", id);

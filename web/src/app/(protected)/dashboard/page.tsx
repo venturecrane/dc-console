@@ -135,11 +135,10 @@ export default function DashboardPage() {
       )}
 
       <div className="text-center max-w-md">
-        <h1 className="text-2xl font-semibold text-foreground mb-2">
-          Welcome to DraftCrane
-        </h1>
+        <h1 className="text-2xl font-semibold text-foreground mb-2">Welcome to DraftCrane</h1>
         <p className="text-muted-foreground mb-8">
-          Start writing your book with a chapter-based editor, AI assistance, and automatic saving to Google Drive.
+          Start writing your book with a chapter-based editor, AI assistance, and automatic saving
+          to Google Drive.
         </p>
 
         <Link

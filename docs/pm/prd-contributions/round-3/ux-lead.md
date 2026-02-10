@@ -169,6 +169,7 @@ This journey maps the complete Phase 0 experience from first visit to first PDF 
 **Design note:** The BA's US-001 includes email/password as a secondary path, which must exist. But the visual hierarchy must make the Google button the dominant action. Reasons: (a) every target user has a Google account, (b) it reduces friction by one step, (c) it primes the user for the Google Drive connection that follows.
 
 **Friction points:**
+
 - If the OAuth permission screen asks for too many scopes, users will hesitate. At sign-in, request only authentication scopes via Clerk. Do not request Drive access here. That comes later, in context, when the user understands why (ref: Tech Lead Flow A, BA US-005 business rules).
 - On iPad Safari, the OAuth popup behavior can be unpredictable. Use redirect-based OAuth flow, not popup-based, to avoid Safari's popup blocker (ref: BA US-005 acceptance criteria, Tech Lead Section 3.4 specifying redirect-only).
 
@@ -181,6 +182,7 @@ This journey maps the complete Phase 0 experience from first visit to first PDF 
 **Relevant:** BA US-009 (Create a Project). Tech Lead: `POST /projects`.
 
 **What the user sees:** A focused, single-purpose screen: "Let's set up your book." Two fields:
+
 1. Book title (text input, placeholder: "e.g., The Operational Leader")
 2. A brief description of your book (textarea, optional, placeholder: "e.g., A practical guide for managers who want to build systems, not just manage people." -- 1-2 sentences.)
 
@@ -198,11 +200,13 @@ No audience field. No tone picker. No length target. Those belong to Phase 1 (Bo
 **What the system does:** Creates a project record in D1 via `POST /projects`. Creates a default chapter: "Chapter 1" with an empty document via `POST /projects/:projectId/chapters`. Navigates the user to the Writing Environment.
 
 **Addressing the "empty project" concern:** The Target Customer and Competitor Analyst both warned that a blank project feels deflating. Phase 0 cannot solve this fully (Source Intelligence is Phase 2), but the design mitigates it in three ways:
+
 1. The project setup is fast (two fields, one button) so the user does not spend time configuring without writing.
 2. The Drive connection prompt follows immediately, signaling that DraftCrane cares about the user's existing content.
 3. The first-time tooltip in the Writing Environment includes guidance to paste existing content: "Have existing notes? Just paste them into a chapter to get started."
 
 **Friction points:**
+
 - Marcus might hesitate at "book title" because his title is not final. The "You can change this anytime" helper text addresses this.
 - Diane might overthink the description. Keeping it optional prevents blocking.
 
@@ -223,6 +227,7 @@ The text is chosen carefully. The Target Customer's primary concern is file safe
 **What the user does (Marcus):** He taps "Connect Google Drive" because he wants his book in his own cloud.
 
 **What the system does (on connect):**
+
 1. Frontend calls `GET /drive/authorize`. The API returns a Google OAuth URL with `drive.file` scope.
 2. Safari redirects to Google's consent screen. The consent screen says: "DraftCrane will be able to see, edit, create, and delete only the files you use with this app." (Google's standard wording for `drive.file`.)
 3. User taps "Allow." Google redirects to `GET /drive/callback`. The API exchanges the code for tokens and stores them encrypted in D1 (`drive_connections` table).
@@ -246,6 +251,7 @@ The text is chosen carefully. The Target Customer's primary concern is file safe
 When the user eventually connects Drive, DraftCrane syncs all existing chapter content from IndexedDB to the new Drive folder. The user is informed: "Your chapters have been saved to Google Drive."
 
 **Friction points:**
+
 - The Target Customer said: "I do not want to upload my intellectual property to some startup's server and pray they do not go out of business." The "Maybe later" state where content lives only in the browser's IndexedDB directly undermines this concern. The messaging must be transparent and slightly urgent (without blocking): "Your work is currently saved on this device only. Connect Google Drive to keep your files in your own cloud."
 - Folder creation via auto-create is simple but the user cannot select an existing folder. For Marcus (who has an existing "Book Project" folder), this is slightly frustrating -- but his existing files are not accessible to DraftCrane under `drive.file` scope anyway. See Unresolved Issues for the scope tension around existing folders.
 
@@ -266,6 +272,7 @@ When the user eventually connects Drive, DraftCrane syncs all existing chapter c
 **Revised placeholder text:** The placeholder reads "Start writing, or paste your existing notes here..." instead of the Round 2 "Start writing here..." This acknowledges the Target Customer's reality (she has existing content) and provides a concrete action (paste). It is one sentence of text, costs nothing to implement, and communicates that DraftCrane expects the user to bring existing material.
 
 A brief first-time tooltip or coaching overlay (3 steps max, dismissible):
+
 - "This is your chapter. Start writing or paste your existing notes."
 - "Use the sidebar to add and switch between chapters."
 - "Select any text and tap the AI button to improve it."
@@ -275,6 +282,7 @@ A brief first-time tooltip or coaching overlay (3 steps max, dismissible):
 **What the system does:** The editor is ready. Auto-save begins silently. The sidebar is interactive.
 
 **Friction points:**
+
 - If the editor looks too minimal, Diane might wonder "is this it?" The design needs to feel intentional, not unfinished. Clean typography, good spacing, and a professional feel communicate quality. The Competitor Analyst emphasized this via Vellum's design-first philosophy (Section 4.3): "The writing environment should feel calm, focused, and intentionally designed."
 - If the sidebar takes up too much space on iPad, it competes with the writing area. See the Sidebar Behavior section in Information Architecture below for responsive rules.
 - The formatting toolbar must not interfere with iPadOS's own text formatting bar. Test for conflicts with the Smart Keyboard's shortcut bar.
@@ -306,6 +314,7 @@ A brief first-time tooltip or coaching overlay (3 steps max, dismissible):
 - **Paste handling (critical for existing-content users):** When Marcus copies 2,000 words from an existing Google Doc and pastes into a DraftCrane chapter, the editor preserves supported formatting (bold, italic, headings, lists, block quotes) and silently strips unsupported formatting (tables, images, colored text, custom fonts). No notification is shown for stripped formatting in Phase 0 (ref: BA US-011 edge case, resolved as "silent strip"). This must be tested thoroughly: paste from Google Docs in Safari, paste from Apple Notes, paste from email. The paste experience is the primary manual migration path for users with existing content.
 
 **Friction points:**
+
 - Auto-save feedback is critical. Both Diane and Marcus have anxiety about losing work. The "Saved" indicator must be visible but not distracting. It appears in the same place every time (right side of toolbar) so users build trust through repetition.
 - Marcus presses Cmd+S out of habit. This triggers an immediate save and the "Saved" indicator updates. No "you don't need to save" message. Just let it work (ref: BA US-011, US-015).
 - The virtual keyboard on iPad consumes roughly 40-50% of the screen in portrait mode. The editor must scroll properly so the cursor and current line of text are always visible above the keyboard. Use the `visualViewport` API to detect keyboard presence and adjust layout. This is a common failure in web-based editors on iPad -- test relentlessly.
@@ -326,6 +335,7 @@ The floating bar is separate from the native menu to avoid fighting with iPadOS'
 **What the user does:** Selects a paragraph or sentence she is unhappy with. Taps "AI Rewrite."
 
 **What the user sees (request):** A compact bottom sheet slides up from the bottom of the screen. The bottom sheet shows:
+
 - **Header:** "Rewrite this passage"
 - **The selected text** displayed in a quoted block (scrollable if long), slightly muted in color
 - **Instruction input:** A text field with placeholder text: "How should I change this?" Below the field, a row of suggestion chips: "Simpler language" | "More concise" | "More conversational" | "Stronger" | "Expand"
@@ -336,29 +346,34 @@ The suggestion chips are Phase 0's lightweight version of Phase 1's Craft Button
 **What the user does:** Diane taps the "Simpler language" chip. Or Marcus types "more conversational, like a mentor talking to a peer" in the instruction field. The chips and freeform text field are not mutually exclusive -- the user can tap a chip, then edit the text in the instruction field to refine it.
 
 **What the system does:**
+
 1. Frontend sends `POST /ai/rewrite` with: `chapter_id`, `selected_text`, `instruction` (chip label or freeform text), and `surrounding_context` (500 chars before and after the selection, per Tech Lead Flow C).
 2. The API validates the request (auth, ownership, content length limits: max 2,000 words selected per BA US-016; rate limit: 10 req/min/user per Tech Lead).
 3. The API builds a Claude prompt and sends it to the Anthropic API (direct integration, per Tech Lead ADR-003).
 4. The response streams back via SSE (Server-Sent Events). The frontend begins displaying the rewritten text token by token in the bottom sheet.
 
 **What the user sees (loading/streaming):**
+
 - The bottom sheet shows "Rewriting..." with a subtle animation.
 - Within 1-2 seconds (Tech Lead performance target: first token < 2 seconds), the rewritten text begins appearing word by word in the bottom sheet.
 - The streaming display reduces perceived wait time. The user watches the AI "write" rather than staring at a spinner.
 
 **What the user sees (review):** The bottom sheet now shows:
+
 - **Original text:** collapsible section (tappable header "Original" with a chevron), collapsed by default to save space
 - **Rewritten text:** prominently displayed in a card or highlighted block
 - **Actions:** "Use This" (primary button, prominent color) | "Try Again" (secondary) | "Discard" (tertiary/text-only link, less prominent)
 - "Use This" and "Discard" are separated by at least 16pt of space to prevent mis-taps. Both are minimum 48pt tall (ref: BA US-018 acceptance criteria).
 
 **If the user taps "Try Again":**
+
 - The instruction input reappears. The previous instruction is still populated. The user can edit it ("Simpler language" becomes "Simpler language and more concise. About half the length.").
 - She taps "Rewrite" again. New SSE stream. New result appears.
 - The original text is always preserved until "Use This" is explicitly tapped. "Try Again" never loses the original.
 - There is no limit on "Try Again" iterations (ref: BA US-018 business rules). Each iteration is a new API call subject to rate limiting.
 
 **If the user taps "Use This":**
+
 - The bottom sheet animates closed (or appears instantly if `prefers-reduced-motion` is enabled).
 - In the editor, the original text is replaced with the rewritten version. A brief visual highlight (subtle background color flash lasting approximately 1 second) marks the replaced text to orient the user.
 - The text is now part of the document. Auto-save triggers (Flow B).
@@ -366,13 +381,16 @@ The suggestion chips are Phase 0's lightweight version of Phase 1's Craft Button
 - CRITICAL: This action is undoable. Cmd+Z (or undo button) reverts to the original text. The user must never feel that accepting an AI rewrite is permanent (ref: BA US-018, Target Customer Section 2).
 
 **If the user taps "Discard":**
+
 - The bottom sheet closes. The original text remains unchanged. Nothing happened.
 - The frontend calls `POST /ai/interactions/:interactionId/reject` to log the rejection.
 
 **If the user taps elsewhere in the editor without choosing:**
+
 - The bottom sheet closes. Original text is preserved. Treated as a discard (ref: BA US-018).
 
 **Friction points:**
+
 - Text selection on iPad Safari is finicky. Long-press selects a word; dragging handles is imprecise. The AI Rewrite floating bar must appear reliably and not interfere with selection handles. Test with paragraphs of varying length.
 - If the user selects text while the virtual keyboard is open, the keyboard should dismiss first, then the bottom sheet appears. The editor should scroll to keep the selected text visible above the bottom sheet.
 - Loading time target: first token < 2 seconds, complete rewrite of 500 words < 15 seconds (Tech Lead Section 3.2). Streaming text ensures the user sees progress immediately.
@@ -409,6 +427,7 @@ The suggestion chips are Phase 0's lightweight version of Phase 1's Craft Button
 **What the user does:** Diane taps "Export" then "Export Book as PDF."
 
 **What the system does:**
+
 1. Frontend calls `POST /projects/:projectId/export` with `{ format: "pdf" }`. Returns a job ID. If no chapters have content, the request is rejected with: "Add content to at least one chapter before exporting." (ref: BA US-019.)
 2. Frontend polls `GET /export/:jobId` for status.
 3. Shows a loading state in the export area: "Generating your PDF..." with a progress indicator.
@@ -429,6 +448,7 @@ If Drive is connected, both options are available. If Drive is not connected, on
 **What the user sees (result):** After "Save to Google Drive": "Saved to Google Drive: [filename]" with a "View in Drive" link. After "Download": standard browser download behavior (on iPad, the file goes to the Files app).
 
 **Export quality standard:** The PDF must look like a book, not a printed web page. The Competitor Analyst (Section 4.2) and Target Customer both emphasize this. Even in Phase 0 with a single default template:
+
 - Title page: centered book title and author name
 - Table of contents with chapter names
 - Chapter starts on a new page
@@ -440,6 +460,7 @@ If Drive is connected, both options are available. If Drive is not connected, on
 This is the "artifact moment" where the user sees their work as a real book for the first time. Diane will feel a surge of motivation. Marcus will share it with a colleague. The psychological impact is outsized relative to the engineering effort. The PM's minimum quality bar: "good enough that an author would share this with a trusted colleague or developmental editor without apologizing for how it looks" (PM Section 7, ADR-004).
 
 **Friction points:**
+
 - PDF generation must be fast enough. Target < 10 seconds for a 10-chapter book, < 30 seconds for a large manuscript. Show a progress indicator so the user knows something is happening.
 - On iPad Safari, browser downloads go to the Files app with subtle notification. When Drive is connected, "Save to Google Drive" should be the recommended/default action, with "Download" as secondary.
 - The EPUB must be valid EPUB 3.0 and open correctly in Apple Books (ref: BA US-020). Test on actual iPad with Apple Books.
@@ -492,6 +513,7 @@ The Writing Environment is a single screen with regions, not multiple screens:
 **Primary navigation:** Sidebar chapter list. Tapping a chapter loads it in the editor. The active chapter is visually highlighted.
 
 **Secondary navigation:**
+
 - Toolbar: Export, Settings (gear icon).
 - Settings contains: Google Drive connection/management, Account, Sign Out.
 - If multi-project: a book-switching dropdown in the toolbar or sidebar header.
@@ -501,6 +523,7 @@ The Writing Environment is a single screen with regions, not multiple screens:
 ### Sidebar Behavior
 
 **Content:**
+
 - Book title (displayed at top, tappable for multi-book switching if supported)
 - Ordered list of chapters (name, word count in muted text below name)
 - Drag handle icon on each chapter item (three horizontal lines, visible on touch-hold)
@@ -509,6 +532,7 @@ The Writing Environment is a single screen with regions, not multiple screens:
 - Total word count at the bottom of the chapter list in muted text
 
 **Responsive behavior:**
+
 - **iPad Landscape (1024pt+ width):** Sidebar is persistent, occupying approximately 240-280pt on the left. Collapsible via a toggle button (hamburger icon) at the top of the sidebar. When collapsed, the editor expands to full width. (ref: BA US-012 responsive rules.)
 - **iPad Portrait (768pt width):** Sidebar is hidden by default. A small persistent indicator shows at the left edge: a tab or pill showing the current chapter name/number (e.g., "Ch 3") that the user can tap or swipe-right to reveal the sidebar. When revealed, the sidebar overlays the editor (does not push it). Tap outside or swipe left to dismiss. This ensures the user always knows which chapter they are in, even with the sidebar collapsed.
 - **Desktop (1200pt+ width):** Sidebar is persistent. Same as iPad landscape, with more room.
@@ -520,6 +544,7 @@ The editor occupies all horizontal space not taken by the sidebar. Content is ce
 ### Minimum Viable Navigation Summary
 
 The user needs exactly four navigation actions in Phase 0:
+
 1. Switch between chapters (sidebar)
 2. Reorder chapters (drag in sidebar)
 3. Export their book (toolbar)
@@ -543,12 +568,14 @@ Everything else happens inside the editor.
 ### Keyboard Handling
 
 **Virtual keyboard (on-screen):**
+
 - When the virtual keyboard appears, it typically occupies 40-50% of the screen in portrait mode and 30-40% in landscape.
 - The editor must resize or scroll so that the cursor and active line of text are always visible above the keyboard. Use the `visualViewport` API to detect keyboard presence and adjust layout (ref: Tech Lead NFR Section 3.1).
 - The formatting toolbar must remain accessible when the keyboard is open. Keep it pinned at the top of the screen (the editor area between toolbar and keyboard is the writing zone).
 - The AI Rewrite bottom sheet must account for keyboard state. If the user triggers AI Rewrite with the keyboard open, the keyboard should dismiss first (since the user is now reviewing, not typing), then the bottom sheet appears.
 
 **External keyboard (Smart Keyboard Folio, Magic Keyboard):**
+
 - When an external keyboard is connected, the virtual keyboard does not appear. The full screen is available for the editor.
 - Support standard keyboard shortcuts: Cmd+B (bold), Cmd+I (italic), Cmd+Z (undo), Cmd+Shift+Z (redo), Cmd+S (save -- triggers immediate save and updates indicator).
 - The formatting toolbar should show keyboard shortcut hints on hover/long-press for discoverability but should not require them.
@@ -594,6 +621,7 @@ Rationale: DraftCrane's Writing Environment needs screen real estate. Supporting
 This section supplements the journey map with edge cases and recovery patterns.
 
 **Edge cases and recovery:**
+
 - If the user taps "Cancel" during Google OAuth, Safari returns to DraftCrane with Drive not connected. The banner reappears on next visit. No error message -- just the same gentle prompt.
 - If OAuth succeeds but folder creation fails (network issue, Drive API error), show: "We could not create your book folder. Tap to try again." The user is not left in a half-connected state. Either the connection is complete (tokens + folder) or it is rolled back (tokens are revoked, user sees "Not Connected").
 - If the user later wants to change their Book Folder, they can do so from Settings. Changing the folder means creating a new one and migrating existing chapter files to the new location.
@@ -627,6 +655,7 @@ This section supplements the journey map with Marcus's detailed writing workflow
 8. At the end of his session, he has 4 chapters with content, 6,500+ total words, and a visible sense of progress he has never had before in his book project.
 
 **Formatting model (Phase 0 minimum):**
+
 - Bold, Italic (toggle)
 - Headings: H1 (chapter title only, auto-applied), H2, H3
 - Bullet list, Numbered list
@@ -667,6 +696,7 @@ Diane is working on Chapter 3 of her leadership book. She has written a paragrap
 10. She continues writing. If she decides the rewrite was wrong, Cmd+Z restores the original.
 
 **Important interaction details:**
+
 - The original text is preserved through unlimited "Try Again" cycles until "Use This" is explicitly tapped.
 - "Use This" is always undoable via Cmd+Z.
 - The suggestion chips and freeform text field are not mutually exclusive. The user can tap a chip, then edit the text in the instruction field to refine it.
@@ -792,6 +822,7 @@ The following are genuine disagreements or ambiguities that require human decisi
 The Target Customer (Dr. Chen) and Marcus both want to select an existing folder. Marcus has a "Book Project" folder he wants to use. Under `drive.file` scope, that folder is invisible to DraftCrane.
 
 **Options:**
+
 - **Option A (auto-create):** DraftCrane creates a new folder named after the book title. Simplest, avoids the scope limitation.
 - **Option B (Google Picker API):** Use Google's Picker API to let the user browse and select folders. This works with `drive.file` because the user explicitly selects the folder.
 - **Option C (broader scope):** Request `drive.readonly` or `drive` scope for folder listing. Addresses the problem but requests more access than needed, which conflicts with the minimal-scope principle.
@@ -807,6 +838,7 @@ The Target Customer (Dr. Chen) and Marcus both want to select an existing folder
 **The risk:** If a user writes 5,000 words before connecting Drive and then clears their browser data, that content is gone. IndexedDB is browser-local storage that can be evicted.
 
 **Options:**
+
 - **IndexedDB only:** Simplest. User is warned their content is device-only. Content syncs to Drive on connection.
 - **Server-side temporary store (D1 or R2):** Content is saved server-side even without Drive. More durable but creates the "content on someone else's server" scenario the product promises to avoid.
 

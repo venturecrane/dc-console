@@ -40,15 +40,17 @@
 ### 1A. General Writing Tools
 
 #### Google Docs
+
 - **Pricing:** Free (with Google account); Google Workspace from $7/user/month
 - **Target User:** Everyone. Default writing tool for non-technical professionals.
 - **Key Strengths:** Zero friction to start. Real-time collaboration. Runs everywhere including iPad Safari. The user's files are already here. Google's Gemini AI features are integrated for rewriting and drafting. Version history is robust and trusted.
 - **Key Weaknesses:** No book structure. No chapter organization beyond manual heading hierarchy. No export to EPUB. PDF export is basic (no trim sizes, no professional book layout). No awareness of "a book" as a concept -- it is a blank page that happens to be long. AI features are generic, not tuned for long-form or book writing.
 - **Platform:** Web (all browsers), iOS/Android apps, offline via Chrome
 - **Threat Level to DraftCrane:** HIGH. Not because it is a good book-writing tool, but because it is where every DraftCrane target user currently lives. The switching cost is emotional and habitual, not financial.
-- **Persona connection:** Dr. Sarah Chen has her entire book scattered across 40 Google Docs. Diane Mercer's "Book Draft v3 - REAL ONE" is a 47-page Google Doc. Marcus Chen has 12 subfolders with 3-15 docs each. Google Docs is not the competitor -- it is the current reality. DraftCrane must work *with* it, not ask users to leave it.
+- **Persona connection:** Dr. Sarah Chen has her entire book scattered across 40 Google Docs. Diane Mercer's "Book Draft v3 - REAL ONE" is a 47-page Google Doc. Marcus Chen has 12 subfolders with 3-15 docs each. Google Docs is not the competitor -- it is the current reality. DraftCrane must work _with_ it, not ask users to leave it.
 
 #### Microsoft Word
+
 - **Pricing:** Microsoft 365 Personal $6.99/month or $69.99/year; one-time purchase ~$149.99
 - **Target User:** Office workers, academics, traditional publishing authors
 - **Key Strengths:** Industry standard for manuscript submission to traditional publishers. Mature formatting. Track changes for editor collaboration. Copilot AI integration for rewriting.
@@ -57,6 +59,7 @@
 - **Threat Level to DraftCrane:** LOW. DraftCrane's target personas (Diane, Marcus, Dr. Chen) are Google Docs users, not Word users. Word users headed to traditional publishing have a different workflow entirely.
 
 #### Notion
+
 - **Pricing:** Free tier (limited); Plus $10/month; Business $18/month
 - **Target User:** Knowledge workers, project managers, teams
 - **Key Strengths:** Excellent organizational structure (databases, nested pages, toggles). Good for research collection and outlining. AI features for summarizing and rewriting. Strong on iPad.
@@ -68,6 +71,7 @@
 ### 1B. Book Writing Tools
 
 #### Scrivener
+
 - **Pricing:** One-time purchase. Mac: $49. Windows: $49. iOS: $23.99. No subscription.
 - **Target User:** Serious writers (fiction and nonfiction). Power users who want deep organizational control.
 - **Key Strengths:** The gold standard for manuscript organization. Binder (hierarchical document tree), Corkboard (index card view), Outliner, Snapshots (version history), Split editor, Research folder for imported materials, Compile system for flexible export to multiple formats, full offline capability, one-time purchase.
@@ -77,6 +81,7 @@
 - **Persona connection:** Dr. Sarah Chen "downloaded it on my MacBook, spent 45 minutes staring at the interface, and closed it. I do not need a corkboard. I need someone to help me figure out which of my 200 pages of notes belong in Chapter 1 versus Chapter 7 versus the trash." This is the definitive Scrivener rejection story for DraftCrane's target user. The problem is not that Scrivener is bad -- it is that its power requires investment that non-technical professionals will not make. Dr. Chen's 45-minute abandonment matches the ubiquitous complaint pattern.
 
 #### Atticus
+
 - **Pricing:** One-time purchase: $147.99. No subscription.
 - **Target User:** Self-publishing authors who want writing + formatting in one tool.
 - **Key Strengths:** Browser-based (works on any device including iPad). Combined writing and formatting in one tool. Professional book formatting with templates. EPUB and print-ready PDF export. Chapter-based organization. Clean, modern UI. Offline support via PWA. One-time purchase.
@@ -86,6 +91,7 @@
 - **Round 2 reassessment:** After reading the UX personas and Target Customer feedback, I am revising Atticus's threat level down. Atticus's core user is a self-publishing author who has a completed manuscript and needs to format and publish it. DraftCrane's personas (Diane, Marcus, Dr. Chen) are at an earlier stage: they have scattered expertise and need to organize, write, and polish. Atticus does not solve the "40 documents in chaos" problem. It does not help with the "I do not know how to structure a nonfiction book" problem. DraftCrane and Atticus overlap on "browser-based chapter editor with export," but the user journey starts in a fundamentally different place. That said, Atticus remains a comparison point for export quality and a price anchor.
 
 #### Vellum
+
 - **Pricing:** One-time purchase. Ebook-only: $249.99. Ebook + Print: $349.99.
 - **Target User:** Self-publishing authors focused on professional-quality book formatting and design.
 - **Key Strengths:** The most beautiful book formatting tool available. Gorgeous templates. WYSIWYG preview of final book layout. Ebook and print formatting that rivals traditional publishers.
@@ -94,6 +100,7 @@
 - **Threat Level to DraftCrane:** LOW for Phase 0. Vellum's design quality sets the bar for what self-published authors expect their output to look like. Given the Technical Lead's analysis of PDF generation constraints in Workers (no filesystem, no headless browser, 128 MB memory limit), DraftCrane's Phase 0 export will fall well short of Vellum quality. This is not a crisis because DraftCrane's personas are not yet at the formatting stage, but it must be acknowledged.
 
 #### Reedsy Book Editor
+
 - **Pricing:** Free.
 - **Target User:** Self-publishing authors looking for a free, no-friction writing and formatting tool.
 - **Key Strengths:** Completely free. Browser-based. Clean editor. Chapter organization. Export to EPUB and PDF with decent formatting. Part of the Reedsy marketplace ecosystem. Simple and approachable.
@@ -105,6 +112,7 @@
 ### 1C. AI Writing Assistants
 
 #### ChatGPT / Claude (direct use)
+
 - **Pricing:** ChatGPT Plus: $20/month. Claude Pro: $20/month. Free tiers available.
 - **Target User:** Everyone.
 - **Key Strengths:** Extremely capable at rewriting, expanding, simplifying, brainstorming. No learning curve for basic use. Many aspiring authors already use ChatGPT to help with writing. Flexible -- can do anything you ask.
@@ -114,6 +122,7 @@
 - **Persona connection:** Dr. Sarah Chen pays $20/month for ChatGPT Plus and reports: "It gives me something that reads like a textbook written by a committee. It strips out everything that makes my frameworks mine." Diane Mercer uses ChatGPT in a third Safari tab, copy-pasting paragraphs back and forth, and after 45 minutes has written approximately 200 words of net-new content. Marcus Chen's experience: "The result is too casual. He asks for a revision. The third attempt is usable but needs editing." All three personas use ChatGPT. All three are dissatisfied. But none have stopped using it because there is nothing better integrated. This is DraftCrane's opening.
 
 #### Sudowrite
+
 - **Pricing:** Subscription. Hobby & Student: $19/month. Professional: $29/month. Max: $59/month.
 - **Target User:** Fiction writers primarily. Creative writers who want AI to help with prose, description, dialogue, and plot.
 - **Key Strengths:** Purpose-built for creative writing. "Story Engine" can generate chapters from outlines. Deeply embedded AI integration. Tone and style matching.
@@ -126,6 +135,7 @@
 These are tools the Target Customer actually uses or has considered. Round 1 missed them because they are not "writing tools" per se, but they are part of the competitive spend and workflow DraftCrane needs to displace.
 
 #### Grammarly Premium
+
 - **Pricing:** ~$12/month (individual), ~$15/member/month (business)
 - **Target User:** Professionals and writers who want grammar checking, clarity suggestions, and style improvement.
 - **Key Strengths:** Excellent at sentence-level polish. Works inline across many apps. Tone detection. Plagiarism checker. Chrome extension means it works inside Google Docs.
@@ -134,6 +144,7 @@ These are tools the Target Customer actually uses or has considered. Round 1 mis
 - **Threat Level to DraftCrane:** Not a direct competitor, but part of the incumbent spend. Dr. Sarah Chen pays $12/month for Grammarly. DraftCrane's AI rewrite features partially overlap with Grammarly's clarity and simplification features. If DraftCrane's AI quality is good enough, it could replace Grammarly for in-manuscript editing, making the effective switching cost lower (user replaces $32/month of tools -- ChatGPT + Grammarly -- with one DraftCrane subscription).
 
 #### Otter.ai
+
 - **Pricing:** Free tier available. Pro: ~$10/month. Business: ~$20/month.
 - **Target User:** Professionals who want to transcribe meetings, lectures, or spoken ideas.
 - **Key Strengths:** Real-time transcription. Good accuracy. Integration with Zoom and other meeting tools.
@@ -167,31 +178,32 @@ The five most relevant competitors for DraftCrane's target user -- grounded in t
 4. **Reedsy Book Editor** (free browser-based alternative)
 5. **Notion + AI** (organizational alternative some users try)
 
-| Feature | DraftCrane Phase 0 | Docs + ChatGPT + Grammarly | Atticus | Scrivener | Reedsy Editor | Notion + AI |
-|---|---|---|---|---|---|---|
-| **Browser-based** | Yes | Yes (3 separate tools) | Yes | No (iOS app, not browser) | Yes | Yes |
-| **iPad-optimized** | Yes (primary target) | Partial (3 separate apps) | Yes | Partial (iOS app is limited) | Partial (not optimized) | Yes |
-| **Chapter-based structure** | Yes | No (manual headings) | Yes | Yes (excellent) | Yes | Manual |
-| **AI writing assistance** | Yes (basic rewrite) | Yes (copy-paste workflow) | No | No | No | Yes (basic) |
-| **Integrated AI (in-editor)** | Yes | No (separate tool) | No | No | No | Yes (limited) |
-| **PDF export (book-quality)** | Basic (see Tech Lead constraints) | No (basic PDF only) | Yes (professional) | Yes (via Compile) | Yes (decent) | No |
-| **EPUB export** | Yes | No | Yes | Yes | Yes | No |
-| **Cloud file ownership** | Yes (Google Drive) | Yes (Google Drive) | No (Atticus storage) | Partial (local files) | No (Reedsy storage) | No (Notion storage) |
-| **Source material integration** | No (Phase 2) | No (manual multi-doc) | No | Yes (Research folder) | No | Partial (link pages) |
-| **Book Blueprint / style guide** | No (Phase 1) | No | No | No | No | No |
-| **Outline generation** | No (Phase 1) | Manual via ChatGPT | No | No | No | Manual via Notion AI |
-| **Professional formatting templates** | No (Phase 3) | No | Yes (good) | Yes (via Compile) | Yes (limited) | No |
-| **Collaboration** | No (Phase 2) | Yes (Docs: excellent) | No | No | No (share links only) | Yes (excellent) |
-| **Offline support** | No | Partial (Docs offline) | Yes (PWA) | Yes (native) | No | Partial |
-| **Version history** | No (Phase 0) | Yes (Docs, trusted) | No | Yes (Snapshots) | No | Yes |
-| **Auto-save** | Yes | Yes | Yes | Manual + auto | Yes | Yes |
-| **Existing file organization** | View only (Drive listing) | N/A (files are already there) | No | Manual import | No | Manual |
-| **Undo AI changes** | Yes (Cmd+Z per Tech Lead) | Yes (manual, Docs history) | N/A | N/A | N/A | Yes |
-| **Monthly cost** | TBD (free in beta) | ~$32/mo (ChatGPT + Grammarly) | One-time $147.99 | One-time $49 | Free | $10+/month |
+| Feature                               | DraftCrane Phase 0                | Docs + ChatGPT + Grammarly    | Atticus              | Scrivener                    | Reedsy Editor           | Notion + AI          |
+| ------------------------------------- | --------------------------------- | ----------------------------- | -------------------- | ---------------------------- | ----------------------- | -------------------- |
+| **Browser-based**                     | Yes                               | Yes (3 separate tools)        | Yes                  | No (iOS app, not browser)    | Yes                     | Yes                  |
+| **iPad-optimized**                    | Yes (primary target)              | Partial (3 separate apps)     | Yes                  | Partial (iOS app is limited) | Partial (not optimized) | Yes                  |
+| **Chapter-based structure**           | Yes                               | No (manual headings)          | Yes                  | Yes (excellent)              | Yes                     | Manual               |
+| **AI writing assistance**             | Yes (basic rewrite)               | Yes (copy-paste workflow)     | No                   | No                           | No                      | Yes (basic)          |
+| **Integrated AI (in-editor)**         | Yes                               | No (separate tool)            | No                   | No                           | No                      | Yes (limited)        |
+| **PDF export (book-quality)**         | Basic (see Tech Lead constraints) | No (basic PDF only)           | Yes (professional)   | Yes (via Compile)            | Yes (decent)            | No                   |
+| **EPUB export**                       | Yes                               | No                            | Yes                  | Yes                          | Yes                     | No                   |
+| **Cloud file ownership**              | Yes (Google Drive)                | Yes (Google Drive)            | No (Atticus storage) | Partial (local files)        | No (Reedsy storage)     | No (Notion storage)  |
+| **Source material integration**       | No (Phase 2)                      | No (manual multi-doc)         | No                   | Yes (Research folder)        | No                      | Partial (link pages) |
+| **Book Blueprint / style guide**      | No (Phase 1)                      | No                            | No                   | No                           | No                      | No                   |
+| **Outline generation**                | No (Phase 1)                      | Manual via ChatGPT            | No                   | No                           | No                      | Manual via Notion AI |
+| **Professional formatting templates** | No (Phase 3)                      | No                            | Yes (good)           | Yes (via Compile)            | Yes (limited)           | No                   |
+| **Collaboration**                     | No (Phase 2)                      | Yes (Docs: excellent)         | No                   | No                           | No (share links only)   | Yes (excellent)      |
+| **Offline support**                   | No                                | Partial (Docs offline)        | Yes (PWA)            | Yes (native)                 | No                      | Partial              |
+| **Version history**                   | No (Phase 0)                      | Yes (Docs, trusted)           | No                   | Yes (Snapshots)              | No                      | Yes                  |
+| **Auto-save**                         | Yes                               | Yes                           | Yes                  | Manual + auto                | Yes                     | Yes                  |
+| **Existing file organization**        | View only (Drive listing)         | N/A (files are already there) | No                   | Manual import                | No                      | Manual               |
+| **Undo AI changes**                   | Yes (Cmd+Z per Tech Lead)         | Yes (manual, Docs history)    | N/A                  | N/A                          | N/A                     | Yes                  |
+| **Monthly cost**                      | TBD (free in beta)                | ~$32/mo (ChatGPT + Grammarly) | One-time $147.99     | One-time $49                 | Free                    | $10+/month           |
 
 ### Honest Assessment of Phase 0 Position (Revised)
 
 **Where DraftCrane Phase 0 wins:**
+
 - Integrated AI writing assistance in a book-aware editor (only tool combining these)
 - Cloud file ownership (user keeps their files in Google Drive -- unique positioning)
 - Designed specifically for iPad Safari as primary target (not an afterthought)
@@ -199,6 +211,7 @@ The five most relevant competitors for DraftCrane's target user -- grounded in t
 - Accept/reject preview for AI changes addresses Dr. Chen's core fear about voice preservation
 
 **Where DraftCrane Phase 0 loses:**
+
 - **Export quality** vs. Atticus and Vellum. Technical Lead confirmed: Workers constraints (no filesystem, no headless browser, 128 MB memory) mean Phase 0 PDF will be basic at best. The Target Customer said export should "look professional without me doing any formatting." This is a bar DraftCrane may not clear in Phase 0.
 - **Existing content organization** vs. the user's status quo. Dr. Chen's primary need is sorting 200 pages of existing notes. Phase 0 cannot do this. The user will connect Google Drive and see their files listed, but DraftCrane cannot analyze, categorize, or import them until Phase 2.
 - **Version history** vs. Google Docs. Dr. Chen explicitly flagged this: "If DraftCrane does not have [version history] in Phase 0, I will feel unsafe making changes." Google Docs' version history is a trusted safety net that DraftCrane Phase 0 does not replicate.
@@ -275,6 +288,7 @@ Dr. Chen: "What would bring me back for a second session: The feeling that my bo
 This means the competitive battle in Phase 0 is not about AI quality or export formatting. It is about whether DraftCrane makes the book feel organized and achievable. The chapter sidebar, the structured project, the auto-save trust, the ability to see your chapters as discrete, manageable units -- these are the Phase 0 differentiators against the chaos of Google Drive.
 
 **Phase 0 competitive strategy:**
+
 1. Win on organization and structure (chapter sidebar, project container, visible progress).
 2. Win on trust (auto-save indicator, Google Drive visibility, undo for AI changes).
 3. Be adequate on AI (rewrite/expand/simplify that is at least as good as copy-pasting to ChatGPT).
@@ -341,19 +355,19 @@ The Technical Lead's auto-save specification (debounced at 5 seconds, with "Savi
 
 ### 4.6 Common User Complaints DraftCrane Can Address (Updated with Persona References)
 
-| Complaint | Source | Persona Reference | How DraftCrane Addresses It |
-|---|---|---|---|
-| "I bought Scrivener but never figured it out" | Scrivener | Dr. Chen: "spent 45 minutes staring at the interface and closed it" | Simpler, guided UI; no learning curve |
-| "My book is 40 documents in Google Drive with no structure" | Google Docs | Dr. Chen: 40 docs, 200 pages; Marcus: 12 subfolders | Chapter-based structure; Drive connection (organization help in Phase 2) |
-| "I keep copy-pasting into ChatGPT" | ChatGPT + Docs | Diane: 3-tab workflow; Marcus: paste-revise-paste cycle; Dr. Chen: "strips out my voice" | AI integrated directly in the editor |
-| "ChatGPT doesn't sound like me" | ChatGPT | Dr. Chen: "reads like a textbook written by a committee" | Phase 0: instruction chips for tone guidance. Phase 1: Book Blueprint voice matching |
-| "I can't find which document has the latest version" | Google Docs | Marcus: "four partial drafts of Chapter 3 and no clear canonical version" | One canonical chapter per project; auto-save |
-| "I'm terrified of losing my work" | Various | Dr. Chen: explicit fear about WiFi in hotels; Marcus: "has lost work before" | Auto-save to Drive + IndexedDB crash recovery |
-| "If this startup disappears, what happens to my book?" | DraftCrane risk | Dr. Chen: "kill criteria" anxiety | Files in user's Google Drive; standard HTML format (per Tech Lead) |
-| "I don't know if my book looks professional" | Google Docs, Word | Dr. Chen: "something I could show to a publisher without embarrassment" | Professional-quality export (basic in Phase 0; polished in Phase 3) |
-| "I spent a Saturday setting up Notion and did no writing" | Notion | Dr. Chen: "spent an entire Saturday afternoon setting up databases and templates" | Structure without setup; two-field project creation |
-| "My iPad makes multi-tab workflows painful" | Safari on iPad | Diane: three tabs open, losing her place between them | Single-app experience; all tools in one writing environment |
-| "I write in bursts and then can't remember where I left off" | All tools | Dr. Chen: "three weeks" between sessions, loses momentum | Chapter list shows state; last-edited chapter loads on return |
+| Complaint                                                    | Source            | Persona Reference                                                                        | How DraftCrane Addresses It                                                          |
+| ------------------------------------------------------------ | ----------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| "I bought Scrivener but never figured it out"                | Scrivener         | Dr. Chen: "spent 45 minutes staring at the interface and closed it"                      | Simpler, guided UI; no learning curve                                                |
+| "My book is 40 documents in Google Drive with no structure"  | Google Docs       | Dr. Chen: 40 docs, 200 pages; Marcus: 12 subfolders                                      | Chapter-based structure; Drive connection (organization help in Phase 2)             |
+| "I keep copy-pasting into ChatGPT"                           | ChatGPT + Docs    | Diane: 3-tab workflow; Marcus: paste-revise-paste cycle; Dr. Chen: "strips out my voice" | AI integrated directly in the editor                                                 |
+| "ChatGPT doesn't sound like me"                              | ChatGPT           | Dr. Chen: "reads like a textbook written by a committee"                                 | Phase 0: instruction chips for tone guidance. Phase 1: Book Blueprint voice matching |
+| "I can't find which document has the latest version"         | Google Docs       | Marcus: "four partial drafts of Chapter 3 and no clear canonical version"                | One canonical chapter per project; auto-save                                         |
+| "I'm terrified of losing my work"                            | Various           | Dr. Chen: explicit fear about WiFi in hotels; Marcus: "has lost work before"             | Auto-save to Drive + IndexedDB crash recovery                                        |
+| "If this startup disappears, what happens to my book?"       | DraftCrane risk   | Dr. Chen: "kill criteria" anxiety                                                        | Files in user's Google Drive; standard HTML format (per Tech Lead)                   |
+| "I don't know if my book looks professional"                 | Google Docs, Word | Dr. Chen: "something I could show to a publisher without embarrassment"                  | Professional-quality export (basic in Phase 0; polished in Phase 3)                  |
+| "I spent a Saturday setting up Notion and did no writing"    | Notion            | Dr. Chen: "spent an entire Saturday afternoon setting up databases and templates"        | Structure without setup; two-field project creation                                  |
+| "My iPad makes multi-tab workflows painful"                  | Safari on iPad    | Diane: three tabs open, losing her place between them                                    | Single-app experience; all tools in one writing environment                          |
+| "I write in bursts and then can't remember where I left off" | All tools         | Dr. Chen: "three weeks" between sessions, loses momentum                                 | Chapter list shows state; last-edited chapter loads on return                        |
 
 ---
 
@@ -363,14 +377,15 @@ The Technical Lead's auto-save specification (debounced at 5 seconds, with "Savi
 
 This is more valuable than abstract pricing benchmarks. Dr. Sarah Chen's current tool spend:
 
-| Tool | Monthly Cost | What It Does | Satisfaction |
-|---|---|---|---|
-| ChatGPT Plus | $20/month | AI rewriting, brainstorming | Low ("strips out my voice") |
-| Grammarly Premium | $12/month | Sentence-level polish | Moderate (useful, not transformative) |
-| Scrivener (sunk cost) | $49 one-time | Purchased, abandoned in 2 hours | Wasted money |
-| **Total monthly spend** | **$32/month** | Fragmented, frustrating | Low overall |
+| Tool                    | Monthly Cost  | What It Does                    | Satisfaction                          |
+| ----------------------- | ------------- | ------------------------------- | ------------------------------------- |
+| ChatGPT Plus            | $20/month     | AI rewriting, brainstorming     | Low ("strips out my voice")           |
+| Grammarly Premium       | $12/month     | Sentence-level polish           | Moderate (useful, not transformative) |
+| Scrivener (sunk cost)   | $49 one-time  | Purchased, abandoned in 2 hours | Wasted money                          |
+| **Total monthly spend** | **$32/month** | Fragmented, frustrating         | Low overall                           |
 
-She has also *considered* but not purchased:
+She has also _considered_ but not purchased:
+
 - Otter.ai at $10/month (voice capture)
 - A book coach at $150-300/hour
 
@@ -378,29 +393,29 @@ She has also *considered* but not purchased:
 
 Direct from Dr. Chen's contribution:
 
-| Price Point | Reaction |
-|---|---|
-| $19-29/month | "No-brainer. Would not even check the receipt." |
-| $49/month | "Would want to feel like I am getting significant value every month." |
-| $79/month | "Would need to believe this is genuinely replacing a book coach." |
-| $99+/month | "Would not pay. Would hire a human instead." |
-| $199/year | "No-brainer if the tool is good." |
-| $349/year | "Reasonable for a serious writing tool." |
-| $500+/year | "Would hesitate." |
+| Price Point  | Reaction                                                              |
+| ------------ | --------------------------------------------------------------------- |
+| $19-29/month | "No-brainer. Would not even check the receipt."                       |
+| $49/month    | "Would want to feel like I am getting significant value every month." |
+| $79/month    | "Would need to believe this is genuinely replacing a book coach."     |
+| $99+/month   | "Would not pay. Would hire a human instead."                          |
+| $199/year    | "No-brainer if the tool is good."                                     |
+| $349/year    | "Reasonable for a serious writing tool."                              |
+| $500+/year   | "Would hesitate."                                                     |
 
 ### What Competitors Charge (Unchanged Summary)
 
-| Tool | Model | Price |
-|---|---|---|
-| Google Docs | Free / Subscription | Free ($7/mo for Workspace) |
-| Scrivener | One-time | $49 (Mac/Win), $23.99 (iOS) |
-| Atticus | One-time | $147.99 |
-| Vellum | One-time | $249.99 - $349.99 |
-| Reedsy Editor | Free | $0 |
-| Sudowrite | Subscription | $19-59/month |
-| Notion | Freemium | Free - $18/month |
-| ChatGPT Plus | Subscription | $20/month |
-| Grammarly Premium | Subscription | ~$12/month |
+| Tool              | Model               | Price                       |
+| ----------------- | ------------------- | --------------------------- |
+| Google Docs       | Free / Subscription | Free ($7/mo for Workspace)  |
+| Scrivener         | One-time            | $49 (Mac/Win), $23.99 (iOS) |
+| Atticus           | One-time            | $147.99                     |
+| Vellum            | One-time            | $249.99 - $349.99           |
+| Reedsy Editor     | Free                | $0                          |
+| Sudowrite         | Subscription        | $19-59/month                |
+| Notion            | Freemium            | Free - $18/month            |
+| ChatGPT Plus      | Subscription        | $20/month                   |
+| Grammarly Premium | Subscription        | ~$12/month                  |
 
 ### Pricing Recommendation (Revised)
 
@@ -410,12 +425,13 @@ Phase 0 is a validation exercise. The kill criteria are about engagement, not re
 
 **For Phase 1 onward: Two tiers.**
 
-| Tier | Price | What Is Included |
-|---|---|---|
-| **Free** | $0 | Basic chapter editor, Google Drive connection, 10 AI rewrites/month, PDF export (basic template) |
-| **Pro** | $24/month ($199/year) | Unlimited AI rewrites, Book Blueprint, Craft Buttons, all export formats, priority support, Idea Inbox |
+| Tier     | Price                 | What Is Included                                                                                       |
+| -------- | --------------------- | ------------------------------------------------------------------------------------------------------ |
+| **Free** | $0                    | Basic chapter editor, Google Drive connection, 10 AI rewrites/month, PDF export (basic template)       |
+| **Pro**  | $24/month ($199/year) | Unlimited AI rewrites, Book Blueprint, Craft Buttons, all export formats, priority support, Idea Inbox |
 
 **Rationale for $24/month:**
+
 - Below the Target Customer's "no-brainer" threshold of $29/month.
 - Below the combined ChatGPT + Grammarly spend of $32/month -- DraftCrane is cheaper than the tools it replaces.
 - The $199/year annual price hits the Target Customer's "no-brainer" annual threshold exactly.
@@ -423,6 +439,7 @@ Phase 0 is a validation exercise. The kill criteria are about engagement, not re
 - Below the "have to think about it" threshold of $49/month by a wide margin.
 
 **What NOT to do:**
+
 - Do not charge more than $29/month. The Target Customer explicitly said this is the ceiling for "not thinking about it."
 - Do not offer only a one-time purchase. AI compute costs make this unsustainable, and the Target Customer explicitly understands subscriptions.
 - Do not gate Google Drive integration behind the paid tier. File ownership is a core principle, not a premium feature. If users cannot save to Drive for free, the "no lock-in" promise rings hollow.
@@ -455,7 +472,7 @@ Do not use any of these words in user-facing materials: platform, workflow, pipe
 "DraftCrane is a book editor that runs in your browser -- no installation, no learning curve. Chapters in a sidebar, AI help when you need it, one-click export."
 
 **When a user says "Why not just use Atticus?":**
-"Atticus is great for formatting a finished manuscript. DraftCrane helps you *write* that manuscript -- with AI assistance, source integration, and your files in your own Google Drive."
+"Atticus is great for formatting a finished manuscript. DraftCrane helps you _write_ that manuscript -- with AI assistance, source integration, and your files in your own Google Drive."
 
 **When a user says "It's free in Reedsy":**
 "Reedsy is a good free option. DraftCrane adds AI that helps you write better and faster, connects to your existing Google Drive files, and builds toward a tool that understands your book's voice and sources."
@@ -464,29 +481,29 @@ Do not use any of these words in user-facing materials: platform, workflow, pipe
 
 ## Appendix A: Competitor Quick-Reference Card (Updated)
 
-| Decision | Key Competitor Benchmark |
-|---|---|
-| "How should the editor feel?" | Atticus (clean, approachable) + Vellum (design-first) |
-| "How should AI be integrated?" | Sudowrite (contextual actions) via UX Lead's bottom sheet + instruction chips pattern |
-| "How should chapter organization work?" | Scrivener (binder sidebar) simplified for non-technical users |
-| "What should export output look like?" | Atticus (minimum bar), Vellum (aspiration). If Workers constraints limit PDF, a well-formatted Google Doc is acceptable for Phase 0. |
-| "What is the user doing today without us?" | Google Docs + ChatGPT + Grammarly (~$32/month, fragmented, frustrating) |
-| "What did the user try and abandon?" | Scrivener (too complex), Notion (setup without writing), ChatGPT (voice-stripping) |
-| "What free alternative will they compare us to?" | Reedsy Book Editor (matters less for DraftCrane's professional target segment) |
-| "What price anchors exist in their mind?" | ChatGPT $20/mo, Grammarly $12/mo, Scrivener $49 one-time, Atticus $148 one-time, "no-brainer" at $29/mo |
-| "What is the real competition?" | The user's existing Google Drive folder chaos -- 40 docs, no structure, no progress |
+| Decision                                         | Key Competitor Benchmark                                                                                                             |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| "How should the editor feel?"                    | Atticus (clean, approachable) + Vellum (design-first)                                                                                |
+| "How should AI be integrated?"                   | Sudowrite (contextual actions) via UX Lead's bottom sheet + instruction chips pattern                                                |
+| "How should chapter organization work?"          | Scrivener (binder sidebar) simplified for non-technical users                                                                        |
+| "What should export output look like?"           | Atticus (minimum bar), Vellum (aspiration). If Workers constraints limit PDF, a well-formatted Google Doc is acceptable for Phase 0. |
+| "What is the user doing today without us?"       | Google Docs + ChatGPT + Grammarly (~$32/month, fragmented, frustrating)                                                              |
+| "What did the user try and abandon?"             | Scrivener (too complex), Notion (setup without writing), ChatGPT (voice-stripping)                                                   |
+| "What free alternative will they compare us to?" | Reedsy Book Editor (matters less for DraftCrane's professional target segment)                                                       |
+| "What price anchors exist in their mind?"        | ChatGPT $20/mo, Grammarly $12/mo, Scrivener $49 one-time, Atticus $148 one-time, "no-brainer" at $29/mo                              |
+| "What is the real competition?"                  | The user's existing Google Drive folder chaos -- 40 docs, no structure, no progress                                                  |
 
 ## Appendix B: Cross-Reference Index (New in Round 2)
 
-| This Document References | Source |
-|---|---|
-| Diane Mercer persona (52, leadership consultant, iPad Pro) | UX Lead, Section 1 |
-| Marcus Chen persona (44, executive coach, iPad Air) | UX Lead, Section 1 |
-| Dr. Sarah Chen (Target Customer, management consultant, iPad Pro) | Target Customer, all sections |
-| Kill criteria (chapter completion, return visits, willingness to pay) | PM, Section 5 |
-| AI rewrite user stories (US-016, US-017, US-018) | Business Analyst, Section 1 |
-| PDF generation constraints (Workers, no headless browser, 128 MB) | Technical Lead, Risk 5 |
-| Auto-save specification (debounced, IndexedDB, save indicator) | Technical Lead, Section 3.3 |
-| Bottom sheet AI rewrite pattern with instruction chips | UX Lead, Section 5(c) |
-| "No lock-in" principle and data model split | PM Principle 2, Technical Lead ADR-005 |
-| Landing page language constraints ("no 'platform', 'integrate'") | Target Customer Section 6, UX Lead Step 1 |
+| This Document References                                              | Source                                    |
+| --------------------------------------------------------------------- | ----------------------------------------- |
+| Diane Mercer persona (52, leadership consultant, iPad Pro)            | UX Lead, Section 1                        |
+| Marcus Chen persona (44, executive coach, iPad Air)                   | UX Lead, Section 1                        |
+| Dr. Sarah Chen (Target Customer, management consultant, iPad Pro)     | Target Customer, all sections             |
+| Kill criteria (chapter completion, return visits, willingness to pay) | PM, Section 5                             |
+| AI rewrite user stories (US-016, US-017, US-018)                      | Business Analyst, Section 1               |
+| PDF generation constraints (Workers, no headless browser, 128 MB)     | Technical Lead, Risk 5                    |
+| Auto-save specification (debounced, IndexedDB, save indicator)        | Technical Lead, Section 3.3               |
+| Bottom sheet AI rewrite pattern with instruction chips                | UX Lead, Section 5(c)                     |
+| "No lock-in" principle and data model split                           | PM Principle 2, Technical Lead ADR-005    |
+| Landing page language constraints ("no 'platform', 'integrate'")      | Target Customer Section 6, UX Lead Step 1 |

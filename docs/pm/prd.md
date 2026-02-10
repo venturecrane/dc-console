@@ -143,31 +143,31 @@ Generating a professional book file should take one click.
 
 DraftCrane operates in a space with 17 relevant competitors across six categories:
 
-| Category | Key Players | Threat Level |
-|----------|-------------|-------------|
-| General writing tools | Google Docs + Gemini, Word + Copilot, Notion + AI | VERY HIGH (Docs), LOW (others) |
-| Book writing tools | Scrivener, Atticus, Vellum, Reedsy | MEDIUM-HIGH (Atticus), HIGH credibility (Scrivener) |
-| AI writing assistants | ChatGPT, Claude, Sudowrite, Novelcrafter | HIGH (ChatGPT) |
-| Self-publishing platforms | KDP, Draft2Digital | Not competitors (distribution) |
-| Adjacent tools | Grammarly, Otter.ai | Incumbent spend ($32/mo combined) |
-| The real competitor | User's existing Google Drive folder chaos | HIGHEST |
+| Category                  | Key Players                                       | Threat Level                                        |
+| ------------------------- | ------------------------------------------------- | --------------------------------------------------- |
+| General writing tools     | Google Docs + Gemini, Word + Copilot, Notion + AI | VERY HIGH (Docs), LOW (others)                      |
+| Book writing tools        | Scrivener, Atticus, Vellum, Reedsy                | MEDIUM-HIGH (Atticus), HIGH credibility (Scrivener) |
+| AI writing assistants     | ChatGPT, Claude, Sudowrite, Novelcrafter          | HIGH (ChatGPT)                                      |
+| Self-publishing platforms | KDP, Draft2Digital                                | Not competitors (distribution)                      |
+| Adjacent tools            | Grammarly, Otter.ai                               | Incumbent spend ($32/mo combined)                   |
+| The real competitor       | User's existing Google Drive folder chaos         | HIGHEST                                             |
 
 ### Feature Comparison (Phase 0 vs. Top 5 Competitors)
 
-| Feature | DraftCrane P0 | Docs+Gemini+Grammarly | Atticus | Scrivener | Reedsy |
-|---------|--------------|----------------------|---------|-----------|--------|
-| Browser-based | Yes | Yes (3 tools) | Yes | No | Yes |
-| iPad-optimized | Yes (primary) | Partial | Yes | Partial | Partial |
-| Chapter structure | Yes | No | Yes | Yes | Yes |
-| Integrated AI | Yes | Partial (Gemini) | No | No | No |
-| Book-quality PDF | Basic | No | Yes | Yes | Yes |
-| EPUB export | Yes | No | Yes | Yes | Yes |
-| Cloud file ownership | Yes (Drive) | Yes (Drive) | No | Partial | No |
-| Source integration | No (Phase 2) | No | No | Yes | No |
-| Collaboration | No | Excellent | No | No | No |
-| Offline | No | Partial | Yes (PWA) | Yes | No |
-| Version history | Undo only | Excellent | No | Yes | No |
-| Cost | Free (beta) | ~$32/mo combined | $148 once | $49 once | Free |
+| Feature              | DraftCrane P0 | Docs+Gemini+Grammarly | Atticus   | Scrivener | Reedsy  |
+| -------------------- | ------------- | --------------------- | --------- | --------- | ------- |
+| Browser-based        | Yes           | Yes (3 tools)         | Yes       | No        | Yes     |
+| iPad-optimized       | Yes (primary) | Partial               | Yes       | Partial   | Partial |
+| Chapter structure    | Yes           | No                    | Yes       | Yes       | Yes     |
+| Integrated AI        | Yes           | Partial (Gemini)      | No        | No        | No      |
+| Book-quality PDF     | Basic         | No                    | Yes       | Yes       | Yes     |
+| EPUB export          | Yes           | No                    | Yes       | Yes       | Yes     |
+| Cloud file ownership | Yes (Drive)   | Yes (Drive)           | No        | Partial   | No      |
+| Source integration   | No (Phase 2)  | No                    | No        | Yes       | No      |
+| Collaboration        | No            | Excellent             | No        | No        | No      |
+| Offline              | No            | Partial               | Yes (PWA) | Yes       | No      |
+| Version history      | Undo only     | Excellent             | No        | Yes       | No      |
+| Cost                 | Free (beta)   | ~$32/mo combined      | $148 once | $49 once  | Free    |
 
 ### Where Phase 0 Wins
 
@@ -210,13 +210,13 @@ A simple page with the DraftCrane tagline, a 2-3 sentence description, and a "Ge
 
 Clean Clerk-hosted authentication. "Continue with Google" is primary and prominent. Email/password is secondary. Redirect-based OAuth only (Safari popup blocker mitigation). Request only auth scopes here -- not Drive scopes.
 
-*References: US-001, US-002, US-004*
+_References: US-001, US-002, US-004_
 
 ### Step 3: Book Setup (First Run)
 
 Two fields: book title (required) and optional description (1-2 sentences). Helper text: "This is a working title. You can change it anytime." A "Create Book" button. No audience field, tone picker, or length target (those are Phase 1 Book Blueprint).
 
-*References: US-009*
+_References: US-009_
 
 ### Step 4: Connect Google Drive (Contextual, Not Blocking)
 
@@ -226,7 +226,7 @@ On connect: redirect-based Google OAuth for `drive.file` scope. After consent, D
 
 On "Maybe later": content saves to IndexedDB locally. Persistent indicator: "Not connected to Google Drive. Your work is saved on this device only." When Drive is eventually connected, existing content migrates.
 
-*References: US-005, US-006*
+_References: US-005, US-006_
 
 ### Step 5: Writing Environment -- Orientation
 
@@ -234,7 +234,7 @@ Three zones: (1) Sidebar with chapter list, word counts, "+" button, total word 
 
 First-time tooltip (3 steps max): "This is your chapter," "Use the sidebar for chapters," "Select text for AI."
 
-*References: US-011, US-012, US-024*
+_References: US-011, US-012, US-024_
 
 ### Step 6: Writing -- Core Loop
 
@@ -242,25 +242,25 @@ User writes and edits. Auto-save triggers after 2 seconds of inactivity. Save in
 
 Paste handling is critical: content from Google Docs preserves supported formatting (bold, italic, headings, lists, block quotes) and silently strips unsupported formatting.
 
-*References: US-011, US-012, US-012A, US-013, US-015, US-024*
+_References: US-011, US-012, US-012A, US-013, US-015, US-024_
 
 ### Step 7: AI Rewrite
 
 Select text -> floating action bar appears with "AI Rewrite" -> bottom sheet slides up with original text, instruction field, suggestion chips ("Simpler language" | "More concise" | "More conversational" | "Stronger" | "Expand") -> user taps chip or types freeform instruction -> streaming result via SSE (first token < 2 seconds) -> "Use This" / "Try Again" / "Discard." Acceptance undoable via Cmd+Z.
 
-*References: US-016, US-017, US-018*
+_References: US-016, US-017, US-018_
 
 ### Step 8: Chapter Management
 
 Create chapter via "+" button. Rename via double-tap (inline editing). Reorder via long-press drag. Delete with confirmation (Drive file moved to trash, 30-day Google retention). A project must always have at least one chapter.
 
-*References: US-010, US-012A, US-013, US-014*
+_References: US-010, US-012A, US-013, US-014_
 
 ### Step 9: Export
 
 "Export" button in toolbar reveals: "Export Book as PDF," "Export Book as EPUB," "Export This Chapter as PDF." Progress indicator during generation. Result offers "Save to Google Drive" and/or "Download." Files saved to `_exports/` subfolder with date-stamped names.
 
-*References: US-019, US-020, US-021, US-022*
+_References: US-019, US-020, US-021, US-022_
 
 ---
 
@@ -430,17 +430,17 @@ There is no dashboard. Opening DraftCrane takes the user directly to the Writing
 
 ### Layer Responsibilities
 
-| Layer | Technology | Responsibility | Does NOT Do |
-|-------|-----------|----------------|-------------|
-| Frontend | Next.js + Tailwind | Rendering, editor state, IndexedDB write-ahead log, debounced save orchestration | Store canonical content, call external APIs directly, hold OAuth tokens |
-| Backend | Hono on CF Workers | API gateway, business logic, Drive/AI orchestration, token management | Render UI, hold long-lived state, run >30s operations |
-| D1 | Cloudflare D1 (SQLite) | User metadata, project structure, chapter ordering, AI logs, export tracking | Store manuscript content |
-| R2 | Cloudflare R2 | Export artifacts (PDF/EPUB), temporary content buffer for pre-Drive users | Long-term content storage |
-| KV | Cloudflare KV | Session data, Drive API response caching, rate limit counters | Relational queries, large objects |
-| IndexedDB | Browser-native | Keystroke-level content buffer, crash recovery | Long-term storage, cross-device sync |
-| Clerk | External SaaS | Authentication, session management, JWT issuance | Authorization logic |
-| Google Drive | External API | Canonical manuscript storage, user file ownership | Indexing, search, metadata queries |
-| Claude API | External API | Text rewriting, expansion, simplification | Autonomous content generation |
+| Layer        | Technology             | Responsibility                                                                   | Does NOT Do                                                             |
+| ------------ | ---------------------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Frontend     | Next.js + Tailwind     | Rendering, editor state, IndexedDB write-ahead log, debounced save orchestration | Store canonical content, call external APIs directly, hold OAuth tokens |
+| Backend      | Hono on CF Workers     | API gateway, business logic, Drive/AI orchestration, token management            | Render UI, hold long-lived state, run >30s operations                   |
+| D1           | Cloudflare D1 (SQLite) | User metadata, project structure, chapter ordering, AI logs, export tracking     | Store manuscript content                                                |
+| R2           | Cloudflare R2          | Export artifacts (PDF/EPUB), temporary content buffer for pre-Drive users        | Long-term content storage                                               |
+| KV           | Cloudflare KV          | Session data, Drive API response caching, rate limit counters                    | Relational queries, large objects                                       |
+| IndexedDB    | Browser-native         | Keystroke-level content buffer, crash recovery                                   | Long-term storage, cross-device sync                                    |
+| Clerk        | External SaaS          | Authentication, session management, JWT issuance                                 | Authorization logic                                                     |
+| Google Drive | External API           | Canonical manuscript storage, user file ownership                                | Indexing, search, metadata queries                                      |
+| Claude API   | External API           | Text rewriting, expansion, simplification                                        | Autonomous content generation                                           |
 
 ### Three-Tier Save Architecture
 
@@ -516,59 +516,59 @@ All routes served by the `dc-api` Worker (Hono). All routes except `/auth/webhoo
 
 ### Auth & User
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/auth/webhook` | Clerk webhook: user created/updated/deleted |
-| GET | `/users/me` | Current user profile, Drive status, active projects, total word count |
+| Method | Path            | Description                                                           |
+| ------ | --------------- | --------------------------------------------------------------------- |
+| POST   | `/auth/webhook` | Clerk webhook: user created/updated/deleted                           |
+| GET    | `/users/me`     | Current user profile, Drive status, active projects, total word count |
 
 ### Google Drive
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/drive/authorize` | Returns Google OAuth authorization URL |
-| GET | `/drive/callback` | OAuth callback, exchanges code for tokens |
-| POST | `/drive/folders` | Creates Book Folder in Drive |
-| GET | `/drive/folders/:folderId/children` | Lists DraftCrane-created files in Book Folder |
-| DELETE | `/drive/connection` | Disconnects Drive, revokes token |
+| Method | Path                                | Description                                   |
+| ------ | ----------------------------------- | --------------------------------------------- |
+| GET    | `/drive/authorize`                  | Returns Google OAuth authorization URL        |
+| GET    | `/drive/callback`                   | OAuth callback, exchanges code for tokens     |
+| POST   | `/drive/folders`                    | Creates Book Folder in Drive                  |
+| GET    | `/drive/folders/:folderId/children` | Lists DraftCrane-created files in Book Folder |
+| DELETE | `/drive/connection`                 | Disconnects Drive, revokes token              |
 
 ### Projects
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/projects` | Creates project with default chapter |
-| GET | `/projects` | Lists active projects with word counts |
-| GET | `/projects/:projectId` | Project details with chapter list |
-| PATCH | `/projects/:projectId` | Updates title, description, settings |
-| DELETE | `/projects/:projectId` | Soft-delete (status='archived') |
+| Method | Path                   | Description                            |
+| ------ | ---------------------- | -------------------------------------- |
+| POST   | `/projects`            | Creates project with default chapter   |
+| GET    | `/projects`            | Lists active projects with word counts |
+| GET    | `/projects/:projectId` | Project details with chapter list      |
+| PATCH  | `/projects/:projectId` | Updates title, description, settings   |
+| DELETE | `/projects/:projectId` | Soft-delete (status='archived')        |
 
 ### Chapters
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/projects/:projectId/chapters` | Creates chapter, creates Drive/R2 file |
-| GET | `/projects/:projectId/chapters` | Lists chapters (metadata only) |
-| PATCH | `/chapters/:chapterId` | Updates title, status |
-| GET | `/chapters/:chapterId/content` | Fetches body from Drive or R2 |
-| PUT | `/chapters/:chapterId/content` | Writes body to Drive or R2, updates D1 metadata. Version header for conflict detection. |
-| DELETE | `/chapters/:chapterId` | Deletes from D1, trashes Drive file. Rejects if last chapter. |
-| PATCH | `/projects/:projectId/chapters/reorder` | Batch sort_order update |
+| Method | Path                                    | Description                                                                             |
+| ------ | --------------------------------------- | --------------------------------------------------------------------------------------- |
+| POST   | `/projects/:projectId/chapters`         | Creates chapter, creates Drive/R2 file                                                  |
+| GET    | `/projects/:projectId/chapters`         | Lists chapters (metadata only)                                                          |
+| PATCH  | `/chapters/:chapterId`                  | Updates title, status                                                                   |
+| GET    | `/chapters/:chapterId/content`          | Fetches body from Drive or R2                                                           |
+| PUT    | `/chapters/:chapterId/content`          | Writes body to Drive or R2, updates D1 metadata. Version header for conflict detection. |
+| DELETE | `/chapters/:chapterId`                  | Deletes from D1, trashes Drive file. Rejects if last chapter.                           |
+| PATCH  | `/projects/:projectId/chapters/reorder` | Batch sort_order update                                                                 |
 
 ### AI
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/ai/rewrite` | SSE stream. Max 2,000 words. 10 req/min/user. |
-| POST | `/ai/interactions/:id/accept` | Logs acceptance |
-| POST | `/ai/interactions/:id/reject` | Logs rejection |
+| Method | Path                          | Description                                   |
+| ------ | ----------------------------- | --------------------------------------------- |
+| POST   | `/ai/rewrite`                 | SSE stream. Max 2,000 words. 10 req/min/user. |
+| POST   | `/ai/interactions/:id/accept` | Logs acceptance                               |
+| POST   | `/ai/interactions/:id/reject` | Logs rejection                                |
 
 ### Export
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/projects/:projectId/export` | Full-book export job. 5 req/min/user. |
-| POST | `/projects/:projectId/chapters/:chapterId/export` | Single-chapter export |
-| GET | `/export/:jobId` | Job status + signed R2 download URL |
-| POST | `/export/:jobId/to-drive` | Upload artifact to Drive `_exports/` |
+| Method | Path                                              | Description                           |
+| ------ | ------------------------------------------------- | ------------------------------------- |
+| POST   | `/projects/:projectId/export`                     | Full-book export job. 5 req/min/user. |
+| POST   | `/projects/:projectId/chapters/:chapterId/export` | Single-chapter export                 |
+| GET    | `/export/:jobId`                                  | Job status + signed R2 download URL   |
+| POST   | `/export/:jobId/to-drive`                         | Upload artifact to Drive `_exports/`  |
 
 ### Conventions
 
@@ -583,61 +583,61 @@ All routes served by the `dc-api` Worker (Hono). All routes except `/auth/webhoo
 
 ### Platform Compatibility
 
-| Requirement | Target |
-|-------------|--------|
-| iPad Safari | iPadOS 17.0+ (Safari 17+). Manual testing on iPad Air 5th gen+. |
-| Desktop browsers | Chrome 120+, Firefox 120+, Safari 17+ |
-| Minimum viewport | 768px (iPad portrait) |
-| Touch interaction | All actions completable via touch only. No hover-dependent functionality. |
-| Virtual keyboard | Cursor always visible above keyboard. `visualViewport` API. |
-| Viewport units | `100dvh`, never raw `100vh` |
-| Split View | Must not break. Not optimized. |
-| Orientation change | Fluid layout response, no content jumps or lost scroll. |
-| `prefers-reduced-motion` | All animations disabled when enabled. |
-| Zoom | Functional at 200%. No `user-scalable=no`. |
+| Requirement              | Target                                                                    |
+| ------------------------ | ------------------------------------------------------------------------- |
+| iPad Safari              | iPadOS 17.0+ (Safari 17+). Manual testing on iPad Air 5th gen+.           |
+| Desktop browsers         | Chrome 120+, Firefox 120+, Safari 17+                                     |
+| Minimum viewport         | 768px (iPad portrait)                                                     |
+| Touch interaction        | All actions completable via touch only. No hover-dependent functionality. |
+| Virtual keyboard         | Cursor always visible above keyboard. `visualViewport` API.               |
+| Viewport units           | `100dvh`, never raw `100vh`                                               |
+| Split View               | Must not break. Not optimized.                                            |
+| Orientation change       | Fluid layout response, no content jumps or lost scroll.                   |
+| `prefers-reduced-motion` | All animations disabled when enabled.                                     |
+| Zoom                     | Functional at 200%. No `user-scalable=no`.                                |
 
 ### Performance Budgets
 
-| Metric | Target |
-|--------|--------|
-| LCP | < 2.5 seconds on WiFi |
-| TTI | < 3.5 seconds on WiFi |
-| Chapter load (< 10K words) | < 2 seconds |
-| Chapter load (up to 50K words) | < 5 seconds |
-| Auto-save round trip | < 3 seconds |
-| IndexedDB write | < 5ms per keystroke |
-| AI first token | < 2 seconds (SSE) |
-| AI complete (500 words) | < 15 seconds |
-| JS bundle (initial) | < 300 KB gzipped |
-| Editor JS (lazy) | < 200 KB gzipped |
-| PDF export (10 chapters) | < 30 seconds |
-| EPUB export (10 chapters) | < 10 seconds |
+| Metric                         | Target                |
+| ------------------------------ | --------------------- |
+| LCP                            | < 2.5 seconds on WiFi |
+| TTI                            | < 3.5 seconds on WiFi |
+| Chapter load (< 10K words)     | < 2 seconds           |
+| Chapter load (up to 50K words) | < 5 seconds           |
+| Auto-save round trip           | < 3 seconds           |
+| IndexedDB write                | < 5ms per keystroke   |
+| AI first token                 | < 2 seconds (SSE)     |
+| AI complete (500 words)        | < 15 seconds          |
+| JS bundle (initial)            | < 300 KB gzipped      |
+| Editor JS (lazy)               | < 200 KB gzipped      |
+| PDF export (10 chapters)       | < 30 seconds          |
+| EPUB export (10 chapters)      | < 10 seconds          |
 
 ### Security Model
 
-| Requirement | Specification |
-|-------------|---------------|
-| Authentication | Clerk; httpOnly, Secure, SameSite=Lax cookies |
-| Authorization | All D1 queries include `WHERE user_id = ?`. No cross-user data. |
-| OAuth tokens | AES-256-GCM encrypted in D1. Never sent to frontend. |
-| OAuth scope | `drive.file` only |
-| OAuth flow | Redirect-based only. No popups. |
-| Token refresh | Automatic, 5 min before expiry. Rotation on refresh. |
-| Content isolation | User A never sees User B's data. Integration tests verify. |
-| Rate limiting | Per-user via KV counters |
-| Input validation | All input validated/sanitized at API boundary. HTML allowlist. |
-| CORS | Production frontend origin only. No wildcards. |
+| Requirement       | Specification                                                   |
+| ----------------- | --------------------------------------------------------------- |
+| Authentication    | Clerk; httpOnly, Secure, SameSite=Lax cookies                   |
+| Authorization     | All D1 queries include `WHERE user_id = ?`. No cross-user data. |
+| OAuth tokens      | AES-256-GCM encrypted in D1. Never sent to frontend.            |
+| OAuth scope       | `drive.file` only                                               |
+| OAuth flow        | Redirect-based only. No popups.                                 |
+| Token refresh     | Automatic, 5 min before expiry. Rotation on refresh.            |
+| Content isolation | User A never sees User B's data. Integration tests verify.      |
+| Rate limiting     | Per-user via KV counters                                        |
+| Input validation  | All input validated/sanitized at API boundary. HTML allowlist.  |
+| CORS              | Production frontend origin only. No wildcards.                  |
 
 ### Cloudflare Platform Constraints
 
-| Constraint | Limit | Implication |
-|-----------|-------|-------------|
-| Worker CPU time | 30ms (bundled), 30s (unbound) | Unbound for AI and export routes |
-| Worker memory | 128 MB | Process chapters sequentially during export |
-| D1 database size | 2 GB (free), 10 GB (paid) | AI logs largest table; 90-day TTL cleanup |
-| D1 writes | 100K/day (free) | **Phase 0 requires D1 paid tier** at 2s debounce ($0.75/million writes) |
-| R2 object size | 5 GB max | Sufficient for all artifacts |
-| KV value size | 25 MB max | Sufficient for cached responses |
+| Constraint       | Limit                         | Implication                                                             |
+| ---------------- | ----------------------------- | ----------------------------------------------------------------------- |
+| Worker CPU time  | 30ms (bundled), 30s (unbound) | Unbound for AI and export routes                                        |
+| Worker memory    | 128 MB                        | Process chapters sequentially during export                             |
+| D1 database size | 2 GB (free), 10 GB (paid)     | AI logs largest table; 90-day TTL cleanup                               |
+| D1 writes        | 100K/day (free)               | **Phase 0 requires D1 paid tier** at 2s debounce ($0.75/million writes) |
+| R2 object size   | 5 GB max                      | Sufficient for all artifacts                                            |
+| KV value size    | 25 MB max                     | Sufficient for cached responses                                         |
 
 ### Accessibility (WCAG 2.1 Level AA)
 
@@ -692,33 +692,33 @@ DraftCrane must not interfere with native iPadOS long-press-to-select and drag-h
 
 Non-negotiable. If hit, stop building and assess pivot or shutdown.
 
-| Trigger | Kill Criterion | Measurement |
-|---------|---------------|-------------|
-| After prototype | No user completes a chapter in first session | 5-10 moderated test sessions. D1 `chapters.word_count` >= 500. Recruit users who can write from knowledge. |
-| After beta (Phase 1) | < 3 of 10 beta users return for second session | D1 login data. "Return" = login on different calendar day. |
-| After 90 days of beta | No willingness-to-pay signal | User interviews: explicit "yes" with a price, or complaint about losing access. Target: $19-29/month is "no-brainer." |
+| Trigger               | Kill Criterion                                 | Measurement                                                                                                           |
+| --------------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| After prototype       | No user completes a chapter in first session   | 5-10 moderated test sessions. D1 `chapters.word_count` >= 500. Recruit users who can write from knowledge.            |
+| After beta (Phase 1)  | < 3 of 10 beta users return for second session | D1 login data. "Return" = login on different calendar day.                                                            |
+| After 90 days of beta | No willingness-to-pay signal                   | User interviews: explicit "yes" with a price, or complaint about losing access. Target: $19-29/month is "no-brainer." |
 
 ### Phase 0 Metrics
 
-| Metric | Target | Data Source |
-|--------|--------|-------------|
-| Core flow completion | 80%+ of test users complete sign-in through export | Moderated sessions |
-| Time to first chapter draft | Under 2 hours | Session observation + D1 chapter metadata |
-| Export success rate | 100% | D1 export_jobs + user confirmation |
-| AI rewrite usage/acceptance | 50%+ try AI; 40%+ acceptance rate | D1 ai_interactions |
-| iPad Safari usability | No critical blockers | Manual QA on physical iPad |
-| Confusion points | < 3 per test session | Session notes |
-| Unprompted feature requests | At least 1 user articulates Phase 1-2 wish | Session observation |
+| Metric                      | Target                                             | Data Source                               |
+| --------------------------- | -------------------------------------------------- | ----------------------------------------- |
+| Core flow completion        | 80%+ of test users complete sign-in through export | Moderated sessions                        |
+| Time to first chapter draft | Under 2 hours                                      | Session observation + D1 chapter metadata |
+| Export success rate         | 100%                                               | D1 export_jobs + user confirmation        |
+| AI rewrite usage/acceptance | 50%+ try AI; 40%+ acceptance rate                  | D1 ai_interactions                        |
+| iPad Safari usability       | No critical blockers                               | Manual QA on physical iPad                |
+| Confusion points            | < 3 per test session                               | Session notes                             |
+| Unprompted feature requests | At least 1 user articulates Phase 1-2 wish         | Session observation                       |
 
 ### Post-Validation Metrics (Phase 1+)
 
-| Metric | Target | Earliest Phase |
-|--------|--------|---------------|
-| Monthly active retention | 60%+ month-over-month | Phase 1 |
-| Users who export | 40%+ | Phase 1 |
-| Average chapters/user | 6+ | Phase 1 |
-| NPS | 40+ | Phase 1 |
-| Willingness to pay | 3+ of 10 express willingness | Phase 2 (90-day mark) |
+| Metric                   | Target                       | Earliest Phase        |
+| ------------------------ | ---------------------------- | --------------------- |
+| Monthly active retention | 60%+ month-over-month        | Phase 1               |
+| Users who export         | 40%+                         | Phase 1               |
+| Average chapters/user    | 6+                           | Phase 1               |
+| NPS                      | 40+                          | Phase 1               |
+| Willingness to pay       | 3+ of 10 express willingness | Phase 2 (90-day mark) |
 
 ### Not Measured in Phase 0
 
@@ -730,30 +730,30 @@ Revenue, conversion, organic growth, long-term retention. Phase 0 is free. Being
 
 ### High Priority
 
-| # | Risk | Likelihood | Impact | Mitigation |
-|---|------|-----------|--------|-----------|
-| 1 | **Phase 0 feels like "Google Docs + ChatGPT."** Phase 0 is a basic chapter editor with basic AI. | High | Critical | Three counters: (a) chapter structure must feel meaningfully better than a long Google Doc, (b) AI rewrite with suggestion chips and streaming must be faster than tab-switching, (c) PDF export must create a "this is a real book" moment. |
-| 2 | **Prototype tests the wrong hypothesis.** Test users need to organize existing content (Phase 2), not write from scratch (Phase 0). | High | Critical | Recruit users who can write from knowledge. Design test tasks around "bring a topic and start a chapter." If fresh-start users succeed but existing-content users fail, treat as product gap signal, not kill signal. |
-| 3 | **Editor fails on iPad Safari.** Rich text editing in mobile Safari is fragile. Cursor bugs, selection jumping, toolbar focus loss. | High | Critical | 2-day prototype spike with Tiptap and Lexical on physical iPad. 8-point test protocol. Score 1-5. Decision from real-device testing only. |
-| 4 | **Drive sync causes data loss.** Network dropout, Drive API errors, browser crash, iPadOS background tab suspension. | Medium | Critical | Three-tier save. `visibilitychange` event. Crash recovery prompt. Accept 2-second max data loss window for hard OS kills. |
-| 5 | **Scope creep.** Target customer wants progress tracking, offline mode, voice sample, collaboration. | High | High | Project instructions list explicit exclusions. US-001 through US-024 define the boundary. Any addition must answer: "Does this prevent learning what we need to learn?" |
+| #   | Risk                                                                                                                                | Likelihood | Impact   | Mitigation                                                                                                                                                                                                                                   |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Phase 0 feels like "Google Docs + ChatGPT."** Phase 0 is a basic chapter editor with basic AI.                                    | High       | Critical | Three counters: (a) chapter structure must feel meaningfully better than a long Google Doc, (b) AI rewrite with suggestion chips and streaming must be faster than tab-switching, (c) PDF export must create a "this is a real book" moment. |
+| 2   | **Prototype tests the wrong hypothesis.** Test users need to organize existing content (Phase 2), not write from scratch (Phase 0). | High       | Critical | Recruit users who can write from knowledge. Design test tasks around "bring a topic and start a chapter." If fresh-start users succeed but existing-content users fail, treat as product gap signal, not kill signal.                        |
+| 3   | **Editor fails on iPad Safari.** Rich text editing in mobile Safari is fragile. Cursor bugs, selection jumping, toolbar focus loss. | High       | Critical | 2-day prototype spike with Tiptap and Lexical on physical iPad. 8-point test protocol. Score 1-5. Decision from real-device testing only.                                                                                                    |
+| 4   | **Drive sync causes data loss.** Network dropout, Drive API errors, browser crash, iPadOS background tab suspension.                | Medium     | Critical | Three-tier save. `visibilitychange` event. Crash recovery prompt. Accept 2-second max data loss window for hard OS kills.                                                                                                                    |
+| 5   | **Scope creep.** Target customer wants progress tracking, offline mode, voice sample, collaboration.                                | High       | High     | Project instructions list explicit exclusions. US-001 through US-024 define the boundary. Any addition must answer: "Does this prevent learning what we need to learn?"                                                                      |
 
 ### Medium Priority
 
-| # | Risk | Likelihood | Impact | Mitigation |
-|---|------|-----------|--------|-----------|
-| 6 | **AI quality poor without Book Blueprint.** No voice context. Output feels generic. | High | High | Send surrounding context (500 chars each side) + chapter title + project description. Offer specific modes with chips. If users report unhelpful AI, that is Phase 1 prioritization data, not a kill signal. |
-| 7 | **PDF/EPUB export looks unprofessional.** Workers have no filesystem, no headless browser. | Medium | High | Design HTML+CSS book template first. Prototype Browser Rendering. Fallback: EPUB-only. A bad PDF is worse than no PDF. |
-| 8 | **"Why not Atticus?"** Browser-based, chapter-organized, professional export, $148 one-time. | Medium | High | Atticus's core user has a finished manuscript needing formatting. DraftCrane's user has scattered expertise needing to write. Overlap is narrower than it appears. Phase 0 advantages: AI, Drive ownership, Phase 1 roadmap. |
-| 9 | **Users fear lock-in.** "If I cancel, I have a bunch of Google Docs with no structure." | Medium | Medium | Visible file ownership: Book Folder path, "View in Drive" links, recognizable file names. |
-| 10 | **`drive.file` scope limits value for users with existing content.** Cannot browse existing Drive files. | Medium | Medium | Accepted limitation. Auto-create folder is simpler. Google Picker API as fast-follow if demand emerges. |
+| #   | Risk                                                                                                     | Likelihood | Impact | Mitigation                                                                                                                                                                                                                   |
+| --- | -------------------------------------------------------------------------------------------------------- | ---------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 6   | **AI quality poor without Book Blueprint.** No voice context. Output feels generic.                      | High       | High   | Send surrounding context (500 chars each side) + chapter title + project description. Offer specific modes with chips. If users report unhelpful AI, that is Phase 1 prioritization data, not a kill signal.                 |
+| 7   | **PDF/EPUB export looks unprofessional.** Workers have no filesystem, no headless browser.               | Medium     | High   | Design HTML+CSS book template first. Prototype Browser Rendering. Fallback: EPUB-only. A bad PDF is worse than no PDF.                                                                                                       |
+| 8   | **"Why not Atticus?"** Browser-based, chapter-organized, professional export, $148 one-time.             | Medium     | High   | Atticus's core user has a finished manuscript needing formatting. DraftCrane's user has scattered expertise needing to write. Overlap is narrower than it appears. Phase 0 advantages: AI, Drive ownership, Phase 1 roadmap. |
+| 9   | **Users fear lock-in.** "If I cancel, I have a bunch of Google Docs with no structure."                  | Medium     | Medium | Visible file ownership: Book Folder path, "View in Drive" links, recognizable file names.                                                                                                                                    |
+| 10  | **`drive.file` scope limits value for users with existing content.** Cannot browse existing Drive files. | Medium     | Medium | Accepted limitation. Auto-create folder is simpler. Google Picker API as fast-follow if demand emerges.                                                                                                                      |
 
 ### Lower Priority
 
-| # | Risk | Likelihood | Impact | Mitigation |
-|---|------|-----------|--------|-----------|
-| 11 | **Market too small or too competitive.** | Medium | Critical | BVM methodology designed to answer this. Kill criteria will tell us. |
-| 12 | **Google Docs + Gemini narrows the competitive gap.** | Medium | High | Lead positioning with chapter organization and book-format export (where Docs has no answer), not "integrated AI." |
+| #   | Risk                                                  | Likelihood | Impact   | Mitigation                                                                                                         |
+| --- | ----------------------------------------------------- | ---------- | -------- | ------------------------------------------------------------------------------------------------------------------ |
+| 11  | **Market too small or too competitive.**              | Medium     | Critical | BVM methodology designed to answer this. Kill criteria will tell us.                                               |
+| 12  | **Google Docs + Gemini narrows the competitive gap.** | Medium     | High     | Lead positioning with chapter organization and book-format export (where Docs has no answer), not "integrated AI." |
 
 ---
 
@@ -805,28 +805,28 @@ Revenue, conversion, organic growth, long-term retention. Phase 0 is free. Being
 
 ### Additional Decisions
 
-| Question | Decision |
-|----------|----------|
-| Session lifetime | 30 days |
-| Book Folder scope | Per-project |
-| Multiple projects | Yes, supported |
-| Max chapters/project | No artificial limit (test at 50+) |
-| Max chapter title length | 200 characters |
-| Chapter deletion | Hard delete in D1. Drive file to trash (30-day retention). |
-| Pre-Drive content | IndexedDB-only. Prominent banner. (See Unresolved Issues for R2 alternative.) |
-| Export file naming | `{Book Title} - YYYY-MM-DD.{format}` |
-| PDF page size | US Trade (5.5" x 8.5") |
-| Paste formatting | Silent strip of unsupported. Supported (bold, italic, headings, lists, block quote) preserved. |
-| iPhone support | Not in Phase 0. Min viewport 768px. |
-| Account deletion | Define before beta launch. Delete D1, revoke tokens, leave Drive files. |
-| Dual OAuth | Clerk handles auth Google OAuth; DraftCrane handles Drive OAuth separately. Separate client IDs recommended. |
-| Single-chapter export | Includes title page (book + chapter title), no ToC. |
-| AI streaming | Required (SSE). First token < 2s. |
-| Freeform AI instruction | In Phase 0 scope. Single-line field + suggestion chips. |
-| Chapter reorder | In Phase 0 scope. Long-press drag. |
-| Word count | In Phase 0 scope. Per-chapter + total. |
-| Google sign-in | In Phase 0 (via Clerk). Primary method. |
-| AI rate limit | 10 req/min/user. No per-user usage caps during Phase 0. Track cost. |
+| Question                 | Decision                                                                                                     |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| Session lifetime         | 30 days                                                                                                      |
+| Book Folder scope        | Per-project                                                                                                  |
+| Multiple projects        | Yes, supported                                                                                               |
+| Max chapters/project     | No artificial limit (test at 50+)                                                                            |
+| Max chapter title length | 200 characters                                                                                               |
+| Chapter deletion         | Hard delete in D1. Drive file to trash (30-day retention).                                                   |
+| Pre-Drive content        | IndexedDB-only. Prominent banner. (See Unresolved Issues for R2 alternative.)                                |
+| Export file naming       | `{Book Title} - YYYY-MM-DD.{format}`                                                                         |
+| PDF page size            | US Trade (5.5" x 8.5")                                                                                       |
+| Paste formatting         | Silent strip of unsupported. Supported (bold, italic, headings, lists, block quote) preserved.               |
+| iPhone support           | Not in Phase 0. Min viewport 768px.                                                                          |
+| Account deletion         | Define before beta launch. Delete D1, revoke tokens, leave Drive files.                                      |
+| Dual OAuth               | Clerk handles auth Google OAuth; DraftCrane handles Drive OAuth separately. Separate client IDs recommended. |
+| Single-chapter export    | Includes title page (book + chapter title), no ToC.                                                          |
+| AI streaming             | Required (SSE). First token < 2s.                                                                            |
+| Freeform AI instruction  | In Phase 0 scope. Single-line field + suggestion chips.                                                      |
+| Chapter reorder          | In Phase 0 scope. Long-press drag.                                                                           |
+| Word count               | In Phase 0 scope. Per-chapter + total.                                                                       |
+| Google sign-in           | In Phase 0 (via Clerk). Primary method.                                                                      |
+| AI rate limit            | 10 req/min/user. No per-user usage caps during Phase 0. Track cost.                                          |
 
 ---
 
@@ -834,13 +834,13 @@ Revenue, conversion, organic growth, long-term retention. Phase 0 is free. Being
 
 ### Phase 0 -- Foundations (Current)
 
-| Feature | Delivers |
-|---------|---------|
-| Auth system | Sign in (Google or email via Clerk), 30-day session |
-| Google Drive integration | OAuth (`drive.file`), auto-create Book Folder, read/write chapters |
-| Basic editor | Chapter-based writing, auto-save (2s debounce), chapter reorder, word count |
-| Simple AI rewrite | Select text, instruction (chips or freeform), streaming suggestion, accept/reject |
-| PDF/EPUB export | Full-book or single-chapter, saved to Drive and/or downloaded |
+| Feature                  | Delivers                                                                          |
+| ------------------------ | --------------------------------------------------------------------------------- |
+| Auth system              | Sign in (Google or email via Clerk), 30-day session                               |
+| Google Drive integration | OAuth (`drive.file`), auto-create Book Folder, read/write chapters                |
+| Basic editor             | Chapter-based writing, auto-save (2s debounce), chapter reorder, word count       |
+| Simple AI rewrite        | Select text, instruction (chips or freeform), streaming suggestion, accept/reject |
+| PDF/EPUB export          | Full-book or single-chapter, saved to Drive and/or downloaded                     |
 
 **Explicitly NOT in Phase 0:** Book Blueprint, outline generation, Craft Buttons (beyond basic modes), Idea Inbox, Source Intelligence, collaboration, cover toolkit, structural guidance, consistency engine, voice dictation, progress dashboard, voice sample, offline mode, version history beyond undo, importing existing Drive docs.
 
@@ -875,31 +875,31 @@ Professional templates, layout tuning, cover toolkit, distribution checklists.
 
 Consistency engine, developmental editing, multi-book memory, audiobook prep.
 
-*Phases 3 and 4 are directional. Their scope will be reshaped by what we learn.*
+_Phases 3 and 4 are directional. Their scope will be reshaped by what we learn._
 
 ---
 
 ## 19. Glossary
 
-| Term | Definition |
-|------|-----------|
-| Book Blueprint | Phase 1 feature: a structured document defining the author's voice rules, terminology, key claims, and target reader. Used by AI to maintain consistency. |
-| Book Folder | The Google Drive folder created by DraftCrane to store a project's chapter files and exports. One per project. |
-| Bottom sheet | A UI panel that slides up from the bottom of the screen, used for the AI rewrite interaction. |
-| Business Validation Machine (BVM) | The venture methodology DraftCrane follows. Products must pass kill criteria to continue. |
-| Craft Buttons | Phase 1 feature: one-tap AI transformations (expand, shorten, simplify, improve flow, add example, etc.). |
-| D1 | Cloudflare's SQLite-based database service. Stores metadata only. |
-| `drive.file` scope | Google OAuth scope that limits access to files created by or explicitly opened with DraftCrane. |
-| Idea Inbox | Phase 1 feature: quick capture for text and voice notes with AI-suggested placement. |
-| IndexedDB | Browser-local storage used as a keystroke-level write-ahead log for crash protection. |
-| KV | Cloudflare's key-value store. Used for caching and rate limit counters. |
-| R2 | Cloudflare's object storage. Used for export artifacts and temporary content buffer. |
-| Source Intelligence | Phase 2 feature: importing, indexing, and surfacing the author's existing materials during writing. |
-| Suggestion chips | Tappable labels in the AI bottom sheet ("Simpler language," "More concise," etc.) that provide vocabulary for AI instructions. |
-| Three-tier save | The auto-save architecture: IndexedDB (every keystroke) -> Google Drive (2s debounce) -> D1 (metadata). |
-| ULID | Universally Unique Lexicographically Sortable Identifier. Used for all entity IDs. |
-| US Trade | Page trim size 5.5" x 8.5" (139.7mm x 215.9mm). Standard self-publishing nonfiction format. |
-| Writing Environment | The main screen where users spend 95% of their time. Contains sidebar, editor, and toolbar. |
+| Term                              | Definition                                                                                                                                                |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Book Blueprint                    | Phase 1 feature: a structured document defining the author's voice rules, terminology, key claims, and target reader. Used by AI to maintain consistency. |
+| Book Folder                       | The Google Drive folder created by DraftCrane to store a project's chapter files and exports. One per project.                                            |
+| Bottom sheet                      | A UI panel that slides up from the bottom of the screen, used for the AI rewrite interaction.                                                             |
+| Business Validation Machine (BVM) | The venture methodology DraftCrane follows. Products must pass kill criteria to continue.                                                                 |
+| Craft Buttons                     | Phase 1 feature: one-tap AI transformations (expand, shorten, simplify, improve flow, add example, etc.).                                                 |
+| D1                                | Cloudflare's SQLite-based database service. Stores metadata only.                                                                                         |
+| `drive.file` scope                | Google OAuth scope that limits access to files created by or explicitly opened with DraftCrane.                                                           |
+| Idea Inbox                        | Phase 1 feature: quick capture for text and voice notes with AI-suggested placement.                                                                      |
+| IndexedDB                         | Browser-local storage used as a keystroke-level write-ahead log for crash protection.                                                                     |
+| KV                                | Cloudflare's key-value store. Used for caching and rate limit counters.                                                                                   |
+| R2                                | Cloudflare's object storage. Used for export artifacts and temporary content buffer.                                                                      |
+| Source Intelligence               | Phase 2 feature: importing, indexing, and surfacing the author's existing materials during writing.                                                       |
+| Suggestion chips                  | Tappable labels in the AI bottom sheet ("Simpler language," "More concise," etc.) that provide vocabulary for AI instructions.                            |
+| Three-tier save                   | The auto-save architecture: IndexedDB (every keystroke) -> Google Drive (2s debounce) -> D1 (metadata).                                                   |
+| ULID                              | Universally Unique Lexicographically Sortable Identifier. Used for all entity IDs.                                                                        |
+| US Trade                          | Page trim size 5.5" x 8.5" (139.7mm x 215.9mm). Standard self-publishing nonfiction format.                                                               |
+| Writing Environment               | The main screen where users spend 95% of their time. Contains sidebar, editor, and toolbar.                                                               |
 
 ---
 
@@ -959,4 +959,4 @@ The following are genuine disagreements or open questions that surfaced during t
 
 ---
 
-*This PRD was synthesized from three rounds of contributions by six team roles: Product Manager, Technical Lead, Business Analyst, UX Lead, Target Customer (Dr. Sarah Chen persona), and Competitor Analyst. Where roles disagreed, the PM's decisions are authoritative. Genuine unresolved issues are surfaced in the Appendix. The project instructions file (`docs/process/dc-project-instructions.md`) overrides this PRD where they conflict.*
+_This PRD was synthesized from three rounds of contributions by six team roles: Product Manager, Technical Lead, Business Analyst, UX Lead, Target Customer (Dr. Sarah Chen persona), and Competitor Analyst. Where roles disagreed, the PM's decisions are authoritative. Genuine unresolved issues are surfaced in the Appendix. The project instructions file (`docs/process/dc-project-instructions.md`) overrides this PRD where they conflict._

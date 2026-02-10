@@ -116,6 +116,7 @@ The editor is the product. If text selection is broken on iPad, if the virtual k
 The Technical Lead identified this as the highest-risk technical decision (ADR-001). The UX Lead specified exhaustive keyboard handling requirements and the `visualViewport` API for detecting keyboard presence. The 2-day prototype spike testing Tiptap and Lexical on a physical iPad is the single most important engineering task in Phase 0. If neither works well on iPad Safari, there is no product.
 
 Specific things I care about:
+
 - Typing feels instant. The Business Analyst says less than 100ms input latency. I do not know what a millisecond feels like but I know what "sluggish" feels like. Do not be sluggish.
 - Text selection via touch works like it does everywhere else on iPad. Long-press, drag handles, extend selection. Do not fight with iPadOS.
 - Copy-paste from other apps (Google Docs, Notes, email) preserves basic formatting (bold, italic, headings, lists). The Business Analyst says unsupported formatting is silently stripped. Fine. But what I paste in must not turn into a mess.
@@ -127,6 +128,7 @@ Specific things I care about:
 The AI rewrite is why I try DraftCrane. The chapter structure and Drive integration are why I stay. In Phase 0, without the Book Blueprint, the AI is a convenience improvement over ChatGPT. No more copy-paste. No more re-explaining my context in a chat window. That is real but incremental value.
 
 What would make the AI genuinely valuable in Phase 0:
+
 - **The suggestion chips work well.** "Simpler language" and "More concise" are the two I would use most. If tapping "Simpler language" consistently produces something clearer than my original without stripping my terminology, that is useful.
 - **"Try Again" is fast and seamless.** I will iterate. The first suggestion will rarely be right. If "Try Again" is a two-tap, two-second process (edit instruction, tap Rewrite, see streaming result), I will iterate three or four times. If it is slow or clunky, I will "Discard" and go back to ChatGPT.
 - **Undo is instant and obvious.** The Business Analyst and UX Lead both confirm Cmd+Z restores the original after I accept a rewrite. This is critical. If I accept a rewrite and immediately realize it was wrong, I need one keystroke to go back. No dialog, no confirmation, just undo.
@@ -205,12 +207,12 @@ The 500-word threshold the PM set is achievable even for someone writing from sc
 
 ### What I pay today for my broken writing workflow
 
-| Tool | Monthly Cost | What It Does | Satisfaction |
-|------|-------------|--------------|-------------|
-| ChatGPT Plus | $20/month | AI rewriting, brainstorming | Low -- does not sound like me |
-| Grammarly Premium | ~$12/month | Sentence-level polish | Moderate -- useful, not transformative |
-| Scrivener (sunk cost) | $49 one-time | Purchased, abandoned in 2 hours | Wasted money |
-| **Total monthly** | **$32/month** | Fragmented, frustrating | Low overall |
+| Tool                  | Monthly Cost  | What It Does                    | Satisfaction                           |
+| --------------------- | ------------- | ------------------------------- | -------------------------------------- |
+| ChatGPT Plus          | $20/month     | AI rewriting, brainstorming     | Low -- does not sound like me          |
+| Grammarly Premium     | ~$12/month    | Sentence-level polish           | Moderate -- useful, not transformative |
+| Scrivener (sunk cost) | $49 one-time  | Purchased, abandoned in 2 hours | Wasted money                           |
+| **Total monthly**     | **$32/month** | Fragmented, frustrating         | Low overall                            |
 
 DraftCrane replacing both ChatGPT and Grammarly is a real value proposition. If the in-editor AI rewrite is good enough that I do not need to open ChatGPT, and if the writing is clean enough that I do not need Grammarly running alongside, then DraftCrane at $24/month saves me $8/month and eliminates the three-tab workflow. That is a genuine pitch.
 
@@ -220,13 +222,13 @@ DraftCrane replacing both ChatGPT and Grammarly is a real value proposition. If 
 
 **Post-validation pricing from my perspective:**
 
-| Price Point | My Reaction |
-|-------------|-------------|
-| $19-29/month | No-brainer. Less than my current ChatGPT + Grammarly spend. I sign up without thinking. |
-| $39-49/month | Need to feel clear, ongoing value every month. A free trial that lets me experience the AI and the organization before committing. |
-| $79+/month | Would not pay. At that price I would hire a human book coach for one session per month instead. |
-| $199/year annual plan | No-brainer if the tool is good. Signals "professional tool." |
-| $249-349/year | Reasonable if Book Blueprint and Source Intelligence are included. That is Vellum territory and I would expect Vellum-like quality. |
+| Price Point           | My Reaction                                                                                                                         |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| $19-29/month          | No-brainer. Less than my current ChatGPT + Grammarly spend. I sign up without thinking.                                             |
+| $39-49/month          | Need to feel clear, ongoing value every month. A free trial that lets me experience the AI and the organization before committing.  |
+| $79+/month            | Would not pay. At that price I would hire a human book coach for one session per month instead.                                     |
+| $199/year annual plan | No-brainer if the tool is good. Signals "professional tool."                                                                        |
+| $249-349/year         | Reasonable if Book Blueprint and Source Intelligence are included. That is Vellum territory and I would expect Vellum-like quality. |
 
 **The Competitor Analyst's recommended pricing ($24/month, $199/year) is right.** It is below my no-brainer ceiling. It is below my current tool spend. The $199/year annual price hits my "no-brainer annual" threshold exactly. And it positions DraftCrane as a serious professional tool, not a consumer app.
 
@@ -243,6 +245,7 @@ The moment I would upgrade from free to paid: when the AI rewrites something and
 ## 6. Red Flags (Final -- Reduced from Round 2)
 
 Three of my six Round 2 red flags are resolved:
+
 - Content storage: resolved. Drive is canonical. Every team member agrees.
 - Social login: resolved. Google sign-in is in Phase 0.
 - Auto-save debounce disagreement: resolved. The three-tier architecture makes the exact number less important.
@@ -286,6 +289,7 @@ There is also a minor discrepancy: the Business Analyst says the page size is 5.
 Three rounds. Thousands of words. Here is my final message to the team, condensed to what matters most.
 
 **What is resolved and right:**
+
 1. Content lives in Google Drive. The three-tier save architecture is sound. The product promise is delivered.
 2. Google sign-in is in Phase 0. The onboarding friction is minimal.
 3. The AI interaction design (bottom sheet, suggestion chips, streaming, Try Again, undo) is well thought out.
@@ -294,11 +298,13 @@ Three rounds. Thousands of words. Here is my final message to the team, condense
 6. The pricing direction ($24/month, $199/year, free during validation) is right for the target customer.
 
 **What requires human decisions (the team has debated but not resolved):**
+
 1. Voice sample field during project setup -- my top micro-feature request. No team member has said yes or no.
 2. PDF page size: US Trade (5.5" x 8.5") vs. A5 (148mm x 210mm). Close but not identical. Pick one.
 3. PDF vs. EPUB priority if only one can be excellent. I say PDF. The PM suggested EPUB as the safer option (easier to generate). This needs a decision.
 
 **What I accept as Phase 0 limitations:**
+
 1. No Book Blueprint or voice matching until Phase 1. The AI will be generic. I will tolerate it if everything else works.
 2. No importing or organizing existing content until Phase 2. I will copy-paste. Make paste handling excellent.
 3. No version history beyond undo. I will live with it but I will be more cautious about making changes than I would in Google Docs.
@@ -317,12 +323,14 @@ The vision is right. The team alignment is strong. The execution details are whe
 These are genuine disagreements or open questions that surfaced across three rounds and have not been resolved. They require human decision-making.
 
 ### 1. Voice sample field during project setup
+
 **My position:** Add a single optional text area to the Book Setup screen: "Paste a page of your best writing so the AI can match your style." Use it as a prompt prefix for all AI rewrite requests. Minimal engineering cost, significant impact on AI output quality.
 **Team position:** Not addressed. No team member has explicitly accepted or rejected this. The PM's Phase 0 scope does not include it. The UX Lead's project setup has title and description but no voice sample. The Technical Lead's data model does not have a field for it.
 **Why it matters:** This is the difference between "the AI gave me something generic" and "the AI gave me something that sounds like a better version of me." The Target Customer's number one fear about AI is voice loss. A voice sample directly addresses that fear with minimal scope addition.
 **Decision needed from:** Product Manager.
 
 ### 2. PDF page size discrepancy
+
 **Business Analyst says:** 5.5" x 8.5" (US Trade, 139.7mm x 215.9mm)
 **Technical Lead says:** A5 (148mm x 210mm)
 **PM says:** A5
@@ -330,6 +338,7 @@ These are genuine disagreements or open questions that surfaced across three rou
 **Decision needed from:** Product Manager (binding).
 
 ### 3. PDF vs. EPUB priority if only one format can be excellent
+
 **PM says:** If PDF cannot meet the quality bar, consider descoping to EPUB-only.
 **My position:** PDF first. I will share a PDF with a colleague. I will not load an EPUB into Apple Books during a first session. PDF is the artifact that creates the "this is a real book" moment.
 **Technical Lead says:** EPUB is technically easier in Workers. PDF requires Browser Rendering (beta) or an external service.
@@ -337,12 +346,14 @@ These are genuine disagreements or open questions that surfaced across three rou
 **Decision needed from:** Product Manager after the ADR-004 spike.
 
 ### 4. Auto-save debounce interval
+
 **Technical Lead Round 2 says:** 2 seconds.
 **Business Analyst Round 2 says:** 5 seconds.
 **My position:** I no longer care about the specific number. The three-tier architecture (IndexedDB on every keystroke, Drive on debounce) means my work is protected either way. But the team should agree on one number so the UX Lead knows what "Saving..." timing to design around and the Technical Lead knows what Drive API call volume to budget for.
 **Decision needed from:** Product Manager (binding).
 
 ### 5. Freeform instruction field in AI rewrite: is it Phase 0?
+
 **UX Lead says:** Yes. A single-line instruction field alongside suggestion chips. Not "Ask Mode."
 **Business Analyst says:** Out of Scope for Phase 0 (US-017 lists "Custom/freeform AI prompts" as out of scope).
 **My position:** Yes. The instruction field is essential. Suggestion chips alone are too limited. I need to be able to type "more conversational, like a mentor talking to a peer" -- not just pick from four predefined options. The UX Lead's argument that this is distinct from Phase 1's Ask Mode (which is multi-turn conversation) is correct.

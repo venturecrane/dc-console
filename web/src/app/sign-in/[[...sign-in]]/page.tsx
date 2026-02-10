@@ -16,10 +16,7 @@ export default function SignInPage() {
     <div className="flex min-h-dvh flex-col items-center justify-center bg-gray-50 px-6 py-12">
       {/* Header with back to home */}
       <div className="mb-8 text-center">
-        <Link
-          href="/"
-          className="mb-4 inline-block text-sm text-gray-500 hover:text-gray-700"
-        >
+        <Link href="/" className="mb-4 inline-block text-sm text-gray-500 hover:text-gray-700">
           Back to DraftCrane
         </Link>
         <h1 className="text-2xl font-semibold text-gray-900">Welcome back</h1>
@@ -34,8 +31,7 @@ export default function SignInPage() {
             card: "shadow-lg rounded-xl border border-gray-100 bg-white",
             headerTitle: "hidden",
             headerSubtitle: "hidden",
-            socialButtonsBlockButton:
-              "h-12 text-base font-medium border-gray-200 hover:bg-gray-50",
+            socialButtonsBlockButton: "h-12 text-base font-medium border-gray-200 hover:bg-gray-50",
             socialButtonsBlockButtonText: "text-gray-700",
             dividerLine: "bg-gray-200",
             dividerText: "text-gray-500 text-sm",

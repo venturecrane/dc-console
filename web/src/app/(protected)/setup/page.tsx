@@ -76,9 +76,7 @@ export default function SetupPage() {
       <div className="w-full max-w-lg">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-semibold text-foreground mb-2">Create Your Book</h1>
-          <p className="text-muted-foreground">
-            Start your writing journey with a working title.
-          </p>
+          <p className="text-muted-foreground">Start your writing journey with a working title.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">

@@ -54,9 +54,7 @@ export default async function ProtectedLayout({ children }: ProtectedLayoutProps
       </header>
 
       {/* Main content area */}
-      <main className="flex-1 pb-[env(safe-area-inset-bottom)]">
-        {children}
-      </main>
+      <main className="flex-1 pb-[env(safe-area-inset-bottom)]">{children}</main>
     </div>
   );
 }

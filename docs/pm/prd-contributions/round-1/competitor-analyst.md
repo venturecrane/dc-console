@@ -13,6 +13,7 @@
 ### 1A. General Writing Tools
 
 #### Google Docs
+
 - **Pricing:** Free (with Google account); Google Workspace from $7/user/month
 - **Target User:** Everyone. Default writing tool for non-technical professionals.
 - **Key Strengths:** Zero friction to start. Real-time collaboration. Runs everywhere including iPad Safari. The user's files are already here. Google's AI features (Gemini) are being integrated for rewriting and drafting.
@@ -21,6 +22,7 @@
 - **Threat Level to DraftCrane:** HIGH. Not because it is a good book-writing tool, but because it is where every DraftCrane target user currently lives. The switching cost is emotional and habitual, not financial.
 
 #### Microsoft Word
+
 - **Pricing:** Microsoft 365 Personal $6.99/month or $69.99/year; one-time purchase ~$149.99
 - **Target User:** Office workers, academics, traditional publishing authors
 - **Key Strengths:** Industry standard for manuscript submission to traditional publishers. Mature formatting. Track changes for editor collaboration. Copilot AI integration for rewriting.
@@ -29,6 +31,7 @@
 - **Threat Level to DraftCrane:** MEDIUM. DraftCrane's target user is more likely a Google Docs user than a Word power user. Word users going to traditional publishing have a different workflow.
 
 #### Notion
+
 - **Pricing:** Free tier (limited); Plus $10/month; Business $18/month
 - **Target User:** Knowledge workers, project managers, teams
 - **Key Strengths:** Excellent organizational structure (databases, nested pages, toggles). Good for research collection and outlining. AI features for summarizing and rewriting. Strong on iPad.
@@ -39,6 +42,7 @@
 ### 1B. Book Writing Tools
 
 #### Scrivener
+
 - **Pricing:** One-time purchase. Mac: $49. Windows: $49. iOS: $23.99. No subscription.
 - **Target User:** Serious writers (fiction and nonfiction). Power users who want deep organizational control.
 - **Key Strengths:** The gold standard for manuscript organization. Binder (hierarchical document tree), Corkboard (index card view), Outliner, Snapshots (version history), Split editor, Research folder for imported materials, Compile system for flexible export to multiple formats (PDF, EPUB, DOCX, etc.), Full offline capability, One-time purchase (no subscription fatigue).
@@ -47,6 +51,7 @@
 - **Threat Level to DraftCrane:** HIGH for credibility, MEDIUM for actual user overlap. Scrivener is the answer every "what should I use to write a book?" thread gives. But DraftCrane's target user -- the iPad-first, non-technical professional -- is precisely the person who bought Scrivener, couldn't figure it out, and went back to Google Docs. This is DraftCrane's most important competitor to position against.
 
 #### Atticus
+
 - **Pricing:** One-time purchase: $147.99. No subscription.
 - **Target User:** Self-publishing authors who want writing + formatting in one tool.
 - **Key Strengths:** Browser-based (works on any device including iPad). Combined writing and formatting in one tool. Professional book formatting with templates. EPUB and print-ready PDF export. Chapter-based organization. Clean, modern UI. Offline support. One-time purchase.
@@ -55,6 +60,7 @@
 - **Threat Level to DraftCrane:** VERY HIGH. Atticus is the closest existing product to what DraftCrane Phase 0 delivers: browser-based, chapter-organized, export to book formats. The $147.99 one-time price is aggressive. DraftCrane must clearly articulate why it is better than Atticus, because "browser-based book writing with export" is literally Atticus's pitch. The answer must be: AI writing partner + cloud file integration + guided process. But in Phase 0, the AI is basic and there is no guided process yet.
 
 #### Vellum
+
 - **Pricing:** One-time purchase. Ebook-only: $249.99. Ebook + Print: $349.99.
 - **Target User:** Self-publishing authors focused on professional-quality book formatting and design.
 - **Key Strengths:** The most beautiful book formatting tool available. Gorgeous templates. WYSIWYG preview of final book layout. Ebook and print formatting that rivals traditional publishers. Excellent typography. Trim size presets. Chapter style customization. The output quality is genuinely exceptional.
@@ -63,6 +69,7 @@
 - **Threat Level to DraftCrane:** LOW for Phase 0. Vellum is a formatting tool, not a writing tool. However, Vellum's design quality sets the bar for what self-published authors expect their books to look like. DraftCrane's PDF/EPUB export will be compared against Vellum output, and it will lose that comparison in Phase 0. This matters because export quality is a DraftCrane Phase 0 feature.
 
 #### Reedsy Book Editor
+
 - **Pricing:** Free.
 - **Target User:** Self-publishing authors looking for a free, no-friction writing and formatting tool.
 - **Key Strengths:** Completely free. Browser-based. Clean editor. Chapter organization. Export to EPUB and PDF with decent formatting. Part of the Reedsy marketplace ecosystem (find editors, designers, marketers). Simple and approachable.
@@ -73,6 +80,7 @@
 ### 1C. AI Writing Assistants
 
 #### Sudowrite
+
 - **Pricing:** Subscription. Hobby & Student: $19/month. Professional: $29/month. Max: $59/month. Enterprise pricing available.
 - **Target User:** Fiction writers primarily. Creative writers who want AI to help with prose, description, dialogue, and plot.
 - **Key Strengths:** Purpose-built for creative writing. "Story Engine" can generate chapters from outlines. "Describe" generates sensory-rich prose. "Brainstorm" for plot and character development. Tone and style matching. Canvas visualization for story structure. The AI integration is deeply embedded in the writing workflow, not bolted on.
@@ -81,6 +89,7 @@
 - **Threat Level to DraftCrane:** LOW. Different target user (fiction), different philosophy (AI generates), different output (no publishing pipeline). However, Sudowrite's AI integration patterns are worth studying -- they have thought deeply about where AI fits in the writing workflow.
 
 #### Lex
+
 - **Pricing:** Free tier available. Premium reportedly ~$8-16/month (pricing has shifted multiple times).
 - **Target User:** Writers, bloggers, knowledge workers who want AI-augmented writing.
 - **Key Strengths:** Clean, minimalist editor. AI autocomplete (like GitHub Copilot for prose). AI feedback on writing quality. Simple, focused experience. Good web UI.
@@ -89,6 +98,7 @@
 - **Threat Level to DraftCrane:** LOW. Lex is an AI-augmented text editor, not a book-writing tool. Interesting for AI UX patterns but not a direct competitor.
 
 #### Jasper
+
 - **Pricing:** Subscription. Creator: $49/month. Pro: $69/month. Business: custom pricing.
 - **Target User:** Marketing teams, content creators, copywriters. Not book authors.
 - **Key Strengths:** Strong for short-form marketing copy. Template library. Brand voice configuration. Team collaboration.
@@ -97,6 +107,7 @@
 - **Threat Level to DraftCrane:** NONE. Completely different market. Including Jasper in competitive analyses is a common mistake -- it sounds like a competitor because "AI writing" but serves an entirely different use case.
 
 #### ChatGPT / Claude (direct)
+
 - **Pricing:** ChatGPT Plus: $20/month. Claude Pro: $20/month. Free tiers available.
 - **Target User:** Everyone.
 - **Key Strengths:** Extremely capable at rewriting, expanding, simplifying, brainstorming. No learning curve for basic use. Many aspiring authors already use ChatGPT to help with writing. Flexible -- can do anything you ask.
@@ -107,6 +118,7 @@
 ### 1D. Self-Publishing Platforms
 
 #### Amazon KDP (Kindle Direct Publishing)
+
 - **Pricing:** Free to publish. Amazon takes 30-65% royalty depending on pricing and format.
 - **Target User:** Anyone self-publishing a book.
 - **Key Strengths:** Largest ebook marketplace. Print-on-demand. Global distribution. Free ISBNs (Amazon-assigned). Massive reader base.
@@ -115,6 +127,7 @@
 - **Threat Level to DraftCrane:** Not a competitor but a critical integration point. DraftCrane must produce KDP-compatible output. Phase 3 includes a KDP submission checklist.
 
 #### Draft2Digital
+
 - **Pricing:** Free to publish. Takes 10% of net sales.
 - **Target User:** Self-publishing authors who want wide distribution (not Amazon-exclusive).
 - **Key Strengths:** Distribution to multiple retailers (Apple Books, Kobo, Barnes & Noble, etc.). Free formatting tool (D2D has a basic ebook formatter). Print-on-demand. Universal Book Links.
@@ -125,6 +138,7 @@
 ### 1E. Emerging AI-Native Writing Tools (2024-2025)
 
 #### Novelcrafter
+
 - **Pricing:** Subscription. Hobby: $9/month. Standard: $18/month. Professional: $30/month.
 - **Target User:** Fiction writers who want AI-assisted worldbuilding and drafting.
 - **Key Strengths:** Codex system for worldbuilding (characters, places, lore that AI references). Multiple AI model support (bring your own API key option). Session-based writing with AI. Good organizational tools.
@@ -133,6 +147,7 @@
 - **Threat Level to DraftCrane:** LOW directly, but the Codex concept (a persistent knowledge base the AI references) is conceptually similar to DraftCrane's Book Blueprint. Worth studying.
 
 #### Dabble Writer
+
 - **Pricing:** Subscription. Standard: ~$10/month. Premium: ~$15/month (billed annually prices are lower). Also has a lifetime option around $299.
 - **Target User:** Novel writers who want simple organization and goal tracking.
 - **Key Strengths:** Clean interface. Chapter/scene organization. Word count goals and tracking. Plot grid for story structure. Cloud sync across devices. Works in browser.
@@ -141,6 +156,7 @@
 - **Threat Level to DraftCrane:** LOW. Fiction tool, different audience.
 
 #### Shaxpir
+
 - **Pricing:** Free basic tier. Premium ~$4.99/month.
 - **Target User:** Writers who want Scrivener-like organization in a cloud-based tool.
 - **Key Strengths:** Cloud-based Scrivener alternative. Manuscript organization. Goal tracking. Board view for planning.
@@ -160,36 +176,38 @@ The five most relevant competitors for DraftCrane's target user (non-technical n
 4. **Reedsy Book Editor** (free browser-based alternative)
 5. **Notion + AI** (organizational alternative some users try)
 
-| Feature | DraftCrane Phase 0 | Google Docs + ChatGPT | Atticus | Scrivener | Reedsy Editor | Notion + AI |
-|---|---|---|---|---|---|---|
-| **Browser-based** | Yes | Yes | Yes | No (iOS app, not browser) | Yes | Yes |
-| **iPad-optimized** | Yes (primary target) | Partial (Docs good, ChatGPT separate app) | Yes | Partial (iOS app is limited) | Partial (not optimized) | Yes |
-| **Chapter-based structure** | Yes | No (manual headings) | Yes | Yes (excellent) | Yes | Manual |
-| **AI writing assistance** | Yes (basic rewrite) | Yes (copy-paste workflow) | No | No | No | Yes (basic) |
-| **Integrated AI (in-editor)** | Yes | No (separate tool) | No | No | No | Yes (limited) |
-| **PDF export (book-quality)** | Yes (basic) | No (basic PDF only) | Yes (professional) | Yes (via Compile) | Yes (decent) | No |
-| **EPUB export** | Yes | No | Yes | Yes | Yes | No |
-| **Cloud file ownership** | Yes (Google Drive) | Yes (Google Drive) | No (Atticus storage) | Partial (local files) | No (Reedsy storage) | No (Notion storage) |
-| **Source material integration** | No (Phase 2) | No | No | Yes (Research folder) | No | Partial (link pages) |
-| **Book Blueprint / style guide** | No (Phase 1) | No | No | No | No | No |
-| **Outline generation** | No (Phase 1) | Manual via ChatGPT | No | No | No | Manual via Notion AI |
-| **Professional formatting templates** | No (Phase 3) | No | Yes (good) | Yes (via Compile) | Yes (limited) | No |
-| **Collaboration** | No (Phase 2) | Yes (excellent) | No | No | No (share links only) | Yes (excellent) |
-| **Offline support** | No | Partial (Docs offline) | Yes (PWA) | Yes (native) | No | Partial |
-| **No subscription required** | TBD | Free + $20/mo ChatGPT | One-time $147.99 | One-time $49 | Free | $10+/month |
-| **Auto-save** | Yes | Yes | Yes | Manual + auto | Yes | Yes |
-| **Version history** | No (Phase 0) | Yes (Docs) | No | Yes (Snapshots) | No | Yes |
-| **Voice dictation** | No (Phase 1+) | No | No | No | No | No |
-| **Publishing checklist** | No (Phase 3) | No | No | No | No | No |
+| Feature                               | DraftCrane Phase 0   | Google Docs + ChatGPT                     | Atticus              | Scrivener                    | Reedsy Editor           | Notion + AI          |
+| ------------------------------------- | -------------------- | ----------------------------------------- | -------------------- | ---------------------------- | ----------------------- | -------------------- |
+| **Browser-based**                     | Yes                  | Yes                                       | Yes                  | No (iOS app, not browser)    | Yes                     | Yes                  |
+| **iPad-optimized**                    | Yes (primary target) | Partial (Docs good, ChatGPT separate app) | Yes                  | Partial (iOS app is limited) | Partial (not optimized) | Yes                  |
+| **Chapter-based structure**           | Yes                  | No (manual headings)                      | Yes                  | Yes (excellent)              | Yes                     | Manual               |
+| **AI writing assistance**             | Yes (basic rewrite)  | Yes (copy-paste workflow)                 | No                   | No                           | No                      | Yes (basic)          |
+| **Integrated AI (in-editor)**         | Yes                  | No (separate tool)                        | No                   | No                           | No                      | Yes (limited)        |
+| **PDF export (book-quality)**         | Yes (basic)          | No (basic PDF only)                       | Yes (professional)   | Yes (via Compile)            | Yes (decent)            | No                   |
+| **EPUB export**                       | Yes                  | No                                        | Yes                  | Yes                          | Yes                     | No                   |
+| **Cloud file ownership**              | Yes (Google Drive)   | Yes (Google Drive)                        | No (Atticus storage) | Partial (local files)        | No (Reedsy storage)     | No (Notion storage)  |
+| **Source material integration**       | No (Phase 2)         | No                                        | No                   | Yes (Research folder)        | No                      | Partial (link pages) |
+| **Book Blueprint / style guide**      | No (Phase 1)         | No                                        | No                   | No                           | No                      | No                   |
+| **Outline generation**                | No (Phase 1)         | Manual via ChatGPT                        | No                   | No                           | No                      | Manual via Notion AI |
+| **Professional formatting templates** | No (Phase 3)         | No                                        | Yes (good)           | Yes (via Compile)            | Yes (limited)           | No                   |
+| **Collaboration**                     | No (Phase 2)         | Yes (excellent)                           | No                   | No                           | No (share links only)   | Yes (excellent)      |
+| **Offline support**                   | No                   | Partial (Docs offline)                    | Yes (PWA)            | Yes (native)                 | No                      | Partial              |
+| **No subscription required**          | TBD                  | Free + $20/mo ChatGPT                     | One-time $147.99     | One-time $49                 | Free                    | $10+/month           |
+| **Auto-save**                         | Yes                  | Yes                                       | Yes                  | Manual + auto                | Yes                     | Yes                  |
+| **Version history**                   | No (Phase 0)         | Yes (Docs)                                | No                   | Yes (Snapshots)              | No                      | Yes                  |
+| **Voice dictation**                   | No (Phase 1+)        | No                                        | No                   | No                           | No                      | No                   |
+| **Publishing checklist**              | No (Phase 3)         | No                                        | No                   | No                           | No                      | No                   |
 
 ### Honest Assessment of Phase 0 Position
 
 **Where DraftCrane Phase 0 wins:**
+
 - Integrated AI writing assistance in a book-aware editor (only tool that combines these)
 - Cloud file ownership (user keeps their files in Google Drive -- unique positioning)
 - Designed specifically for iPad browser use
 
 **Where DraftCrane Phase 0 loses:**
+
 - Export quality vs. Atticus, Vellum, or even Scrivener Compile (DraftCrane will be basic)
 - Organizational depth vs. Scrivener (no binder, no corkboard, no research folder)
 - Formatting templates vs. Atticus (DraftCrane has none in Phase 0)
@@ -250,6 +268,7 @@ Notion is great for organizing research but terrible for writing prose. The bloc
 The single feature/experience that gets users to switch must be something they cannot replicate with their current tools. For DraftCrane, the wedge is NOT Phase 0 features. The wedge is the Phase 1 experience: **the Book Blueprint + AI that understands your entire manuscript.**
 
 The sequence is:
+
 1. **Phase 0 gets users in the door** with "write your book in the browser with AI help, files stay in your Drive."
 2. **Phase 1 creates the lock-in** with "your AI writing partner knows your voice, your terminology, your argument structure, and your sources -- and it gets smarter the more you write."
 
@@ -302,18 +321,18 @@ Sudowrite has the most thoughtful AI integration in any writing tool. Key patter
 
 Based on extensive review of user forums, Reddit threads, writing communities, and tool reviews:
 
-| Complaint | Source Tool(s) | How DraftCrane Addresses It |
-|---|---|---|
-| "I bought Scrivener but never figured it out" | Scrivener | Simpler, guided UI; no learning curve |
-| "I write in Docs but have no structure" | Google Docs | Chapter-based structure, future outline generation |
-| "I keep copy-pasting into ChatGPT" | ChatGPT/Claude + Docs | AI integrated directly in the editor |
-| "My book is scattered across 10 documents" | Google Docs, Word | Single project with chapter organization |
-| "I'm terrified of losing my work" | Various | Files saved to user's own Google Drive |
-| "I don't know if my book looks professional" | Google Docs, Word | Professional-quality export (Phase 0: basic; Phase 3: polished) |
-| "Scrivener doesn't work well on my iPad" | Scrivener iOS | Browser-first, iPad-optimized |
-| "Atticus has no AI to help me write" | Atticus | AI writing assistance is core |
-| "I don't know how to structure a nonfiction book" | All tools | Book Blueprint + guided outline (Phase 1) |
-| "My content is locked in [tool X]" | Notion, Atticus, Reedsy | Files live in Google Drive, always exportable |
+| Complaint                                         | Source Tool(s)          | How DraftCrane Addresses It                                     |
+| ------------------------------------------------- | ----------------------- | --------------------------------------------------------------- |
+| "I bought Scrivener but never figured it out"     | Scrivener               | Simpler, guided UI; no learning curve                           |
+| "I write in Docs but have no structure"           | Google Docs             | Chapter-based structure, future outline generation              |
+| "I keep copy-pasting into ChatGPT"                | ChatGPT/Claude + Docs   | AI integrated directly in the editor                            |
+| "My book is scattered across 10 documents"        | Google Docs, Word       | Single project with chapter organization                        |
+| "I'm terrified of losing my work"                 | Various                 | Files saved to user's own Google Drive                          |
+| "I don't know if my book looks professional"      | Google Docs, Word       | Professional-quality export (Phase 0: basic; Phase 3: polished) |
+| "Scrivener doesn't work well on my iPad"          | Scrivener iOS           | Browser-first, iPad-optimized                                   |
+| "Atticus has no AI to help me write"              | Atticus                 | AI writing assistance is core                                   |
+| "I don't know how to structure a nonfiction book" | All tools               | Book Blueprint + guided outline (Phase 1)                       |
+| "My content is locked in [tool X]"                | Notion, Atticus, Reedsy | Files live in Google Drive, always exportable                   |
 
 ---
 
@@ -321,19 +340,19 @@ Based on extensive review of user forums, Reddit threads, writing communities, a
 
 ### What Competitors Charge
 
-| Tool | Model | Price | Notes |
-|---|---|---|---|
-| Google Docs | Free / Subscription | Free ($7/mo for Workspace) | AI features included |
-| Scrivener | One-time | $49 (Mac/Win), $23.99 (iOS) | No recurring cost |
-| Atticus | One-time | $147.99 | No recurring cost |
-| Vellum | One-time | $249.99 - $349.99 | Mac only, formatting only |
-| Reedsy Editor | Free | $0 | Funnel to marketplace services |
-| Sudowrite | Subscription | $19-59/month | AI usage limits per tier |
-| Lex | Freemium | Free - ~$16/month | Pricing has fluctuated |
-| Novelcrafter | Subscription | $9-30/month | AI usage limits per tier |
-| Dabble | Subscription | $10-15/month or ~$299 lifetime | |
-| Notion | Freemium | Free - $18/month | General tool, not book-specific |
-| ChatGPT Plus | Subscription | $20/month | General AI, not book-specific |
+| Tool          | Model               | Price                          | Notes                           |
+| ------------- | ------------------- | ------------------------------ | ------------------------------- |
+| Google Docs   | Free / Subscription | Free ($7/mo for Workspace)     | AI features included            |
+| Scrivener     | One-time            | $49 (Mac/Win), $23.99 (iOS)    | No recurring cost               |
+| Atticus       | One-time            | $147.99                        | No recurring cost               |
+| Vellum        | One-time            | $249.99 - $349.99              | Mac only, formatting only       |
+| Reedsy Editor | Free                | $0                             | Funnel to marketplace services  |
+| Sudowrite     | Subscription        | $19-59/month                   | AI usage limits per tier        |
+| Lex           | Freemium            | Free - ~$16/month              | Pricing has fluctuated          |
+| Novelcrafter  | Subscription        | $9-30/month                    | AI usage limits per tier        |
+| Dabble        | Subscription        | $10-15/month or ~$299 lifetime |                                 |
+| Notion        | Freemium            | Free - $18/month               | General tool, not book-specific |
+| ChatGPT Plus  | Subscription        | $20/month                      | General AI, not book-specific   |
 
 ### Market Patterns
 
@@ -350,6 +369,7 @@ Based on extensive review of user forums, Reddit threads, writing communities, a
 **For validation: Free, with clear future pricing signals.**
 
 Rationale:
+
 - Phase 0 is a validation exercise, not a revenue exercise. The kill criteria are about user engagement (completing chapters, returning for second sessions), not revenue.
 - Charging during Phase 0 adds a conversion barrier that makes it harder to learn whether the product experience works. You want to isolate "do users find value in this?" from "are users willing to pay for this?"
 - The product is too early and too feature-thin to justify payment against free alternatives (Reedsy, Docs+ChatGPT).
@@ -358,6 +378,7 @@ Rationale:
 **For Phase 1 onward:** Subscription in the $12-20/month range, with a meaningful free tier that lets users try the basic editor but gates AI features and advanced export behind the subscription. Consider an annual plan with discount ($120-180/year). A one-time purchase is not sustainable given ongoing AI compute costs, but consider a generous annual plan to reduce subscription anxiety.
 
 **What NOT to do:**
+
 - Do not launch at $49/month thinking "we have AI." Sudowrite maxes at $59/month and has years of AI depth. DraftCrane has basic rewrite.
 - Do not launch with a complicated tier structure. Two tiers maximum: Free (basic editor + limited AI) and Pro (full AI + all export formats + future features).
 - Do not charge per word, per chapter, or per export. Authors hate metered pricing for creative tools. It creates anxiety about every AI interaction.
@@ -386,13 +407,13 @@ This is honest about what Phase 0 delivers. Do not over-promise the source intel
 
 For easy reference during product decisions:
 
-| Decision | Key Competitor Benchmark |
-|---|---|
-| "How should the editor feel?" | Atticus (clean, approachable) + Vellum (design-first) |
-| "How should AI be integrated?" | Sudowrite (contextual actions, not generic chatbot) |
-| "How should chapter organization work?" | Scrivener (binder sidebar) simplified for non-technical users |
-| "What should export output look like?" | Atticus (minimum bar), Vellum (aspiration) |
-| "What is the user doing today without us?" | Google Docs + ChatGPT copy-paste workflow |
-| "What did the user try and abandon?" | Scrivener (too complex), possibly Notion (wrong tool for the job) |
-| "What free alternative will they compare us to?" | Reedsy Book Editor |
-| "What price anchors exist in their mind?" | Scrivener $49, Atticus $148, ChatGPT $20/mo |
+| Decision                                         | Key Competitor Benchmark                                          |
+| ------------------------------------------------ | ----------------------------------------------------------------- |
+| "How should the editor feel?"                    | Atticus (clean, approachable) + Vellum (design-first)             |
+| "How should AI be integrated?"                   | Sudowrite (contextual actions, not generic chatbot)               |
+| "How should chapter organization work?"          | Scrivener (binder sidebar) simplified for non-technical users     |
+| "What should export output look like?"           | Atticus (minimum bar), Vellum (aspiration)                        |
+| "What is the user doing today without us?"       | Google Docs + ChatGPT copy-paste workflow                         |
+| "What did the user try and abandon?"             | Scrivener (too complex), possibly Notion (wrong tool for the job) |
+| "What free alternative will they compare us to?" | Reedsy Book Editor                                                |
+| "What price anchors exist in their mind?"        | Scrivener $49, Atticus $148, ChatGPT $20/mo                       |

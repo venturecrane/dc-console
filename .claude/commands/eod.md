@@ -68,12 +68,15 @@ Create/update the handoff file with structure:
 ## Current State
 
 ### In Progress
+
 [List of status:in-progress issues with brief notes]
 
 ### Ready to Pick Up
+
 [List of status:ready issues]
 
 ### Blocked
+
 [List of blocked items with blocker description]
 
 ---
@@ -81,12 +84,15 @@ Create/update the handoff file with structure:
 ## Session Summary ([DATE])
 
 ### Accomplished
+
 [From user input]
 
 ### Left Off
+
 [From user input]
 
 ### Needs Attention
+
 [From user input]
 
 ---
@@ -99,12 +105,12 @@ Create/update the handoff file with structure:
 
 ## Quick Reference
 
-| Command | When to Use |
-|---------|-------------|
-| `/sod` | Start of session |
-| `/handoff <issue>` | PR ready for QA |
-| `/question <issue> <text>` | Need PM clarification |
-| `/merge <issue>` | After `status:verified` |
+| Command                    | When to Use             |
+| -------------------------- | ----------------------- |
+| `/sod`                     | Start of session        |
+| `/handoff <issue>`         | PR ready for QA         |
+| `/question <issue> <text>` | Need PM clarification   |
+| `/merge <issue>`           | After `status:verified` |
 ```
 
 ### 5. Write Handoff File
@@ -172,11 +178,11 @@ Good work today. See you next session! 👋
 
 ## Handoff File Location
 
-| Repository Type | Handoff Path |
-|-----------------|--------------|
-| Product repo (dfg, sc-*) | `docs/handoffs/DEV.md` |
-| Infrastructure repo (crane-*) | `docs/handoffs/DEV.md` |
-| Operations repo (*-operations) | `DEV.md` (root) |
+| Repository Type                 | Handoff Path           |
+| ------------------------------- | ---------------------- |
+| Product repo (dfg, sc-\*)       | `docs/handoffs/DEV.md` |
+| Infrastructure repo (crane-\*)  | `docs/handoffs/DEV.md` |
+| Operations repo (\*-operations) | `DEV.md` (root)        |
 
 ## Notes
 

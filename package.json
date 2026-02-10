@@ -1,7 +1,10 @@
 {
   "name": "dc-console",
   "private": true,
-  "workspaces": ["web", "workers/*"],
+  "workspaces": [
+    "web",
+    "workers/*"
+  ],
   "scripts": {
     "lint": "npm run lint --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
