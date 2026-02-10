@@ -93,10 +93,7 @@ export function ChapterEditor({
     const viewport = window.visualViewport;
     const handleResize = () => {
       const keyboardHeight = window.innerHeight - viewport.height;
-      document.documentElement.style.setProperty(
-        "--keyboard-height",
-        `${keyboardHeight}px`
-      );
+      document.documentElement.style.setProperty("--keyboard-height", `${keyboardHeight}px`);
     };
 
     viewport.addEventListener("resize", handleResize);
@@ -109,9 +106,7 @@ export function ChapterEditor({
   }, []);
 
   if (!editor) {
-    return (
-      <div className="min-h-[400px] animate-pulse bg-gray-100 rounded-lg" />
-    );
+    return <div className="min-h-[400px] animate-pulse bg-gray-100 rounded-lg" />;
   }
 
   return (
@@ -209,12 +204,8 @@ function EditorToolbar({ editor }: { editor: Editor }) {
   const buttonClass = useCallback(
     (isActive: boolean) =>
       `p-2 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center
-       ${
-         isActive
-           ? "bg-blue-100 text-blue-700"
-           : "hover:bg-gray-100 text-gray-600"
-       }`,
-    []
+       ${isActive ? "bg-blue-100 text-blue-700" : "hover:bg-gray-100 text-gray-600"}`,
+    [],
   );
 
   return (
@@ -232,8 +223,18 @@ function EditorToolbar({ editor }: { editor: Editor }) {
         aria-pressed={editor.isActive("bold")}
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z"
+          />
         </svg>
       </button>
 
@@ -246,7 +247,13 @@ function EditorToolbar({ editor }: { editor: Editor }) {
         aria-pressed={editor.isActive("italic")}
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 4h4m-2 0v16m0 0h-4m4 0h4" transform="skewX(-10)" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M10 4h4m-2 0v16m0 0h-4m4 0h4"
+            transform="skewX(-10)"
+          />
         </svg>
       </button>
 
@@ -285,7 +292,12 @@ function EditorToolbar({ editor }: { editor: Editor }) {
         aria-pressed={editor.isActive("bulletList")}
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 6h16M4 12h16M4 18h16"
+          />
           <circle cx="2" cy="6" r="1" fill="currentColor" />
           <circle cx="2" cy="12" r="1" fill="currentColor" />
           <circle cx="2" cy="18" r="1" fill="currentColor" />
@@ -301,10 +313,21 @@ function EditorToolbar({ editor }: { editor: Editor }) {
         aria-pressed={editor.isActive("orderedList")}
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 6h13M7 12h13M7 18h13" />
-          <text x="2" y="8" fontSize="8" fill="currentColor">1</text>
-          <text x="2" y="14" fontSize="8" fill="currentColor">2</text>
-          <text x="2" y="20" fontSize="8" fill="currentColor">3</text>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M7 6h13M7 12h13M7 18h13"
+          />
+          <text x="2" y="8" fontSize="8" fill="currentColor">
+            1
+          </text>
+          <text x="2" y="14" fontSize="8" fill="currentColor">
+            2
+          </text>
+          <text x="2" y="20" fontSize="8" fill="currentColor">
+            3
+          </text>
         </svg>
       </button>
 
@@ -317,7 +340,12 @@ function EditorToolbar({ editor }: { editor: Editor }) {
         aria-pressed={editor.isActive("blockquote")}
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+          />
         </svg>
       </button>
 
@@ -332,7 +360,12 @@ function EditorToolbar({ editor }: { editor: Editor }) {
         aria-label="Undo"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
+          />
         </svg>
       </button>
 
@@ -345,7 +378,12 @@ function EditorToolbar({ editor }: { editor: Editor }) {
         aria-label="Redo"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 10H11a8 8 0 00-8 8v2M21 10l-6 6m6-6l-6-6" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 10H11a8 8 0 00-8 8v2M21 10l-6 6m6-6l-6-6"
+          />
         </svg>
       </button>
     </div>

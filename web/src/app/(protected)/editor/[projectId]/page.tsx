@@ -100,9 +100,7 @@ export default function EditorPage() {
 
         // Set active chapter to first one if not already set
         if (data.chapters.length > 0 && !activeChapterId) {
-          const sortedChapters = [...data.chapters].sort(
-            (a, b) => a.sortOrder - b.sortOrder
-          );
+          const sortedChapters = [...data.chapters].sort((a, b) => a.sortOrder - b.sortOrder);
           setActiveChapterId(sortedChapters[0].id);
         }
 
@@ -122,9 +120,7 @@ export default function EditorPage() {
   }, [projectId, getToken, router, activeChapterId]);
 
   // Get active chapter (needed early for handlers)
-  const activeChapter = projectData?.chapters.find(
-    (ch) => ch.id === activeChapterId
-  );
+  const activeChapter = projectData?.chapters.find((ch) => ch.id === activeChapterId);
 
   // Handle chapter selection
   const handleChapterSelect = useCallback((chapterId: string) => {
@@ -149,7 +145,7 @@ export default function EditorPage() {
           body: JSON.stringify({
             title: "Untitled Chapter",
           }),
-        }
+        },
       );
 
       if (!response.ok) {
@@ -175,11 +171,14 @@ export default function EditorPage() {
   }, [projectData, projectId, getToken]);
 
   // Handle content changes
-  const handleContentUpdate = useCallback((html: string) => {
-    if (!activeChapterId) return;
-    setChapterContent((prev) => ({ ...prev, [activeChapterId]: html }));
-    setSaveStatus("unsaved");
-  }, [activeChapterId]);
+  const handleContentUpdate = useCallback(
+    (html: string) => {
+      if (!activeChapterId) return;
+      setChapterContent((prev) => ({ ...prev, [activeChapterId]: html }));
+      setSaveStatus("unsaved");
+    },
+    [activeChapterId],
+  );
 
   // Handle save (placeholder - real implementation in US-015)
   const handleSave = useCallback(() => {
@@ -207,7 +206,7 @@ export default function EditorPage() {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ title: titleValue.trim() }),
-        }
+        },
       );
 
       if (response.ok) {
@@ -217,7 +216,7 @@ export default function EditorPage() {
           return {
             ...prev,
             chapters: prev.chapters.map((ch) =>
-              ch.id === activeChapterId ? { ...ch, title: titleValue.trim() } : ch
+              ch.id === activeChapterId ? { ...ch, title: titleValue.trim() } : ch,
             ),
           };
         });
@@ -239,7 +238,10 @@ export default function EditorPage() {
 
   // Count words in HTML content
   const countWords = useCallback((html: string): number => {
-    const text = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+    const text = html
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
     return text ? text.split(" ").length : 0;
   }, []);
 
@@ -248,8 +250,7 @@ export default function EditorPage() {
   const currentWordCount = countWords(currentContent);
 
   // Calculate total word count
-  const totalWordCount =
-    projectData?.chapters.reduce((sum, ch) => sum + ch.wordCount, 0) ?? 0;
+  const totalWordCount = projectData?.chapters.reduce((sum, ch) => sum + ch.wordCount, 0) ?? 0;
 
   // Convert chapters to sidebar format
   const sidebarChapters: ChapterData[] =
@@ -312,10 +313,7 @@ export default function EditorPage() {
         />
 
         {/* Mobile overlay sidebar */}
-        <SidebarOverlay
-          isOpen={mobileOverlayOpen}
-          onClose={() => setMobileOverlayOpen(false)}
-        >
+        <SidebarOverlay isOpen={mobileOverlayOpen} onClose={() => setMobileOverlayOpen(false)}>
           <Sidebar
             chapters={sidebarChapters}
             activeChapterId={activeChapterId ?? undefined}
@@ -342,8 +340,14 @@ export default function EditorPage() {
           {/* Toolbar actions */}
           <div className="flex items-center gap-2">
             {/* Save status */}
-            <span className={`text-xs ${saveStatus === "unsaved" ? "text-amber-600" : "text-muted-foreground"}`}>
-              {saveStatus === "saving" ? "Saving..." : saveStatus === "unsaved" ? "Unsaved" : "Saved"}
+            <span
+              className={`text-xs ${saveStatus === "unsaved" ? "text-amber-600" : "text-muted-foreground"}`}
+            >
+              {saveStatus === "saving"
+                ? "Saving..."
+                : saveStatus === "unsaved"
+                  ? "Unsaved"
+                  : "Saved"}
             </span>
 
             {/* Export button */}
@@ -388,10 +392,7 @@ export default function EditorPage() {
             {/* Drive connection banner - contextual, not blocking */}
             {driveStatus && !driveStatus.connected && (
               <div className="mb-6">
-                <DriveBanner
-                  connected={false}
-                  dismissible={true}
-                />
+                <DriveBanner connected={false} dismissible={true} />
               </div>
             )}
 

@@ -9,6 +9,7 @@
 DraftCrane requires a rich text editor for chapter content editing. The PRD identifies this as Risk 3 (High Likelihood, Critical Impact): "Editor fails on iPad Safari. Rich text editing in mobile Safari is fragile."
 
 **Key constraints:**
+
 - iPad Safari is the primary test target (PRD Principle 1)
 - Input latency under 100ms required
 - Must work with virtual keyboard (40-50% screen consumption)
@@ -16,6 +17,7 @@ DraftCrane requires a rich text editor for chapter content editing. The PRD iden
 - Bundle budget: ~200KB lazy-loaded acceptable
 
 **Options evaluated:**
+
 1. **Tiptap** - ProseMirror-based, ~150KB, best iPad Safari track record
 2. **Lexical** - Meta, ~30KB, less iPad battle-tested
 3. **Plate** - Slate-based, known iOS issues
@@ -57,10 +59,10 @@ DraftCrane requires a rich text editor for chapter content editing. The PRD iden
 
 ### Known Issues & Mitigations
 
-| Issue | Mitigation |
-|-------|------------|
+| Issue                                               | Mitigation                                                                    |
+| --------------------------------------------------- | ----------------------------------------------------------------------------- |
 | Virtual keyboard toolbar positioning (Tiptap #6571) | Use `visualViewport` API + `interactive-widget=resizes-content` viewport meta |
-| Google Docs paste uses inline styles | Custom paste handler transforms to semantic marks |
+| Google Docs paste uses inline styles                | Custom paste handler transforms to semantic marks                             |
 
 ## Implementation Notes
 
@@ -73,8 +75,8 @@ npm install @tiptap/react @tiptap/starter-kit @tiptap/extension-placeholder
 ### Required Extensions
 
 ```typescript
-import StarterKit from '@tiptap/starter-kit'
-import Placeholder from '@tiptap/extension-placeholder'
+import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
 
 // StarterKit includes: Bold, Italic, Heading, BulletList, OrderedList, Blockquote, History
 ```
@@ -84,21 +86,24 @@ import Placeholder from '@tiptap/extension-placeholder'
 Add to `app/layout.tsx`:
 
 ```html
-<meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, interactive-widget=resizes-content"
+/>
 ```
 
 ### Virtual Keyboard Handling
 
 ```typescript
 useEffect(() => {
-  if (typeof window !== 'undefined' && window.visualViewport) {
+  if (typeof window !== "undefined" && window.visualViewport) {
     const viewport = window.visualViewport;
     const handleResize = () => {
       const keyboardHeight = window.innerHeight - viewport.height;
-      document.documentElement.style.setProperty('--keyboard-height', `${keyboardHeight}px`);
+      document.documentElement.style.setProperty("--keyboard-height", `${keyboardHeight}px`);
     };
-    viewport.addEventListener('resize', handleResize);
-    return () => viewport.removeEventListener('resize', handleResize);
+    viewport.addEventListener("resize", handleResize);
+    return () => viewport.removeEventListener("resize", handleResize);
   }
 }, []);
 ```
@@ -109,8 +114,8 @@ Google Docs wraps content in `<b id="docs-internal-guid-...">` with inline style
 
 ```typescript
 const handlePaste = (view: EditorView, event: ClipboardEvent) => {
-  const html = event.clipboardData?.getData('text/html');
-  if (html?.includes('docs-internal-guid')) {
+  const html = event.clipboardData?.getData("text/html");
+  if (html?.includes("docs-internal-guid")) {
     // Transform Google Docs HTML to semantic marks
     // See implementation in editor component
   }
