@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import { Sidebar, SidebarOverlay, type ChapterData } from "@/components/sidebar";
+import { DriveBanner } from "@/components/drive-banner";
 
 interface Project {
   id: string;
@@ -13,6 +14,11 @@ interface Project {
   status: string;
   createdAt: string;
   updatedAt: string;
+}
+
+interface DriveStatus {
+  connected: boolean;
+  email?: string;
 }
 
 interface Chapter {
@@ -52,34 +58,37 @@ export default function EditorPage() {
 
   const [projectData, setProjectData] = useState<ProjectData | null>(null);
   const [activeChapterId, setActiveChapterId] = useState<string | null>(null);
+  const [driveStatus, setDriveStatus] = useState<DriveStatus | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileOverlayOpen, setMobileOverlayOpen] = useState(false);
 
-  // Fetch project data
+  // Fetch project data and drive status
   useEffect(() => {
-    async function fetchProject() {
+    async function fetchData() {
       try {
         const token = await getToken();
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/projects/${projectId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
 
-        if (!response.ok) {
-          if (response.status === 404) {
+        // Fetch project and user data in parallel
+        const [projectResponse, userResponse] = await Promise.all([
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/projects/${projectId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+        ]);
+
+        if (!projectResponse.ok) {
+          if (projectResponse.status === 404) {
             router.push("/dashboard");
             return;
           }
           throw new Error("Failed to load project");
         }
 
-        const data: ProjectData = await response.json();
+        const data: ProjectData = await projectResponse.json();
         setProjectData(data);
 
         // Set active chapter to first one if not already set
@@ -89,6 +98,12 @@ export default function EditorPage() {
           );
           setActiveChapterId(sortedChapters[0].id);
         }
+
+        // Set drive status if user data loaded successfully
+        if (userResponse.ok) {
+          const userData = await userResponse.json();
+          setDriveStatus(userData.drive);
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred");
       } finally {
@@ -96,7 +111,7 @@ export default function EditorPage() {
       }
     }
 
-    fetchProject();
+    fetchData();
   }, [projectId, getToken, router, activeChapterId]);
 
   // Handle chapter selection
@@ -288,6 +303,16 @@ export default function EditorPage() {
         {/* Editor area */}
         <div className="flex-1 overflow-auto">
           <div className="max-w-3xl mx-auto px-6 py-8">
+            {/* Drive connection banner - contextual, not blocking */}
+            {driveStatus && !driveStatus.connected && (
+              <div className="mb-6">
+                <DriveBanner
+                  connected={false}
+                  dismissible={true}
+                />
+              </div>
+            )}
+
             {/* Chapter title - editable */}
             <h1 className="text-3xl font-semibold text-foreground mb-6 outline-none">
               {activeChapter?.title || "Untitled Chapter"}
