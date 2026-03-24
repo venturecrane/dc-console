@@ -13,7 +13,7 @@
     "db:migrate:remote": "wrangler d1 migrations apply dc-main --remote"
   },
   "dependencies": {
-    "hono": "^4.12.3",
+    "hono": "^4.12.9",
     "jszip": "^3.10.1",
     "sanitize-html": "^2.17.0",
     "svix": "^1.84.1",
@@ -21,11 +21,11 @@
     "unpdf": "^1.4.0"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.12.13",
+    "@cloudflare/vitest-pool-workers": "^0.13.3",
     "@cloudflare/workers-types": "^4.20250124.0",
     "@types/sanitize-html": "^2.16.0",
     "typescript": "^5.7.0",
-    "vitest": "~3.2.0",
+    "vitest": "^4.1.1",
     "wrangler": "^4.0.0"
   }
 }
