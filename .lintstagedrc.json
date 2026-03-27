@@ -1,5 +1,5 @@
 {
   "*.{ts,tsx,js,jsx}": ["prettier --write"],
-  "web/**/*.{ts,tsx,js,jsx}": ["eslint --fix"],
+  "web/**/*.{ts,tsx,js,jsx}": ["eslint --fix --config web/eslint.config.mjs"],
   "*.{md,json,yml,yaml,css}": ["prettier --write"]
 }

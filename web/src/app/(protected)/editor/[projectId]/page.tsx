@@ -13,12 +13,14 @@ import { EditorWritingArea } from '@/components/editor/editor-writing-area'
 import { EditorDialogs } from '@/components/editor/editor-dialogs'
 import { EditorPanel, EditorPanelOverlay } from '@/components/editor/editor-panel'
 import { ChapterEditorPanel } from '@/components/editor/chapter-editor-panel'
+import { BookEditorPanel } from '@/components/editor/book-editor-panel'
 import { SkipLink } from '@/components/editor/skip-link'
 import { ToastProvider } from '@/components/toast'
 import { useAutoSave } from '@/hooks/use-auto-save'
 import { useSignOut } from '@/hooks/use-sign-out'
 import { useChapterManagement } from '@/hooks/use-chapter-management'
 import { useEditorAI } from '@/hooks/use-editor-ai'
+import { useBookAI } from '@/hooks/use-book-ai'
 import { useEditorTitle } from '@/hooks/use-editor-title'
 import { useProjectActions } from '@/hooks/use-project-actions'
 import { useEditorProject } from '@/hooks/use-editor-project'
@@ -198,6 +200,22 @@ function EditorPageInner() {
     editorRef,
   })
 
+  // --- Book AI analysis ---
+  const {
+    state: bookAIState,
+    result: bookAIResult,
+    errorMessage: bookAIError,
+    analyze: bookAIAnalyze,
+    reset: bookAIReset,
+  } = useBookAI({
+    getToken: getToken as () => Promise<string | null>,
+    apiUrl: API_URL,
+    projectId,
+  })
+
+  // --- Derived panel title based on view mode ---
+  const editorPanelTitle = viewMode === 'book' ? 'Book Editor' : 'Chapter Editor'
+
   // --- Editor title ---
   const {
     editingTitle,
@@ -311,20 +329,36 @@ function EditorPageInner() {
           }}
         />
 
-        <EditorPanel isOpen={editorPanelOpen} onClose={() => setEditorPanelOpen(false)}>
-          <ChapterEditorPanel
-            sheetState={aiSheetState}
-            result={aiCurrentResult}
-            errorMessage={aiErrorMessage}
-            selectedText={editorSelectedText}
-            onAccept={handleAIAccept}
-            onRetry={handleAIRetry}
-            onDiscard={handleAIDiscard}
-            onGoDeeper={handleGoDeeper}
-            onRewriteWithInstruction={() => {
-              handleOpenAiRewrite()
-            }}
-          />
+        <EditorPanel
+          isOpen={editorPanelOpen}
+          onClose={() => setEditorPanelOpen(false)}
+          title={editorPanelTitle}
+        >
+          {viewMode === 'book' ? (
+            <BookEditorPanel
+              analysisState={bookAIState}
+              result={bookAIResult}
+              errorMessage={bookAIError}
+              onAnalyze={bookAIAnalyze}
+              onReset={bookAIReset}
+              chapterCount={projectData?.chapters.length ?? 0}
+              totalWordCount={totalWordCount}
+            />
+          ) : (
+            <ChapterEditorPanel
+              sheetState={aiSheetState}
+              result={aiCurrentResult}
+              errorMessage={aiErrorMessage}
+              selectedText={editorSelectedText}
+              onAccept={handleAIAccept}
+              onRetry={handleAIRetry}
+              onDiscard={handleAIDiscard}
+              onGoDeeper={handleGoDeeper}
+              onRewriteWithInstruction={() => {
+                handleOpenAiRewrite()
+              }}
+            />
+          )}
         </EditorPanel>
 
         <div className="flex-1 flex flex-col min-w-0">
@@ -401,20 +435,36 @@ function EditorPageInner() {
 
         <SourcesPanelOverlay />
 
-        <EditorPanelOverlay isOpen={editorPanelOpen} onClose={() => setEditorPanelOpen(false)}>
-          <ChapterEditorPanel
-            sheetState={aiSheetState}
-            result={aiCurrentResult}
-            errorMessage={aiErrorMessage}
-            selectedText={editorSelectedText}
-            onAccept={handleAIAccept}
-            onRetry={handleAIRetry}
-            onDiscard={handleAIDiscard}
-            onGoDeeper={handleGoDeeper}
-            onRewriteWithInstruction={() => {
-              handleOpenAiRewrite()
-            }}
-          />
+        <EditorPanelOverlay
+          isOpen={editorPanelOpen}
+          onClose={() => setEditorPanelOpen(false)}
+          title={editorPanelTitle}
+        >
+          {viewMode === 'book' ? (
+            <BookEditorPanel
+              analysisState={bookAIState}
+              result={bookAIResult}
+              errorMessage={bookAIError}
+              onAnalyze={bookAIAnalyze}
+              onReset={bookAIReset}
+              chapterCount={projectData?.chapters.length ?? 0}
+              totalWordCount={totalWordCount}
+            />
+          ) : (
+            <ChapterEditorPanel
+              sheetState={aiSheetState}
+              result={aiCurrentResult}
+              errorMessage={aiErrorMessage}
+              selectedText={editorSelectedText}
+              onAccept={handleAIAccept}
+              onRetry={handleAIRetry}
+              onDiscard={handleAIDiscard}
+              onGoDeeper={handleGoDeeper}
+              onRewriteWithInstruction={() => {
+                handleOpenAiRewrite()
+              }}
+            />
+          )}
         </EditorPanelOverlay>
       </div>
     </SourcesProvider>

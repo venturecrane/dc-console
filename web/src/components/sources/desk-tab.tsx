@@ -3,16 +3,18 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from 'react'
 import { useSourcesContext } from '@/contexts/sources-context'
 import { InstructionList } from '@/components/instruction-list'
+import { StreamingResponse } from '@/components/editor/streaming-response'
+import { PanelActionBar, PanelButton } from '@/components/editor/panel-action-bar'
 import { EmptyState } from './empty-state'
 import { useToast } from '@/components/toast'
 
 /**
  * Desk tab — tagged documents workspace with multi-select AI analysis.
  *
- * Layout (Option B — Controls Top):
+ * Layout (Three-zone, blue accent):
  *   Zone A: Instruction controls (fixed top, capped 50%)
  *   Zone B: Document list + analysis results (flex-grows)
- *   Zone C: Action bar (pinned bottom)
+ *   Zone C: Action bar (pinned bottom via PanelActionBar)
  *
  * Instruction controls sit at the top for spatial stability and
  * predictable virtual keyboard behavior on iPad.
@@ -181,14 +183,14 @@ export function DeskTab() {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Zone A: Instruction controls — fixed at top, capped at 50% */}
-      <div className="shrink-0 max-h-[50%] overflow-y-auto border-b border-gray-200">
+      {/* Zone A: Instruction controls - fixed at top, capped at 50% */}
+      <div className="shrink-0 max-h-[50%] overflow-y-auto border-b border-[var(--dc-color-border-default)]">
         <div className="px-4 pt-4">
           <label className="text-xs font-medium text-[var(--dc-color-text-muted)] mb-1.5 block">
             Instruction
           </label>
 
-          {/* Instruction list (replaces chips + saved picker) */}
+          {/* Instruction list */}
           <div className="mb-3">
             <InstructionList
               instructions={deskInstructions}
@@ -220,9 +222,10 @@ export function DeskTab() {
               value={instruction}
               onChange={(e) => setInstruction(e.target.value)}
               disabled={isAnyAnalyzing}
-              className="w-full p-3 text-sm border border-gray-200 rounded-lg resize-none
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full p-3 text-sm border border-[var(--dc-color-border-strong)] rounded-[var(--dc-radius-md)] resize-none
+                         focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-interactive-primary)] focus:border-transparent
+                         disabled:opacity-50 disabled:cursor-not-allowed
+                         placeholder:text-[var(--dc-color-text-placeholder)]"
               rows={3}
               placeholder="Type a custom instruction..."
               maxLength={2000}
@@ -231,10 +234,10 @@ export function DeskTab() {
         </div>
       </div>
 
-      {/* Zone B: Document list + analysis results — flex-grows to fill remaining space */}
+      {/* Zone B: Document list + analysis results - flex-grows to fill remaining space */}
       <div className="flex-1 overflow-y-auto min-h-0">
         {/* Document list header */}
-        <div className="px-4 py-2 border-b border-gray-100 flex items-center gap-2 sticky top-0 bg-[var(--dc-color-surface-primary)] z-10">
+        <div className="px-4 py-2 border-b border-[var(--dc-color-border-subtle)] flex items-center gap-2 sticky top-0 bg-[var(--dc-color-surface-primary)] z-10">
           <button
             onClick={toggleSelectAll}
             role="checkbox"
@@ -244,16 +247,14 @@ export function DeskTab() {
           >
             <span
               className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${
-                allSelected
-                  ? 'bg-blue-600 border-blue-600'
-                  : someSelected
-                    ? 'bg-blue-600 border-blue-600'
-                    : 'border-[var(--dc-color-border-strong)]'
+                allSelected || someSelected
+                  ? 'bg-[var(--dc-color-interactive-primary)] border-[var(--dc-color-interactive-primary)]'
+                  : 'border-[var(--dc-color-border-strong)]'
               }`}
             >
               {allSelected && (
                 <svg
-                  className="w-3 h-3 text-white"
+                  className="w-3 h-3 text-[var(--dc-color-text-inverse)]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -268,7 +269,7 @@ export function DeskTab() {
               )}
               {someSelected && !allSelected && (
                 <svg
-                  className="w-3 h-3 text-white"
+                  className="w-3 h-3 text-[var(--dc-color-text-inverse)]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -300,7 +301,7 @@ export function DeskTab() {
             return (
               <div
                 key={source.id}
-                className="flex items-center w-full border-b border-gray-50 hover:bg-[var(--dc-color-surface-secondary)]"
+                className="flex items-center w-full border-b border-[var(--dc-color-border-subtle)] hover:bg-[var(--dc-color-surface-secondary)]"
               >
                 {/* Checkbox + title (tap to select) */}
                 <button
@@ -312,13 +313,13 @@ export function DeskTab() {
                   <span
                     className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${
                       isSelected
-                        ? 'bg-blue-600 border-blue-600'
+                        ? 'bg-[var(--dc-color-interactive-primary)] border-[var(--dc-color-interactive-primary)]'
                         : 'border-[var(--dc-color-border-strong)]'
                     }`}
                   >
                     {isSelected && (
                       <svg
-                        className="w-3 h-3 text-white"
+                        className="w-3 h-3 text-[var(--dc-color-text-inverse)]"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -333,7 +334,7 @@ export function DeskTab() {
                     )}
                   </span>
                   <svg
-                    className="w-4 h-4 text-blue-400 shrink-0"
+                    className="w-4 h-4 text-[var(--dc-color-interactive-primary-border)] shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -354,7 +355,7 @@ export function DeskTab() {
                 <button
                   onClick={() => handleUntag(source.id, source.title)}
                   className="p-2 mr-1 shrink-0 min-h-[44px] min-w-[44px] flex items-center justify-center
-                             text-blue-600 hover:text-[var(--dc-color-text-placeholder)] transition-colors"
+                             text-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-text-placeholder)] transition-colors"
                   aria-label="Remove from desk"
                 >
                   <svg
@@ -391,9 +392,9 @@ export function DeskTab() {
                 {deepAnalysis.completedBatches} of {deepAnalysis.totalBatches}
               </span>
             </div>
-            <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+            <div className="w-full h-1.5 bg-[var(--dc-color-surface-tertiary)] rounded-full overflow-hidden">
               <div
-                className="h-full bg-blue-600 rounded-full transition-all duration-500"
+                className="h-full bg-[var(--dc-color-interactive-primary)] rounded-full transition-all duration-500"
                 style={{
                   width: `${Math.max(5, (deepAnalysis.completedBatches / deepAnalysis.totalBatches) * 100)}%`,
                 }}
@@ -406,61 +407,36 @@ export function DeskTab() {
         {(effectiveText || isAnalyzing || effectiveError) && (
           <div ref={analysisRef} className="px-4 py-4 space-y-2">
             <h3 className="text-xs font-medium text-[var(--dc-color-text-muted)]">Analysis</h3>
-            <div
-              className="p-3 bg-[var(--dc-color-surface-secondary)] rounded-lg text-sm text-[var(--dc-color-text-primary)] leading-relaxed whitespace-pre-wrap min-h-[60px]"
-              aria-live={isAnyAnalyzing ? 'off' : 'polite'}
-            >
-              {effectiveText}
-              {isAnalyzing && (
-                <span
-                  className="inline-block w-0.5 h-4 bg-blue-600 ml-0.5 align-text-bottom animate-pulse"
-                  aria-hidden="true"
-                />
-              )}
-              {effectiveError && (
-                <div className="mt-2">
-                  <p className="text-xs text-red-600 mb-1">{effectiveError}</p>
-                  <button
-                    onClick={handleRetry}
-                    className="text-xs text-blue-600 hover:text-blue-700 min-h-[32px]"
-                  >
-                    Tap to retry
-                  </button>
-                </div>
-              )}
-            </div>
+            <StreamingResponse
+              text={effectiveText}
+              isStreaming={isAnalyzing}
+              errorMessage={effectiveError}
+              variant="primary"
+              onRetry={handleRetry}
+              ariaLabel="Analysis result"
+            />
           </div>
         )}
       </div>
 
-      {/* Zone C: Action bar — pinned at bottom */}
-      <div className="px-4 py-3 border-t border-gray-100 flex gap-2 shrink-0">
+      {/* Zone C: Action bar - pinned at bottom */}
+      <PanelActionBar>
         {effectiveComplete && effectiveText && !effectiveError ? (
           <>
-            <button
-              onClick={handleCopy}
-              className="flex-1 h-10 rounded-lg border border-[var(--dc-color-border-strong)] text-sm font-medium text-[var(--dc-color-text-secondary)]
-                         hover:bg-[var(--dc-color-surface-secondary)] transition-colors min-h-[44px]"
-            >
+            <PanelButton tier="ghost" onClick={handleCopy}>
               Copy
-            </button>
-            <button
-              onClick={handleInsert}
-              className="flex-1 h-10 rounded-lg bg-blue-600 text-sm font-medium text-white
-                         hover:bg-blue-700 transition-colors min-h-[44px]"
-            >
+            </PanelButton>
+            <PanelButton tier="primary" variant="primary" onClick={handleInsert}>
               Insert into Chapter
-            </button>
+            </PanelButton>
           </>
         ) : (
-          <button
+          <PanelButton
+            tier="primary"
+            variant="primary"
             onClick={handleAnalyze}
             disabled={selectedIds.size === 0 || !instruction.trim() || isAnyAnalyzing}
             aria-busy={isAnyAnalyzing}
-            className="w-full h-10 rounded-lg bg-blue-600 text-sm font-medium text-white
-                       hover:bg-blue-700 transition-colors min-h-[44px]
-                       disabled:opacity-50 disabled:cursor-not-allowed
-                       flex items-center justify-center gap-2"
           >
             {isAnyAnalyzing ? (
               <>
@@ -486,9 +462,9 @@ export function DeskTab() {
             ) : (
               `Analyze ${selectedIds.size} document${selectedIds.size !== 1 ? 's' : ''}`
             )}
-          </button>
+          </PanelButton>
         )}
-      </div>
+      </PanelActionBar>
     </div>
   )
 }

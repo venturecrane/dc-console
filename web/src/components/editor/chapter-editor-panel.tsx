@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import type { AIRewriteResult, SheetState } from '@/hooks/use-ai-rewrite'
 import { StreamingResponse } from './streaming-response'
+import { PanelActionBar, PanelButton } from './panel-action-bar'
 import { useSourcesContext } from '@/contexts/sources-context'
 import { InstructionList } from '@/components/instruction-list'
 
@@ -36,12 +37,14 @@ interface ChapterEditorPanelProps {
 /**
  * ChapterEditorPanel — Chapter-mode content for the Editor Panel.
  *
- * Displays:
- * 1. Selected text display area (collapsible for long selections)
- * 2. Instruction chips (5 defaults + Custom via InstructionPicker)
- * 3. Freeform instruction text field
- * 4. Streaming response area with blinking cursor
- * 5. Action buttons: Discard, Try Again, Use This
+ * State flow: Empty -> Ready -> Streaming -> Complete (Error branch)
+ *
+ * Layout varies by state:
+ * - Empty: guidance illustration
+ * - Ready: selected text + instruction list + freeform textarea
+ * - Streaming: selected text + status header + streaming response
+ * - Complete: selected text + status/response + instruction list + freeform (for retry)
+ * - Error: selected text + status/error response
  *
  * The panel persists after accept/reject — ready for next selection.
  * Per Design Charter: "Rewrite" not "AI Rewrite". "Editor" not "AI Assistant".
@@ -86,6 +89,9 @@ export function ChapterEditorPanel({
     return 'empty'
   })()
 
+  // Show instruction controls in Ready (no result yet) and Complete (for retry)
+  const showInstructions = hasSelectedText && (panelState === 'empty' || panelState === 'complete')
+
   // Sync instruction field when new result arrives
   const resultId = result?.interactionId ?? null
   const streamingKey =
@@ -102,13 +108,12 @@ export function ChapterEditorPanel({
     }
   }
 
-  // Handle chip selection
+  // Handle instruction selection (from list or freeform)
   const handleChipSelect = useCallback(
     (instruction: string) => {
       setEditedInstruction(instruction)
       setHasUserEdited(true)
 
-      // If we have a result, treat as retry with new instruction
       if (hasResult && result) {
         onRetry(result, instruction)
       } else if (onRewriteWithInstruction) {
@@ -118,7 +123,6 @@ export function ChapterEditorPanel({
     [hasResult, result, onRetry, onRewriteWithInstruction]
   )
 
-  // Handle freeform instruction submit
   const handleInstructionSubmit = useCallback(() => {
     const instruction = editedInstruction.trim()
     if (!instruction) return
@@ -130,7 +134,6 @@ export function ChapterEditorPanel({
     }
   }, [editedInstruction, hasResult, result, onRetry, onRewriteWithInstruction])
 
-  // Handle keyboard shortcut for instruction submit
   const handleInstructionKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
       if (e.key === 'Enter' && !e.shiftKey) {
@@ -167,11 +170,79 @@ export function ChapterEditorPanel({
     }
   }, [isIdle, hasSelectedText])
 
+  // Shared instruction controls block (used in Ready and Complete states)
+  const instructionControls = showInstructions ? (
+    <>
+      <div>
+        <InstructionList
+          instructions={chapterInstructions}
+          type="chapter"
+          onSelect={(inst) => handleChipSelect(inst.instructionText)}
+          onCreate={createInstruction}
+          onUpdate={updateInstruction}
+          onDelete={removeInstruction}
+          onTouch={touchInstructionLastUsed}
+          isLoading={isLoadingInstructions}
+          disabled={isStreaming}
+          variant="escalation"
+        />
+      </div>
+
+      <div>
+        <label
+          htmlFor="editor-panel-instruction"
+          className="text-xs font-medium text-[var(--dc-color-text-muted)] mb-1.5 block"
+        >
+          Or write your own
+        </label>
+        <div className="flex gap-2">
+          <textarea
+            id="editor-panel-instruction"
+            ref={instructionRef}
+            value={editedInstruction || (result?.instruction ?? '')}
+            onChange={(e) => {
+              setEditedInstruction(e.target.value)
+              setHasUserEdited(true)
+            }}
+            onKeyDown={handleInstructionKeyDown}
+            disabled={isStreaming}
+            className="flex-1 p-2.5 text-sm border border-[var(--dc-color-border-strong)] rounded-[var(--dc-radius-md)] resize-none
+                       focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-interactive-escalation)] focus:border-transparent
+                       disabled:opacity-50 disabled:cursor-not-allowed
+                       placeholder:text-[var(--dc-color-text-placeholder)]"
+            rows={2}
+            placeholder="Type an instruction..."
+          />
+          <button
+            type="button"
+            onClick={handleInstructionSubmit}
+            disabled={isStreaming || !editedInstruction.trim()}
+            className="self-end shrink-0 flex items-center justify-center rounded-[var(--dc-radius-md)]
+                       bg-[var(--dc-color-interactive-escalation)] text-[var(--dc-color-text-inverse)]
+                       hover:bg-[var(--dc-color-interactive-escalation-hover)]
+                       disabled:opacity-50 disabled:cursor-not-allowed
+                       transition-colors min-h-[44px] min-w-[44px]"
+            aria-label="Send instruction"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M14 5l7 7m0 0l-7 7m7-7H3"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </>
+  ) : null
+
   return (
     <div className="flex flex-col h-full">
       {/* Scrollable content */}
       <div className="flex-1 overflow-auto px-4 py-3 space-y-4">
-        {/* Empty state — no text selected (#386) */}
+        {/* Empty state - no text selected */}
         {!hasSelectedText && panelState === 'empty' && (
           <div className="flex flex-col items-center justify-center py-12 text-center">
             <svg
@@ -224,7 +295,7 @@ export function ChapterEditorPanel({
             {selectedExpanded && (
               <div
                 id="selected-text-content"
-                className="mt-1 p-3 bg-[var(--dc-color-surface-secondary)] rounded-lg text-xs text-[var(--dc-color-text-secondary)] leading-relaxed whitespace-pre-wrap line-clamp-[10]"
+                className="mt-1 p-3 bg-[var(--dc-color-surface-secondary)] rounded-[var(--dc-radius-md)] text-xs text-[var(--dc-color-text-secondary)] leading-relaxed whitespace-pre-wrap line-clamp-[10]"
               >
                 {selectedText}
               </div>
@@ -232,82 +303,22 @@ export function ChapterEditorPanel({
           </div>
         )}
 
-        {/* Instruction list (replaces chips + saved picker) */}
-        {hasSelectedText && (
-          <div>
-            <InstructionList
-              instructions={chapterInstructions}
-              type="chapter"
-              onSelect={(inst) => handleChipSelect(inst.instructionText)}
-              onCreate={createInstruction}
-              onUpdate={updateInstruction}
-              onDelete={removeInstruction}
-              onTouch={touchInstructionLastUsed}
-              isLoading={isLoadingInstructions}
-              disabled={isStreaming}
-              variant="escalation"
-            />
-          </div>
-        )}
+        {/* Ready state: instruction controls appear above (no result yet) */}
+        {panelState === 'empty' && instructionControls}
 
-        {/* Freeform instruction field */}
-        {hasSelectedText && (
-          <div>
-            <label
-              htmlFor="editor-panel-instruction"
-              className="text-xs font-medium text-[var(--dc-color-text-muted)] mb-1.5 block"
-            >
-              Or write your own
-            </label>
-            <div className="flex gap-2">
-              <textarea
-                id="editor-panel-instruction"
-                ref={instructionRef}
-                value={editedInstruction || (result?.instruction ?? '')}
-                onChange={(e) => {
-                  setEditedInstruction(e.target.value)
-                  setHasUserEdited(true)
-                }}
-                onKeyDown={handleInstructionKeyDown}
-                disabled={isStreaming}
-                className="flex-1 p-2.5 text-sm border border-[var(--dc-color-border-strong)] rounded-lg resize-none
-                           focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-interactive-escalation)] focus:border-transparent
-                           disabled:opacity-50 disabled:cursor-not-allowed
-                           placeholder:text-[var(--dc-color-text-placeholder)]"
-                rows={2}
-                placeholder="Type an instruction..."
-              />
-              <button
-                type="button"
-                onClick={handleInstructionSubmit}
-                disabled={isStreaming || !editedInstruction.trim()}
-                className="self-end h-10 w-10 shrink-0 flex items-center justify-center rounded-lg
-                           bg-[var(--dc-color-interactive-escalation)] text-white
-                           hover:bg-[var(--dc-color-interactive-escalation-hover)]
-                           disabled:opacity-50 disabled:cursor-not-allowed
-                           transition-colors min-h-[44px] min-w-[44px]"
-                aria-label="Send instruction"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Streaming response area (#390) */}
+        {/* Streaming response area */}
         {hasResult && (
           <div>
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-xs font-medium text-[var(--dc-color-interactive-escalation)]">
+              <h3
+                className={`text-xs font-medium ${
+                  panelState === 'error'
+                    ? 'text-[var(--dc-color-status-error)]'
+                    : 'text-[var(--dc-color-interactive-escalation)]'
+                }`}
+              >
                 {panelState === 'streaming'
-                  ? 'Rewriting\u2026'
+                  ? 'Rewriting...'
                   : panelState === 'error'
                     ? 'Could not finish the rewrite.'
                     : result.attemptNumber > 1
@@ -344,72 +355,62 @@ export function ChapterEditorPanel({
               text={result.rewriteText}
               isStreaming={isStreaming}
               errorMessage={errorMessage}
+              variant="escalation"
+              onRetry={handleRetry}
             />
           </div>
         )}
+
+        {/* Complete state: instruction controls appear below response (for retry) */}
+        {panelState === 'complete' && instructionControls}
       </div>
 
-      {/* Action buttons — pinned to bottom */}
+      {/* Action bar - pinned to bottom */}
       {hasResult && (
-        <div className="px-4 py-3 border-t border-[var(--color-border)] flex gap-2 shrink-0">
+        <PanelActionBar>
           {/* Discard / Cancel */}
-          <button
-            type="button"
+          <PanelButton
+            tier="ghost"
             onClick={handleDiscard}
-            className="flex-1 h-10 rounded-lg border border-[var(--dc-color-border-strong)] text-sm font-medium
-                       text-[var(--dc-color-text-secondary)]
-                       hover:bg-[var(--dc-color-surface-secondary)] transition-colors
-                       min-w-[44px] min-h-[44px]"
             aria-label={isStreaming ? 'Cancel rewrite' : 'Discard rewrite'}
           >
             {isStreaming ? 'Cancel' : 'Discard'}
-          </button>
+          </PanelButton>
 
           {/* Try Again */}
-          <button
-            type="button"
+          <PanelButton
+            tier="secondary"
+            variant="escalation"
             onClick={handleRetry}
             disabled={isStreaming}
-            className="flex-1 h-10 rounded-lg border border-[var(--dc-color-interactive-escalation-border)] text-sm font-medium
-                       text-[var(--dc-color-interactive-escalation)]
-                       hover:bg-[var(--dc-color-interactive-escalation-subtle)] transition-colors
-                       min-w-[44px] min-h-[44px]
-                       disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Try again with current instruction"
           >
             Try Again
-          </button>
+          </PanelButton>
 
-          {/* Go Deeper — shown only for edge tier results that are complete */}
+          {/* Go Deeper - shown only for edge tier results that are complete */}
           {isComplete && result.tier === 'edge' && onGoDeeper && (
-            <button
-              type="button"
+            <PanelButton
+              tier="secondary"
+              variant="escalation"
               onClick={handleGoDeeper}
-              className="flex-1 h-10 rounded-lg border border-[var(--dc-color-interactive-escalation-border)] text-sm font-medium
-                         text-[var(--dc-color-interactive-escalation)]
-                         hover:bg-[var(--dc-color-interactive-escalation-subtle)] transition-colors
-                         min-w-[44px] min-h-[44px]"
               aria-label="Rewrite with more powerful model"
             >
               Go Deeper
-            </button>
+            </PanelButton>
           )}
 
           {/* Use This (primary action) */}
-          <button
-            type="button"
+          <PanelButton
+            tier="primary"
+            variant="escalation"
             onClick={handleAccept}
             disabled={isStreaming || !result.rewriteText}
-            className="flex-1 h-10 rounded-lg text-sm font-medium text-white
-                       bg-[var(--dc-color-interactive-escalation)]
-                       hover:bg-[var(--dc-color-interactive-escalation-hover)] transition-colors
-                       min-w-[44px] min-h-[44px]
-                       disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Use this rewrite to replace selected text"
           >
             Use This
-          </button>
-        </div>
+          </PanelButton>
+        </PanelActionBar>
       )}
     </div>
   )
