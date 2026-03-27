@@ -10,6 +10,8 @@ import { CrashRecoveryDialog } from '@/components/editor/crash-recovery-dialog'
 import { EditorSidebar } from '@/components/editor/editor-sidebar'
 import { EditorToolbar } from '@/components/editor/editor-toolbar'
 import { EditorWritingArea } from '@/components/editor/editor-writing-area'
+import { BookOutline } from '@/components/book/book-outline'
+import type { ChapterCardData } from '@/components/book/chapter-card'
 import { EditorDialogs } from '@/components/editor/editor-dialogs'
 import { EditorPanel, EditorPanelOverlay } from '@/components/editor/editor-panel'
 import { ChapterEditorPanel } from '@/components/editor/chapter-editor-panel'
@@ -79,7 +81,7 @@ function EditorPageInner() {
     content: currentContent,
     setContent,
   } = useAutoSave({
-    chapterId: activeChapterId,
+    chapterId: viewMode === 'book' ? null : activeChapterId,
     version: activeChapter?.version ?? 1,
     getToken: getToken as () => Promise<string | null>,
     apiUrl: API_URL,
@@ -275,6 +277,15 @@ function EditorPageInner() {
       sortOrder: ch.sortOrder,
     })) ?? []
 
+  const outlineChapters: ChapterCardData[] =
+    projectData?.chapters.map((ch) => ({
+      id: ch.id,
+      title: ch.title,
+      wordCount: ch.wordCount,
+      sortOrder: ch.sortOrder,
+      status: ch.status,
+    })) ?? []
+
   // --- Loading / Error states ---
   if (isLoading) {
     return (
@@ -399,23 +410,32 @@ function EditorPageInner() {
             />
           )}
 
-          <EditorWritingArea
-            editorRef={editorRef}
-            currentContent={currentContent}
-            onContentChange={handleContentChange}
-            onSelectionWordCountChange={handleSelectionWordCountChange}
-            onSelectionUpdate={handleEditorSelectionUpdate}
-            onBlur={handleEditorBlur}
-            activeChapter={activeChapter}
-            editingTitle={editingTitle}
-            titleValue={titleValue}
-            onTitleValueChange={setTitleValue}
-            onTitleEdit={handleTitleEdit}
-            onTitleSave={handleTitleSave}
-            onTitleEditCancel={() => setEditingTitle(false)}
-            currentWordCount={currentWordCount}
-            selectionWordCount={selectionWordCount}
-          />
+          {viewMode === 'book' ? (
+            <BookOutline
+              chapters={outlineChapters}
+              onChapterReorder={handleChapterReorder}
+              onChapterSelect={handleChapterSelect}
+              onViewModeChange={setViewMode}
+            />
+          ) : (
+            <EditorWritingArea
+              editorRef={editorRef}
+              currentContent={currentContent}
+              onContentChange={handleContentChange}
+              onSelectionWordCountChange={handleSelectionWordCountChange}
+              onSelectionUpdate={handleEditorSelectionUpdate}
+              onBlur={handleEditorBlur}
+              activeChapter={activeChapter}
+              editingTitle={editingTitle}
+              titleValue={titleValue}
+              onTitleValueChange={setTitleValue}
+              onTitleEdit={handleTitleEdit}
+              onTitleSave={handleTitleSave}
+              onTitleEditCancel={() => setEditingTitle(false)}
+              currentWordCount={currentWordCount}
+              selectionWordCount={selectionWordCount}
+            />
+          )}
         </div>
 
         <SourcesPanel />

@@ -154,7 +154,7 @@ export function EditorToolbar({
 
       {/* Right: Actions */}
       <div className="flex items-center gap-2 shrink-0">
-        <SaveIndicator status={saveStatus} onRetry={onSaveRetry} />
+        {viewMode !== 'book' && <SaveIndicator status={saveStatus} onRetry={onSaveRetry} />}
 
         {/* Editor Panel toggle (#317, #389) */}
         {onToggleEditorPanel && (
@@ -193,14 +193,16 @@ export function EditorToolbar({
           zone="library"
         />
 
-        <ExportMenu
-          projectId={projectId}
-          projectTitle={projectData.title}
-          activeChapterId={activeChapterId}
-          getToken={getToken}
-          apiUrl={apiUrl}
-          connections={connections}
-        />
+        {viewMode !== 'book' && (
+          <ExportMenu
+            projectId={projectId}
+            projectTitle={projectData.title}
+            activeChapterId={activeChapterId}
+            getToken={getToken}
+            apiUrl={apiUrl}
+            connections={connections}
+          />
+        )}
 
         <SettingsMenu
           onRenameBook={onRenameBook}
