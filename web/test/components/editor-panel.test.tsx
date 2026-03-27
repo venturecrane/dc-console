@@ -111,13 +111,13 @@ describe('StreamingResponse', () => {
 
   it('has aria-busy=true during streaming', () => {
     render(<StreamingResponse text="" isStreaming={true} />)
-    const region = screen.getByRole('region', { name: 'Rewrite result' })
+    const region = screen.getByRole('region', { name: 'Result' })
     expect(region).toHaveAttribute('aria-busy', 'true')
   })
 
   it('has aria-busy=false when not streaming', () => {
     render(<StreamingResponse text="Done" isStreaming={false} />)
-    const region = screen.getByRole('region', { name: 'Rewrite result' })
+    const region = screen.getByRole('region', { name: 'Result' })
     expect(region).toHaveAttribute('aria-busy', 'false')
   })
 })
@@ -151,7 +151,7 @@ describe('EditorPanel', () => {
         <div>Content</div>
       </EditorPanel>
     )
-    expect(screen.getByRole('complementary', { name: 'Chapter editor' })).toBeInTheDocument()
+    expect(screen.getByRole('complementary', { name: 'Chapter Editor' })).toBeInTheDocument()
   })
 
   it('calls onClose when close button is clicked', () => {
@@ -195,7 +195,7 @@ describe('EditorPanelOverlay', () => {
         <div>Content</div>
       </EditorPanelOverlay>
     )
-    expect(screen.getByRole('complementary', { name: 'Chapter editor' })).toBeInTheDocument()
+    expect(screen.getByRole('complementary', { name: 'Chapter Editor' })).toBeInTheDocument()
   })
 
   it('does not have aria-modal (non-modal panel)', () => {
@@ -204,7 +204,7 @@ describe('EditorPanelOverlay', () => {
         <div>Content</div>
       </EditorPanelOverlay>
     )
-    const panel = screen.getByRole('complementary', { name: 'Chapter editor' })
+    const panel = screen.getByRole('complementary', { name: 'Chapter Editor' })
     expect(panel).not.toHaveAttribute('aria-modal')
   })
 
