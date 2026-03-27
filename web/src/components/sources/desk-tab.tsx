@@ -5,6 +5,8 @@ import { useSourcesContext } from '@/contexts/sources-context'
 import { InstructionList } from '@/components/instruction-list'
 import { StreamingResponse } from '@/components/editor/streaming-response'
 import { PanelActionBar, PanelButton } from '@/components/editor/panel-action-bar'
+import { PanelStatusHeader } from '@/components/editor/panel-status-header'
+import { Spinner } from '@/components/editor/spinner'
 import { EmptyState } from './empty-state'
 import { useToast } from '@/components/toast'
 
@@ -29,6 +31,7 @@ export function DeskTab() {
     isAnalysisComplete,
     analysisError,
     resetAnalysis,
+    abortAnalysis,
     deskInstructions,
     isLoadingInstructions,
     createInstruction,
@@ -48,6 +51,8 @@ export function DeskTab() {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const analysisRef = useRef<HTMLDivElement>(null)
   const hasScrolledToResults = useRef(false)
+  // Store the instruction at analysis time so retry uses the correct value
+  const lastAnalysisInstruction = useRef('')
 
   // Merge inline + deep analysis state
   const isDeepProcessing = deepAnalysis.status === 'pending' || deepAnalysis.status === 'processing'
@@ -121,14 +126,31 @@ export function DeskTab() {
   const handleAnalyze = useCallback(() => {
     const ids = Array.from(selectedIds)
     if (ids.length === 0 || !instruction.trim()) return
+    lastAnalysisInstruction.current = instruction.trim()
     analyze(projectId, ids, instruction)
   }, [selectedIds, instruction, projectId, analyze])
+
+  const handleCancel = useCallback(() => {
+    abortAnalysis()
+    deepAnalysis.reset()
+  }, [abortAnalysis, deepAnalysis])
+
+  const handleStartOver = useCallback(() => {
+    // Clears analysis results only — preserves instruction text and document selections
+    resetAnalysis()
+    deepAnalysis.reset()
+  }, [resetAnalysis, deepAnalysis])
 
   const handleRetry = useCallback(() => {
     resetAnalysis()
     deepAnalysis.reset()
-    handleAnalyze()
-  }, [resetAnalysis, deepAnalysis, handleAnalyze])
+    // Use the instruction captured at analysis time, not current textarea state
+    const retryInstruction = lastAnalysisInstruction.current
+    if (!retryInstruction) return
+    const ids = Array.from(selectedIds)
+    if (ids.length === 0) return
+    analyze(projectId, ids, retryInstruction)
+  }, [resetAnalysis, deepAnalysis, selectedIds, projectId, analyze])
 
   const handleCopy = useCallback(async () => {
     if (!effectiveText) return
@@ -161,6 +183,15 @@ export function DeskTab() {
       closePanel()
     }
   }, [effectiveText, editorRef, showToast, isPanelOpen, closePanel])
+
+  const hasAnalysisContent = !!effectiveText
+
+  // Status header label
+  const statusLabel = isAnyAnalyzing
+    ? 'Analyzing...'
+    : effectiveError
+      ? 'Could not finish the analysis.'
+      : 'Analysis complete.'
 
   // Empty desk
   if (deskSources.length === 0) {
@@ -208,7 +239,7 @@ export function DeskTab() {
             />
           </div>
 
-          {/* Freeform instruction textarea */}
+          {/* Freeform instruction textarea (no Enter-to-submit — decoupled from Analyze button) */}
           <div className="pb-3">
             <label
               htmlFor="desk-instruction-textarea"
@@ -406,7 +437,19 @@ export function DeskTab() {
         {/* Analysis result / streaming response */}
         {(effectiveText || isAnalyzing || effectiveError) && (
           <div ref={analysisRef} className="px-4 py-4 space-y-2">
-            <h3 className="text-xs font-medium text-[var(--dc-color-text-muted)]">Analysis</h3>
+            <PanelStatusHeader
+              label={statusLabel}
+              isError={!!effectiveError}
+              variant="primary"
+              right={
+                isAnyAnalyzing ? (
+                  <span className="text-xs text-[var(--dc-color-interactive-primary)] flex items-center gap-1">
+                    <Spinner size="sm" />
+                    Writing...
+                  </span>
+                ) : undefined
+              }
+            />
             <StreamingResponse
               text={effectiveText}
               isStreaming={isAnalyzing}
@@ -417,51 +460,75 @@ export function DeskTab() {
             />
           </div>
         )}
+
+        {/* SR-only status announcement for analysis */}
+        <div className="sr-only" aria-live="polite" role="status">
+          {isAnyAnalyzing
+            ? 'Analysis in progress.'
+            : effectiveComplete && !effectiveError
+              ? 'Analysis complete.'
+              : effectiveError
+                ? 'Analysis failed.'
+                : null}
+        </div>
       </div>
 
-      {/* Zone C: Action bar - pinned at bottom */}
+      {/* Zone C: Action bar - pinned at bottom, 4 branches */}
       <PanelActionBar>
-        {effectiveComplete && effectiveText && !effectiveError ? (
+        {isAnyAnalyzing ? (
+          /* Streaming → Cancel */
+          <PanelButton tier="ghost" onClick={handleCancel} aria-label="Cancel analysis">
+            Cancel
+          </PanelButton>
+        ) : effectiveError ? (
+          /* Error → Start Over + Try Again */
           <>
-            <PanelButton tier="ghost" onClick={handleCopy}>
+            <PanelButton tier="ghost" onClick={handleStartOver} aria-label="Start over">
+              Start Over
+            </PanelButton>
+            <PanelButton
+              tier="primary"
+              variant="primary"
+              onClick={handleRetry}
+              aria-label="Try again"
+            >
+              Try Again
+            </PanelButton>
+          </>
+        ) : effectiveComplete && hasAnalysisContent ? (
+          /* Complete → Start Over + Copy + Insert */
+          <>
+            <PanelButton tier="ghost" onClick={handleStartOver} aria-label="Start over">
+              Start Over
+            </PanelButton>
+            <PanelButton tier="ghost" onClick={handleCopy} aria-label="Copy analysis to clipboard">
               Copy
             </PanelButton>
-            <PanelButton tier="primary" variant="primary" onClick={handleInsert}>
+            <PanelButton
+              tier="primary"
+              variant="primary"
+              onClick={handleInsert}
+              aria-label="Insert analysis into chapter"
+            >
               Insert into Chapter
             </PanelButton>
           </>
         ) : (
+          /* Idle → Analyze button */
           <PanelButton
             tier="primary"
             variant="primary"
             onClick={handleAnalyze}
-            disabled={selectedIds.size === 0 || !instruction.trim() || isAnyAnalyzing}
-            aria-busy={isAnyAnalyzing}
+            disabled={selectedIds.size === 0 || !instruction.trim()}
+            aria-label={
+              selectedIds.size === 0
+                ? 'Select documents to analyze'
+                : `Analyze ${selectedIds.size} document${selectedIds.size !== 1 ? 's' : ''}`
+            }
           >
-            {isAnyAnalyzing ? (
-              <>
-                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                  />
-                </svg>
-                Analyzing...
-              </>
-            ) : selectedIds.size === 0 ? (
-              'Select documents to analyze'
-            ) : (
-              `Analyze ${selectedIds.size} document${selectedIds.size !== 1 ? 's' : ''}`
-            )}
+            {selectedIds.size === 0
+              ? 'Select documents to analyze'
+              : `Analyze ${selectedIds.size} document${selectedIds.size !== 1 ? 's' : ''}`}
           </PanelButton>
         )}
       </PanelActionBar>

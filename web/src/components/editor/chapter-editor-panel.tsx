@@ -4,6 +4,9 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import type { AIRewriteResult, SheetState } from '@/hooks/use-ai-rewrite'
 import { StreamingResponse } from './streaming-response'
 import { PanelActionBar, PanelButton } from './panel-action-bar'
+import { PanelStatusHeader } from './panel-status-header'
+import { Spinner } from './spinner'
+import { InstructionInput } from './instruction-input'
 import { useSourcesContext } from '@/contexts/sources-context'
 import { InstructionList } from '@/components/instruction-list'
 
@@ -134,15 +137,10 @@ export function ChapterEditorPanel({
     }
   }, [editedInstruction, hasResult, result, onRetry, onRewriteWithInstruction])
 
-  const handleInstructionKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault()
-        handleInstructionSubmit()
-      }
-    },
-    [handleInstructionSubmit]
-  )
+  const handleInstructionChange = useCallback((value: string) => {
+    setEditedInstruction(value)
+    setHasUserEdited(true)
+  }, [])
 
   const handleAccept = useCallback(() => {
     if (result) onAccept(result)
@@ -170,6 +168,16 @@ export function ChapterEditorPanel({
     }
   }, [isIdle, hasSelectedText])
 
+  // Status header label
+  const statusLabel =
+    panelState === 'streaming'
+      ? 'Rewriting...'
+      : panelState === 'error'
+        ? 'Could not finish the rewrite.'
+        : result && result.attemptNumber > 1
+          ? 'Here is another take.'
+          : 'Here is a rewrite.'
+
   // Shared instruction controls block (used in Ready and Complete states)
   const instructionControls = showInstructions ? (
     <>
@@ -188,53 +196,15 @@ export function ChapterEditorPanel({
         />
       </div>
 
-      <div>
-        <label
-          htmlFor="editor-panel-instruction"
-          className="text-xs font-medium text-[var(--dc-color-text-muted)] mb-1.5 block"
-        >
-          Or write your own
-        </label>
-        <div className="flex gap-2">
-          <textarea
-            id="editor-panel-instruction"
-            ref={instructionRef}
-            value={editedInstruction || (result?.instruction ?? '')}
-            onChange={(e) => {
-              setEditedInstruction(e.target.value)
-              setHasUserEdited(true)
-            }}
-            onKeyDown={handleInstructionKeyDown}
-            disabled={isStreaming}
-            className="flex-1 p-2.5 text-sm border border-[var(--dc-color-border-strong)] rounded-[var(--dc-radius-md)] resize-none
-                       focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-interactive-escalation)] focus:border-transparent
-                       disabled:opacity-50 disabled:cursor-not-allowed
-                       placeholder:text-[var(--dc-color-text-placeholder)]"
-            rows={2}
-            placeholder="Type an instruction..."
-          />
-          <button
-            type="button"
-            onClick={handleInstructionSubmit}
-            disabled={isStreaming || !editedInstruction.trim()}
-            className="self-end shrink-0 flex items-center justify-center rounded-[var(--dc-radius-md)]
-                       bg-[var(--dc-color-interactive-escalation)] text-[var(--dc-color-text-inverse)]
-                       hover:bg-[var(--dc-color-interactive-escalation-hover)]
-                       disabled:opacity-50 disabled:cursor-not-allowed
-                       transition-colors min-h-[44px] min-w-[44px]"
-            aria-label="Send instruction"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M14 5l7 7m0 0l-7 7m7-7H3"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
+      <InstructionInput
+        id="editor-panel-instruction"
+        value={editedInstruction || (result?.instruction ?? '')}
+        onChange={handleInstructionChange}
+        onSubmit={handleInstructionSubmit}
+        disabled={isStreaming}
+        variant="escalation"
+        textareaRef={instructionRef}
+      />
     </>
   ) : null
 
@@ -309,48 +279,26 @@ export function ChapterEditorPanel({
         {/* Streaming response area */}
         {hasResult && (
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <h3
-                className={`text-xs font-medium ${
-                  panelState === 'error'
-                    ? 'text-[var(--dc-color-status-error)]'
-                    : 'text-[var(--dc-color-interactive-escalation)]'
-                }`}
-              >
-                {panelState === 'streaming'
-                  ? 'Rewriting...'
-                  : panelState === 'error'
-                    ? 'Could not finish the rewrite.'
-                    : result.attemptNumber > 1
-                      ? 'Here is another take.'
-                      : 'Here is a rewrite.'}
-              </h3>
-              {isStreaming && (
-                <span className="text-xs text-[var(--dc-color-interactive-escalation)] flex items-center gap-1">
-                  <svg className="animate-spin h-3 w-3" viewBox="0 0 24 24" fill="none">
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                    />
-                  </svg>
-                  Writing...
-                </span>
-              )}
-              {isComplete && result.attemptNumber > 0 && (
-                <span className="text-xs text-[var(--dc-color-text-muted)]">
-                  Attempt {result.attemptNumber}
-                </span>
-              )}
-            </div>
+            <PanelStatusHeader
+              label={statusLabel}
+              isError={panelState === 'error'}
+              variant="escalation"
+              right={
+                <>
+                  {isStreaming && (
+                    <span className="text-xs text-[var(--dc-color-interactive-escalation)] flex items-center gap-1">
+                      <Spinner size="sm" />
+                      Writing...
+                    </span>
+                  )}
+                  {isComplete && result.attemptNumber > 0 && (
+                    <span className="text-xs text-[var(--dc-color-text-muted)]">
+                      Attempt {result.attemptNumber}
+                    </span>
+                  )}
+                </>
+              }
+            />
             <StreamingResponse
               text={result.rewriteText}
               isStreaming={isStreaming}
@@ -360,6 +308,17 @@ export function ChapterEditorPanel({
             />
           </div>
         )}
+
+        {/* SR-only status announcement */}
+        <div className="sr-only" aria-live="polite" role="status">
+          {isStreaming
+            ? 'Rewrite in progress.'
+            : panelState === 'complete'
+              ? 'Rewrite complete.'
+              : panelState === 'error'
+                ? 'Rewrite failed.'
+                : null}
+        </div>
 
         {/* Complete state: instruction controls appear below response (for retry) */}
         {panelState === 'complete' && instructionControls}
