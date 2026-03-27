@@ -41,7 +41,7 @@ export function FloatingActionBar({ selection, onRewrite }: FloatingActionBarPro
     <div
       role="toolbar"
       aria-label="AI text actions"
-      className="absolute z-50 flex items-center gap-2 bg-[var(--dc-color-surface-primary)] border border-gray-200
+      className="absolute z-50 flex items-center gap-2 bg-[var(--dc-color-surface-primary)] border border-[var(--dc-color-border-default)]
                  rounded-xl shadow-lg px-2 py-1 select-none
                  transform -translate-x-1/2"
       style={{
@@ -53,15 +53,18 @@ export function FloatingActionBar({ selection, onRewrite }: FloatingActionBarPro
       onTouchStart={(e) => e.stopPropagation()}
     >
       {selection.exceedsLimit ? (
-        <span className="text-sm text-amber-700 px-3 py-2 whitespace-nowrap" role="alert">
+        <span
+          className="text-sm text-[var(--dc-color-status-warning)] px-3 py-2 whitespace-nowrap"
+          role="alert"
+        >
           Select up to 2,000 words
         </span>
       ) : (
         <button
           onClick={handleRewriteClick}
           className="flex items-center gap-2 px-4 py-2 min-w-[48px] min-h-[48px]
-                     text-sm font-medium text-white bg-blue-600 rounded-lg
-                     hover:bg-blue-700 active:bg-blue-800
+                     text-sm font-medium text-white bg-[var(--dc-color-interactive-primary)] rounded-lg
+                     hover:bg-[var(--dc-color-interactive-primary-hover)] active:bg-[var(--dc-color-interactive-primary-active)]
                      transition-colors whitespace-nowrap
                      touch-manipulation"
           aria-label="AI Rewrite selected text"

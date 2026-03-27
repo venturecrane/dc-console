@@ -243,7 +243,7 @@ export function DeskTab() {
             role="checkbox"
             aria-checked={allSelected ? 'true' : someSelected ? 'mixed' : 'false'}
             className="flex items-center gap-2 text-xs text-[var(--dc-color-text-muted)] hover:text-[var(--dc-color-text-secondary)]
-                       transition-colors min-h-[32px]"
+                       transition-colors min-h-[var(--dc-touch-target-min)]"
           >
             <span
               className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${
