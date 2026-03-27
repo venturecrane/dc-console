@@ -29,6 +29,8 @@ interface EditorPanelProps {
   isOpen: boolean
   /** Close the panel */
   onClose: () => void
+  /** Panel title - changes based on view mode */
+  title?: string
   /** Panel content (chapter-specific or book-specific) */
   children: ReactNode
 }
@@ -38,7 +40,12 @@ interface EditorPanelProps {
  * Hidden on portrait (< 1024px). Use EditorPanelOverlay for portrait.
  * Restores focus to trigger element on close (#330).
  */
-export function EditorPanel({ isOpen, onClose, children }: EditorPanelProps) {
+export function EditorPanel({
+  isOpen,
+  onClose,
+  title = 'Chapter Editor',
+  children,
+}: EditorPanelProps) {
   const { shouldRender, isClosing } = useDelayedUnmount(isOpen, 200)
   const triggerRef = useRef<Element | null>(null)
   const prevIsOpenRef = useRef(false)
@@ -66,11 +73,11 @@ export function EditorPanel({ isOpen, onClose, children }: EditorPanelProps) {
       className={`hidden lg:flex editor-panel w-[320px] h-full flex-col border-r border-[var(--color-border)] bg-[var(--color-background)] shrink-0
                   ${isClosing ? 'editor-panel-slide-out' : 'editor-panel-slide-in'}`}
       role="complementary"
-      aria-label="Chapter editor"
+      aria-label={title}
     >
       {/* Header */}
       <div className="flex items-center justify-between px-4 h-12 border-b border-[var(--color-border)] shrink-0">
-        <h2 className="text-sm font-semibold text-[var(--color-foreground)]">Chapter Editor</h2>
+        <h2 className="text-sm font-semibold text-[var(--color-foreground)]">{title}</h2>
         <button
           type="button"
           onClick={onClose}
@@ -101,7 +108,12 @@ export function EditorPanel({ isOpen, onClose, children }: EditorPanelProps) {
  * with the editor behind it. Focus is restored to the trigger
  * element when the panel closes (#330).
  */
-export function EditorPanelOverlay({ isOpen, onClose, children }: EditorPanelProps) {
+export function EditorPanelOverlay({
+  isOpen,
+  onClose,
+  title = 'Chapter Editor',
+  children,
+}: EditorPanelProps) {
   const { shouldRender, isClosing } = useDelayedUnmount(isOpen, 200)
   const triggerRef = useRef<Element | null>(null)
   const prevIsOpenRef = useRef(false)
@@ -156,11 +168,11 @@ export function EditorPanelOverlay({ isOpen, onClose, children }: EditorPanelPro
                    bg-[var(--color-background)] shadow-xl flex flex-col lg:hidden
                    ${isClosing ? 'editor-panel-slide-out' : 'editor-panel-slide-in'}`}
         role="complementary"
-        aria-label="Chapter editor"
+        aria-label={title}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 h-12 border-b border-[var(--color-border)] shrink-0">
-          <h2 className="text-sm font-semibold text-[var(--color-foreground)]">Chapter Editor</h2>
+          <h2 className="text-sm font-semibold text-[var(--color-foreground)]">{title}</h2>
           <button
             type="button"
             onClick={onClose}
