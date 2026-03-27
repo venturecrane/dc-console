@@ -3,8 +3,12 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { StreamingResponse } from './streaming-response'
 import { PanelActionBar, PanelButton } from './panel-action-bar'
+import { PanelStatusHeader } from './panel-status-header'
+import { Spinner } from './spinner'
+import { InstructionInput } from './instruction-input'
 import { useSourcesContext } from '@/contexts/sources-context'
 import { InstructionList } from '@/components/instruction-list'
+import { useToast } from '@/components/toast'
 import type { BookAnalysisState, BookAnalysisResult } from '@/hooks/use-book-ai'
 
 interface BookEditorPanelProps {
@@ -55,6 +59,7 @@ export function BookEditorPanel({
     touchInstructionLastUsed,
   } = useSourcesContext()
 
+  const { showToast } = useToast()
   const [instruction, setInstruction] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -81,24 +86,15 @@ export function BookEditorPanel({
     onAnalyze(trimmed)
   }, [instruction, onAnalyze])
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault()
-        handleSubmit()
-      }
-    },
-    [handleSubmit]
-  )
-
   const handleCopy = useCallback(async () => {
     if (!result?.text) return
     try {
       await navigator.clipboard.writeText(result.text)
+      showToast('Copied to clipboard')
     } catch {
-      // Clipboard API may fail on some devices
+      showToast('Failed to copy')
     }
-  }, [result])
+  }, [result, showToast])
 
   const handleStartOver = useCallback(() => {
     setInstruction('')
@@ -117,6 +113,13 @@ export function BookEditorPanel({
     totalWordCount >= 1000
       ? `${(totalWordCount / 1000).toFixed(1)}k words`
       : `${totalWordCount} words`
+
+  // Status header label
+  const statusLabel = isStreaming
+    ? 'Analyzing...'
+    : hasError
+      ? 'Could not finish the analysis.'
+      : 'Analysis complete.'
 
   return (
     <div className="flex flex-col h-full">
@@ -164,91 +167,34 @@ export function BookEditorPanel({
               />
             </div>
 
-            <div>
-              <label
-                htmlFor="book-panel-instruction"
-                className="text-xs font-medium text-[var(--dc-color-text-muted)] mb-1.5 block"
-              >
-                Or write your own
-              </label>
-              <div className="flex gap-2">
-                <textarea
-                  id="book-panel-instruction"
-                  ref={textareaRef}
-                  value={instruction}
-                  onChange={(e) => setInstruction(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  disabled={isStreaming}
-                  className="flex-1 p-2.5 text-sm border border-[var(--dc-color-border-strong)] rounded-[var(--dc-radius-md)] resize-none
-                             focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-interactive-escalation)] focus:border-transparent
-                             disabled:opacity-50 disabled:cursor-not-allowed
-                             placeholder:text-[var(--dc-color-text-placeholder)]"
-                  rows={2}
-                  placeholder="Type an instruction..."
-                />
-                <button
-                  type="button"
-                  onClick={handleSubmit}
-                  disabled={isStreaming || !instruction.trim()}
-                  className="self-end shrink-0 flex items-center justify-center rounded-[var(--dc-radius-md)]
-                             bg-[var(--dc-color-interactive-escalation)] text-[var(--dc-color-text-inverse)]
-                             hover:bg-[var(--dc-color-interactive-escalation-hover)]
-                             disabled:opacity-50 disabled:cursor-not-allowed
-                             transition-colors min-h-[44px] min-w-[44px]"
-                  aria-label="Send instruction"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M14 5l7 7m0 0l-7 7m7-7H3"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
+            <InstructionInput
+              id="book-panel-instruction"
+              value={instruction}
+              onChange={setInstruction}
+              onSubmit={handleSubmit}
+              disabled={isStreaming}
+              variant="escalation"
+              textareaRef={textareaRef}
+            />
           </>
         )}
 
         {/* Streaming / complete: status header + response */}
         {result && (isStreaming || isComplete) && (
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <h3
-                className={`text-xs font-medium ${
-                  hasError
-                    ? 'text-[var(--dc-color-status-error)]'
-                    : 'text-[var(--dc-color-interactive-escalation)]'
-                }`}
-              >
-                {isStreaming
-                  ? 'Analyzing...'
-                  : hasError
-                    ? 'Could not finish the analysis.'
-                    : 'Analysis complete.'}
-              </h3>
-              {isStreaming && (
-                <span className="text-xs text-[var(--dc-color-interactive-escalation)] flex items-center gap-1">
-                  <svg className="animate-spin h-3 w-3" viewBox="0 0 24 24" fill="none">
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                    />
-                  </svg>
-                  Writing...
-                </span>
-              )}
-            </div>
+            <PanelStatusHeader
+              label={statusLabel}
+              isError={hasError}
+              variant="escalation"
+              right={
+                isStreaming ? (
+                  <span className="text-xs text-[var(--dc-color-interactive-escalation)] flex items-center gap-1">
+                    <Spinner size="sm" />
+                    Writing...
+                  </span>
+                ) : undefined
+              }
+            />
             <StreamingResponse
               text={result.text}
               isStreaming={isStreaming}
@@ -285,42 +231,55 @@ export function BookEditorPanel({
             </p>
           </div>
         )}
+
+        {/* SR-only status announcement */}
+        <div className="sr-only" aria-live="polite" role="status">
+          {isStreaming
+            ? 'Analysis in progress.'
+            : isComplete && !hasError
+              ? 'Analysis complete.'
+              : hasError
+                ? 'Analysis failed.'
+                : null}
+        </div>
       </div>
 
-      {/* Action bar - pinned to bottom */}
-      {isComplete && hasResult && !hasError && (
+      {/* Action bar - pinned to bottom, consolidated into one block */}
+      {(isStreaming || (isComplete && hasResult)) && (
         <PanelActionBar>
-          <PanelButton tier="ghost" onClick={handleStartOver}>
-            Start Over
-          </PanelButton>
-          <PanelButton tier="primary" variant="escalation" onClick={handleCopy}>
-            Copy
-          </PanelButton>
-        </PanelActionBar>
-      )}
-
-      {/* Streaming: Cancel button */}
-      {isStreaming && (
-        <PanelActionBar>
-          <PanelButton tier="ghost" onClick={onReset}>
-            Cancel
-          </PanelButton>
-        </PanelActionBar>
-      )}
-
-      {/* Error: Start Over + Retry */}
-      {isComplete && hasError && (
-        <PanelActionBar>
-          <PanelButton tier="ghost" onClick={handleStartOver}>
-            Start Over
-          </PanelButton>
-          <PanelButton
-            tier="primary"
-            variant="escalation"
-            onClick={() => result && onAnalyze(result.instruction)}
-          >
-            Try Again
-          </PanelButton>
+          {isStreaming ? (
+            <PanelButton tier="ghost" onClick={onReset} aria-label="Cancel analysis">
+              Cancel
+            </PanelButton>
+          ) : hasError ? (
+            <>
+              <PanelButton tier="ghost" onClick={handleStartOver} aria-label="Start over">
+                Start Over
+              </PanelButton>
+              <PanelButton
+                tier="primary"
+                variant="escalation"
+                onClick={() => result && onAnalyze(result.instruction)}
+                aria-label="Try again"
+              >
+                Try Again
+              </PanelButton>
+            </>
+          ) : (
+            <>
+              <PanelButton tier="ghost" onClick={handleStartOver} aria-label="Start over">
+                Start Over
+              </PanelButton>
+              <PanelButton
+                tier="primary"
+                variant="escalation"
+                onClick={handleCopy}
+                aria-label="Copy analysis to clipboard"
+              >
+                Copy
+              </PanelButton>
+            </>
+          )}
         </PanelActionBar>
       )}
     </div>
