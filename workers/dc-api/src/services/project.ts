@@ -1,6 +1,7 @@
 import { ulid } from 'ulidx'
 import { notFound, validationError } from '../middleware/error-handler.js'
 import { type Chapter, type ChapterRow, mapChapterRow } from './chapter.js'
+import type { ChapterStatus } from '../types/chapter.js'
 
 /**
  * ProjectService - Business logic for projects
@@ -443,7 +444,7 @@ export class ProjectService {
       r2Key: mapping.newR2Key,
       wordCount: mapping.source.word_count,
       version: 1,
-      status: mapping.source.status as 'draft' | 'review' | 'final',
+      status: mapping.source.status as ChapterStatus,
       createdAt: now,
       updatedAt: now,
     }))
