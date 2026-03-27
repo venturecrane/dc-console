@@ -156,6 +156,19 @@ function EditorPageInner() {
     })
   }, [announcePanel])
 
+  // Wrap setViewMode to auto-open editor panel when switching to Book mode
+  const handleViewModeChange = useCallback(
+    (mode: 'chapter' | 'book') => {
+      setViewMode(mode)
+      if (mode === 'book') {
+        setEditorPanelOpen(true)
+        setSidebarCollapsed(true)
+        announcePanel('Book editor opened')
+      }
+    },
+    [setViewMode, announcePanel]
+  )
+
   // --- Chapter management ---
   const {
     chapterToDelete,
@@ -370,7 +383,7 @@ function EditorPageInner() {
               saveStatus={saveStatus}
               onSaveRetry={saveNow}
               viewMode={viewMode}
-              onViewModeChange={setViewMode}
+              onViewModeChange={handleViewModeChange}
               isEditorPanelOpen={editorPanelOpen}
               onToggleEditorPanel={handleToggleEditorPanel}
               projectId={projectId}
