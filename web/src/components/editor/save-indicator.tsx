@@ -44,7 +44,7 @@ function getStatusDisplay(status: SaveStatus): { text: string; className: string
       return { text: '', className: 'text-muted-foreground' }
 
     case 'saving':
-      return { text: 'Saving\u2026', className: 'text-blue-600' }
+      return { text: 'Saving\u2026', className: 'text-[var(--dc-color-interactive-primary)]' }
 
     case 'saved': {
       const timeStr = formatTime(status.at)

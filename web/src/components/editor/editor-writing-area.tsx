@@ -75,14 +75,14 @@ export function EditorWritingArea({
               if (e.key === 'Escape') onTitleEditCancel()
             }}
             className="text-3xl font-semibold text-foreground mb-6 outline-none w-full
-                       border-b-2 border-blue-500 bg-transparent"
+                       border-b-2 border-[var(--dc-color-interactive-primary)] bg-transparent"
             autoFocus
             maxLength={200}
           />
         ) : (
           <h1
             className="text-3xl font-semibold text-foreground mb-6 outline-none cursor-text
-                       hover:bg-[var(--dc-color-surface-secondary)] focus:bg-[var(--dc-color-surface-secondary)] focus:ring-2 focus:ring-blue-500
+                       hover:bg-[var(--dc-color-surface-secondary)] focus:bg-[var(--dc-color-surface-secondary)] focus:ring-2 focus:ring-[var(--dc-color-border-focus)]
                        rounded px-1 -mx-1 transition-colors"
             onClick={onTitleEdit}
             onKeyDown={(e) => {

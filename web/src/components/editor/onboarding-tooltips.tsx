@@ -185,7 +185,9 @@ export function OnboardingTooltips() {
               <div
                 key={i}
                 className={`h-1.5 rounded-full transition-all duration-200 ${
-                  i === currentStep ? 'w-6 bg-blue-600' : 'w-1.5 bg-[var(--dc-color-border-strong)]'
+                  i === currentStep
+                    ? 'w-6 bg-[var(--dc-color-onboarding-dot-active)]'
+                    : 'w-1.5 bg-[var(--dc-color-border-strong)]'
                 }`}
                 aria-hidden="true"
               />
@@ -208,7 +210,7 @@ export function OnboardingTooltips() {
 
             <button
               onClick={handleNext}
-              className="min-h-[44px] min-w-[80px] rounded-lg bg-gray-900 px-4 text-sm font-medium text-white transition-colors hover:bg-gray-800 active:bg-gray-950"
+              className="min-h-[44px] min-w-[80px] rounded-lg bg-[var(--dc-color-text-primary)] px-4 text-sm font-medium text-white transition-colors hover:bg-[var(--dc-color-text-secondary)] active:bg-[var(--dc-color-text-primary)]"
             >
               {isLastStep ? 'Done' : 'Next'}
             </button>
