@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
 import type { Env } from '../types/index.js'
+import type { ChapterStatus } from '../types/chapter.js'
 import { standardRateLimit } from '../middleware/rate-limit.js'
 import { validationError } from '../middleware/error-handler.js'
 import { ChapterService } from '../services/chapter.js'
@@ -108,7 +109,7 @@ chapters.patch('/chapters/:chapterId', async (c) => {
   const chapterId = c.req.param('chapterId')
   const body = (await c.req.json().catch(() => ({}))) as {
     title?: string
-    status?: 'draft' | 'review' | 'final'
+    status?: ChapterStatus
   }
 
   // At least one field should be provided

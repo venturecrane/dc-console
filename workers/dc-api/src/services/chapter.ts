@@ -1,5 +1,6 @@
 import { ulid } from 'ulidx'
 import { notFound, validationError, AppError } from '../middleware/error-handler.js'
+import { CHAPTER_STATUSES, type ChapterStatus } from '../types/chapter.js'
 
 /**
  * ChapterService - Business logic for chapter CRUD operations
@@ -22,7 +23,7 @@ export interface Chapter {
   r2Key: string | null
   wordCount: number
   version: number
-  status: 'draft' | 'review' | 'final'
+  status: ChapterStatus
   createdAt: string
   updatedAt: string
 }
@@ -33,7 +34,7 @@ export interface CreateChapterInput {
 
 export interface UpdateChapterInput {
   title?: string
-  status?: 'draft' | 'review' | 'final'
+  status?: ChapterStatus
 }
 
 export interface ReorderChaptersInput {
@@ -70,7 +71,7 @@ export function mapChapterRow(row: ChapterRow): Chapter {
     r2Key: row.r2_key,
     wordCount: row.word_count,
     version: row.version,
-    status: row.status as 'draft' | 'review' | 'final',
+    status: row.status as ChapterStatus,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   }
@@ -216,7 +217,7 @@ export class ChapterService {
     }
 
     if (input.status !== undefined) {
-      if (!['draft', 'review', 'final'].includes(input.status)) {
+      if (!(CHAPTER_STATUSES as readonly string[]).includes(input.status)) {
         validationError('Invalid chapter status')
       }
       updates.push('status = ?')
