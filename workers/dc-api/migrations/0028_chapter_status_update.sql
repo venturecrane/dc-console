@@ -3,8 +3,6 @@
 -- Maps existing 'final' rows to 'complete'
 -- Also drops unused drive_file_id column (NULLed in 0021, unused in code)
 
-PRAGMA foreign_keys=OFF;
-
 -- 1. Create new table with updated status constraint (no drive_file_id)
 CREATE TABLE chapters_new (
   id TEXT PRIMARY KEY,
@@ -33,5 +31,3 @@ ALTER TABLE chapters_new RENAME TO chapters;
 -- 4. Recreate indexes
 CREATE UNIQUE INDEX idx_chapters_sort ON chapters(project_id, sort_order);
 CREATE INDEX idx_chapters_project_id ON chapters(project_id);
-
-PRAGMA foreign_keys=ON;
