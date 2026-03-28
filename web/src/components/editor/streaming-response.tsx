@@ -84,14 +84,30 @@ export function StreamingResponse({
       aria-live="polite"
     >
       {showErrorOnly ? (
-        <div>
-          <span className="text-[var(--dc-color-status-error)] text-xs">{errorMessage}</span>
+        <div className="bg-[var(--dc-color-error-bg)] border border-[var(--dc-color-status-error)]/20 rounded-[var(--dc-radius-md)] p-3 -m-0.5">
+          <span className="text-[var(--dc-color-status-error)] text-xs leading-relaxed">
+            {errorMessage}
+          </span>
           {onRetry && (
             <button
               type="button"
               onClick={onRetry}
-              className={`block mt-1 text-xs ${styles.retry}`}
+              className={`mt-2 text-xs font-medium ${styles.retry} flex items-center gap-1 min-h-[32px]`}
             >
+              <svg
+                className="w-3 h-3"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
+              </svg>
               Tap to retry
             </button>
           )}
@@ -107,14 +123,30 @@ export function StreamingResponse({
             />
           )}
           {showErrorInline && (
-            <div className="mt-3">
-              <span className="text-[var(--dc-color-status-error)] text-xs">{errorMessage}</span>
+            <div className="mt-3 bg-[var(--dc-color-error-bg)] border border-[var(--dc-color-status-error)]/20 rounded-[var(--dc-radius-md)] p-3">
+              <span className="text-[var(--dc-color-status-error)] text-xs leading-relaxed">
+                {errorMessage}
+              </span>
               {onRetry && (
                 <button
                   type="button"
                   onClick={onRetry}
-                  className={`block mt-1 text-xs ${styles.retry}`}
+                  className={`mt-2 text-xs font-medium ${styles.retry} flex items-center gap-1 min-h-[32px]`}
                 >
+                  <svg
+                    className="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                    />
+                  </svg>
                   Tap to retry
                 </button>
               )}
