@@ -34,9 +34,9 @@ export function PanelActionBar({ children, className = '' }: PanelActionBarProps
 
 const primaryStyles: Record<ActionVariant, string> = {
   escalation:
-    'bg-[var(--dc-color-interactive-escalation)] hover:bg-[var(--dc-color-interactive-escalation-hover)] text-[var(--dc-color-text-inverse)] border-none',
+    'bg-gradient-to-r from-[var(--dc-color-interactive-escalation)] to-[var(--dc-color-interactive-escalation-hover)] hover:from-[var(--dc-color-interactive-escalation-hover)] hover:to-[var(--dc-color-interactive-escalation-hover)] text-[var(--dc-color-text-inverse)] border-none shadow-sm',
   primary:
-    'bg-[var(--dc-color-interactive-primary)] hover:bg-[var(--dc-color-interactive-primary-hover)] text-[var(--dc-color-text-inverse)] border-none',
+    'bg-gradient-to-r from-[var(--dc-color-interactive-primary)] to-[var(--dc-color-interactive-primary-active)] hover:from-[var(--dc-color-interactive-primary-hover)] hover:to-[var(--dc-color-interactive-primary-active)] text-[var(--dc-color-text-inverse)] border-none shadow-sm',
 }
 
 const secondaryStyles: Record<ActionVariant, string> = {

@@ -186,12 +186,29 @@ export function DeskTab() {
 
   const hasAnalysisContent = !!effectiveText
 
-  // Status header label
-  const statusLabel = isAnyAnalyzing
-    ? 'Analyzing...'
-    : effectiveError
-      ? 'Could not finish the analysis.'
-      : 'Analysis complete.'
+  // Status header label with inline icons
+  const statusLabel = isAnyAnalyzing ? (
+    'Analyzing...'
+  ) : effectiveError ? (
+    <span className="flex items-center gap-1">
+      <svg className="w-3 h-3 shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+        <path
+          fillRule="evenodd"
+          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+          clipRule="evenodd"
+        />
+      </svg>
+      Could not finish the analysis.
+    </span>
+  ) : (
+    <span className="flex items-center gap-1">
+      <span className="relative flex h-2 w-2 shrink-0">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--dc-color-status-success)] opacity-75" />
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--dc-color-status-success)]" />
+      </span>
+      Analysis complete.
+    </span>
+  )
 
   // Empty desk
   if (deskSources.length === 0) {
@@ -326,13 +343,17 @@ export function DeskTab() {
         </div>
 
         {/* Document rows */}
-        <div>
+        <div className="px-2 py-1 space-y-1">
           {deskSources.map((source) => {
             const isSelected = selectedIds.has(source.id)
             return (
               <div
                 key={source.id}
-                className="flex items-center w-full border-b border-[var(--dc-color-border-subtle)] hover:bg-[var(--dc-color-surface-secondary)]"
+                className={`flex items-center w-full rounded-lg transition-colors ${
+                  isSelected
+                    ? 'bg-[var(--dc-color-interactive-primary-subtle)] border border-[var(--dc-color-interactive-primary-border)]'
+                    : 'hover:bg-[var(--dc-color-surface-secondary)] border border-transparent'
+                }`}
               >
                 {/* Checkbox + title (tap to select) */}
                 <button

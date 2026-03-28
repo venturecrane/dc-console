@@ -3,8 +3,8 @@ import type { ReactNode } from 'react'
 type StatusVariant = 'escalation' | 'primary'
 
 interface PanelStatusHeaderProps {
-  /** Pre-computed label (e.g. "Rewriting...", "Analysis complete.") */
-  label: string
+  /** Pre-computed label — string or JSX with inline icons */
+  label: ReactNode
   /** Show error styling (red text) instead of variant color */
   isError?: boolean
   /** Accent color variant */
