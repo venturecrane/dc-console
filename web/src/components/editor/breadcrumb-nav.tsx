@@ -77,7 +77,7 @@ export function BreadcrumbNav({
 
   return (
     <div className="relative flex items-center min-w-0" ref={dropdownRef}>
-      {/* Breadcrumb trigger */}
+      {/* Breadcrumb trigger — book title with chevron */}
       <button
         onClick={toggle}
         className="flex items-center gap-1.5 h-11 px-2 rounded-lg hover:bg-[var(--dc-color-surface-tertiary)] transition-colors min-w-0"
@@ -85,22 +85,6 @@ export function BreadcrumbNav({
         aria-haspopup="true"
         aria-label="Book navigation"
       >
-        {/* Outline icon */}
-        <svg
-          className="w-4 h-4 text-[var(--dc-color-text-muted)] shrink-0"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
-
         {/* Book title */}
         <span className="text-sm font-semibold text-[var(--dc-color-text-primary)] truncate max-w-[200px]">
           {currentProject.title}
