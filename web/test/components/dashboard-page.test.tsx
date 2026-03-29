@@ -1,7 +1,7 @@
 import React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
-import DashboardPage from '@/app/(protected)/(with-header)/dashboard/page'
+import DashboardPage from '@/app/(protected)/dashboard/page'
 
 const mockPush = vi.fn()
 const mockUseProjectActions = vi.fn()
