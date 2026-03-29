@@ -4,13 +4,13 @@ import { useState, useEffect, useCallback } from 'react'
 import type { ProjectData } from '@/types/editor'
 import type { SaveStatus } from '@/hooks/use-auto-save'
 import type { ProjectSummary } from '@/hooks/use-project-actions'
-import { ProjectSwitcher } from '@/components/project/project-switcher'
 import { SaveIndicator } from './save-indicator'
 import { ExportMenu } from '@/components/project/export-menu'
 import { SettingsMenu } from '@/components/project/settings-menu'
 import { useSourcesContext } from '@/contexts/sources-context'
-import { WorkspaceToggle, type ViewMode } from './workspace-toggle'
+import type { ViewMode } from './workspace-toggle'
 import { PanelToggleButton } from './panel-toggle-button'
+import { BreadcrumbNav } from './breadcrumb-nav'
 
 interface EditorToolbarProps {
   projectData: ProjectData
@@ -42,13 +42,19 @@ interface EditorToolbarProps {
   onDeleteProject: () => void
   onSignOut: () => void
   isSigningOut: boolean
+
+  // Chapter navigation (for breadcrumb)
+  onChapterSelect?: (chapterId: string) => void
 }
 
 /**
- * EditorToolbar - Top toolbar for the writing environment.
+ * EditorToolbar — Minimal top toolbar with spatial panel toggles and breadcrumb nav.
  *
- * Per Issue #318: Contains workspace toggle control for Chapter/Book view switching.
- * The toggle is placed prominently in the toolbar for immediate discoverability.
+ * Layout: [✏️ Editor] — [≡ Book Title ▾ / Chapter] — [SaveIndicator] [⚙️] [📚 Library]
+ *
+ * The Editor toggle sits far-left, Library far-right, reinforcing the
+ * spatial metaphor: left = AI editor, right = research library.
+ * The breadcrumb replaces both the ProjectSwitcher and the Chapter/Book toggle.
  */
 export function EditorToolbar({
   projectData,
@@ -70,6 +76,7 @@ export function EditorToolbar({
   onDeleteProject,
   onSignOut,
   isSigningOut,
+  onChapterSelect,
 }: EditorToolbarProps) {
   const { isPanelOpen, togglePanel, connections } = useSourcesContext()
   const [announcement, setAnnouncement] = useState('')
@@ -106,14 +113,6 @@ export function EditorToolbar({
     requestAnimationFrame(() => setAnnouncement(msg))
   }, [])
 
-  const handleViewModeChange = useCallback(
-    (mode: ViewMode) => {
-      onViewModeChange(mode)
-      announce(`Switched to ${mode === 'chapter' ? 'Chapter' : 'Book'} view`)
-    },
-    [onViewModeChange, announce]
-  )
-
   const handleToggleEditor = useCallback(() => {
     onToggleEditorPanel?.()
     announce(isEditorPanelOpen ? 'Editor panel closed' : 'Editor panel opened')
@@ -124,39 +123,30 @@ export function EditorToolbar({
     announce(isPanelOpen ? 'Library panel closed' : 'Library panel opened')
   }, [togglePanel, isPanelOpen, announce])
 
+  const handleChapterSelect = useCallback(
+    (chapterId: string) => {
+      onChapterSelect?.(chapterId)
+      onViewModeChange('chapter')
+    },
+    [onChapterSelect, onViewModeChange]
+  )
+
+  // Build chapter list for breadcrumb
+  const chapters = projectData.chapters.map((ch) => ({
+    id: ch.id,
+    title: ch.title,
+    wordCount: ch.wordCount,
+  }))
+
   return (
     <div
-      className="flex items-center h-12 px-4 border-b border-border bg-background shrink-0"
+      className="flex items-center h-12 px-2 border-b border-[var(--dc-color-border-default)] bg-[var(--dc-color-surface-primary)] shrink-0"
       role="toolbar"
       aria-label="Editor toolbar"
       aria-orientation="horizontal"
     >
-      {/* Left: Project switcher */}
-      <div className="flex items-center gap-2 min-w-0 shrink-0">
-        <ProjectSwitcher
-          currentProject={{
-            id: projectData.id,
-            title: projectData.title,
-            wordCount: totalWordCount,
-          }}
-          projects={allProjects.map((p) => ({
-            id: p.id,
-            title: p.title,
-            wordCount: p.wordCount,
-          }))}
-        />
-      </div>
-
-      {/* Center: Workspace toggle - in flex flow to avoid overlap (#353) */}
-      <div className="flex-1 flex justify-center min-w-0 px-2">
-        <WorkspaceToggle value={viewMode} onChange={handleViewModeChange} />
-      </div>
-
-      {/* Right: Actions */}
-      <div className="flex items-center gap-2 shrink-0">
-        {viewMode !== 'book' && <SaveIndicator status={saveStatus} onRetry={onSaveRetry} />}
-
-        {/* Editor Panel toggle (#317, #389) */}
+      {/* Far left: Editor panel toggle (icon only) */}
+      <div className="shrink-0">
         {onToggleEditorPanel && (
           <PanelToggleButton
             label="Editor"
@@ -175,23 +165,32 @@ export function EditorToolbar({
             zone="editor"
           />
         )}
+      </div>
 
-        <PanelToggleButton
-          label="Library"
-          icon={
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-              />
-            </svg>
-          }
-          isOpen={isPanelOpen}
-          onToggle={handleToggleLibrary}
-          zone="library"
+      {/* Center: Breadcrumb navigation */}
+      <div className="flex-1 flex items-center min-w-0 px-2">
+        <BreadcrumbNav
+          currentProject={{
+            id: projectData.id,
+            title: projectData.title,
+            wordCount: totalWordCount,
+          }}
+          projects={allProjects.map((p) => ({
+            id: p.id,
+            title: p.title,
+            wordCount: p.wordCount,
+          }))}
+          chapters={chapters}
+          activeChapterId={activeChapterId}
+          viewMode={viewMode}
+          onChapterSelect={handleChapterSelect}
+          onViewModeChange={onViewModeChange}
         />
+      </div>
+
+      {/* Right cluster: Save + Export + Settings + Library toggle */}
+      <div className="flex items-center gap-1 shrink-0">
+        {viewMode !== 'book' && <SaveIndicator status={saveStatus} onRetry={onSaveRetry} />}
 
         {viewMode !== 'book' && (
           <ExportMenu
@@ -211,6 +210,23 @@ export function EditorToolbar({
           onDeleteProject={onDeleteProject}
           onSignOut={onSignOut}
           isSigningOut={isSigningOut}
+        />
+
+        <PanelToggleButton
+          label="Library"
+          icon={
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+              />
+            </svg>
+          }
+          isOpen={isPanelOpen}
+          onToggle={handleToggleLibrary}
+          zone="library"
         />
       </div>
 
