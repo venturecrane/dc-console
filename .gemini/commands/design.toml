@@ -1,0 +1,9 @@
+[command]
+name = "design"
+description = "Design-to-Code Pipeline - Stitch designs first, Captain approves, then code"
+
+[command.steps]
+instruction = """
+Load and follow the skill at `.agents/skills/design/SKILL.md`.
+Arguments: $ARGUMENTS (feature description, optional)
+"""

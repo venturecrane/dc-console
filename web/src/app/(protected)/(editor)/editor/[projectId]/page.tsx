@@ -408,6 +408,8 @@ function EditorPageInner() {
               onSignOut={handleSignOut}
               isSigningOut={isSigningOut}
               onChapterSelect={handleChapterSelect}
+              onToggleSidebar={() => setMobileOverlayOpen(!mobileOverlayOpen)}
+              isSidebarOpen={mobileOverlayOpen}
             />
           )}
 
