@@ -16,7 +16,11 @@ function SourceIcon({ mimeType }: { mimeType: string }) {
   // Google Doc
   if (mimeType === 'application/vnd.google-apps.document') {
     return (
-      <svg className="w-5 h-5 text-blue-600 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+      <svg
+        className="w-5 h-5 text-[var(--dc-color-interactive-primary)] shrink-0"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+      >
         <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 2l5 5h-5V4zM8 13h8v2H8v-2zm0 4h8v2H8v-2zm0-8h3v2H8V9z" />
       </svg>
     )
@@ -24,7 +28,11 @@ function SourceIcon({ mimeType }: { mimeType: string }) {
   // PDF
   if (mimeType === 'application/pdf') {
     return (
-      <svg className="w-5 h-5 text-red-600 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+      <svg
+        className="w-5 h-5 text-[var(--dc-color-status-error)] shrink-0"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+      >
         <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 2l5 5h-5V4zM9 15.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm3-2a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm3 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3z" />
       </svg>
     )
@@ -57,7 +65,7 @@ export function SourceItem({
     <div
       className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors min-h-[44px]
                   ${onClick ? 'cursor-pointer hover:bg-[var(--dc-color-surface-secondary)] active:bg-[var(--dc-color-surface-tertiary)]' : ''}
-                  ${selected ? 'bg-blue-50 ring-1 ring-blue-200' : ''}`}
+                  ${selected ? 'bg-[var(--dc-color-interactive-primary-subtle)] ring-1 ring-[var(--dc-color-interactive-primary-border)]' : ''}`}
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}

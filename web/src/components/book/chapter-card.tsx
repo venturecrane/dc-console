@@ -20,10 +20,10 @@ interface ChapterCardProps {
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  draft: 'bg-amber-400',
-  review: 'bg-blue-400',
+  draft: 'bg-[var(--dc-color-status-warning)]',
+  review: 'bg-[var(--dc-color-interactive-primary)]',
   complete: 'bg-emerald-400',
-  'needs-work': 'bg-red-400',
+  'needs-work': 'bg-[var(--dc-color-status-error)]',
 }
 
 /**

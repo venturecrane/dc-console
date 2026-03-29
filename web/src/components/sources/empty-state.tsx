@@ -41,8 +41,8 @@ export function EmptyState({
           {action && (
             <button
               onClick={action.onClick}
-              className="h-9 px-4 rounded-lg bg-blue-600 text-sm font-medium text-white
-                       hover:bg-blue-700 transition-colors min-h-[44px] min-w-[44px]"
+              className="h-9 px-4 rounded-lg bg-[var(--dc-color-interactive-primary)] text-sm font-medium text-[var(--dc-color-text-inverse)]
+                       hover:bg-[var(--dc-color-interactive-primary-hover)] transition-colors min-h-[44px] min-w-[44px]"
             >
               {action.label}
             </button>

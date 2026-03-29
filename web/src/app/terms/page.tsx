@@ -259,7 +259,7 @@ export default function TermsOfServicePage() {
         </div>
 
         {/* Footer links */}
-        <footer className="mt-12 border-t border-gray-200 pt-6 text-sm text-[var(--dc-color-text-muted)]">
+        <footer className="mt-12 border-t border-[var(--dc-color-border-default)] pt-6 text-sm text-[var(--dc-color-text-muted)]">
           <div className="flex gap-6">
             <Link href="/privacy" className="hover:text-[var(--dc-color-text-secondary)]">
               Privacy Policy

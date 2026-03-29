@@ -278,7 +278,7 @@ function HelpPageContent() {
       </div>
 
       {/* Footer actions */}
-      <div className="mt-10 rounded-xl border border-gray-200 bg-[var(--dc-color-surface-secondary)] p-6 text-center">
+      <div className="mt-10 rounded-xl border border-[var(--dc-color-border-default)] bg-[var(--dc-color-surface-secondary)] p-6 text-center">
         <h2 className="text-base font-semibold text-[var(--dc-color-text-primary)] mb-2">
           Still need help?
         </h2>
@@ -288,8 +288,8 @@ function HelpPageContent() {
         <div className="flex flex-col items-center gap-3">
           <button
             onClick={() => setFeedbackOpen(true)}
-            className="inline-flex h-11 items-center justify-center rounded-lg bg-gray-900 px-6
-                       text-sm font-medium text-white hover:bg-gray-800 transition-colors min-h-[44px]"
+            className="inline-flex h-11 items-center justify-center rounded-lg bg-[var(--dc-color-text-primary)] px-6
+                       text-sm font-medium text-[var(--dc-color-text-inverse)] hover:bg-[var(--dc-color-text-secondary)] transition-colors min-h-[44px]"
           >
             Report a problem
           </button>

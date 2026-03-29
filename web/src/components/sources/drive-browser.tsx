@@ -102,7 +102,7 @@ export function DriveBrowser({
   return (
     <div className="flex flex-col flex-1 min-h-0">
       {/* Breadcrumbs */}
-      <div className="px-3 py-2 border-b border-gray-100 flex items-center gap-1 overflow-x-auto shrink-0">
+      <div className="px-3 py-2 border-b border-[var(--dc-color-border-subtle)] flex items-center gap-1 overflow-x-auto shrink-0">
         {breadcrumbs.map((crumb, i) => (
           <span key={crumb.id} className="flex items-center gap-1 shrink-0">
             {i > 0 && <span className="text-[var(--dc-color-border-strong)] text-xs">/</span>}
@@ -111,7 +111,7 @@ export function DriveBrowser({
               className={`text-xs min-h-[32px] px-1 rounded transition-colors ${
                 i === breadcrumbs.length - 1
                   ? 'font-medium text-[var(--dc-color-text-primary)]'
-                  : 'text-blue-600 hover:text-blue-700'
+                  : 'text-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary-hover)]'
               }`}
             >
               {crumb.name}
@@ -128,7 +128,7 @@ export function DriveBrowser({
           </p>
         ) : error ? (
           <div className="px-3 py-6 text-center">
-            <p className="text-sm text-red-600 mb-2">{error}</p>
+            <p className="text-sm text-[var(--dc-color-status-error)] mb-2">{error}</p>
             <div className="flex items-center justify-center gap-2">
               <button
                 onClick={() => {
@@ -136,14 +136,14 @@ export function DriveBrowser({
                   setCurrentFolder('')
                   requestAnimationFrame(() => setCurrentFolder(f))
                 }}
-                className="text-xs text-blue-600 hover:text-blue-700 underline min-h-[36px]"
+                className="text-xs text-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary-hover)] underline min-h-[36px]"
               >
                 Retry
               </button>
               {onReconnect && (
                 <button
                   onClick={onReconnect}
-                  className="text-xs text-blue-600 hover:text-blue-700 underline min-h-[36px]"
+                  className="text-xs text-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary-hover)] underline min-h-[36px]"
                 >
                   Reconnect account
                 </button>
@@ -171,7 +171,7 @@ export function DriveBrowser({
               <button
                 key={folder.id}
                 onClick={() => navigateToFolder(folder.id, folder.name)}
-                className="flex items-center gap-2 w-full px-3 min-h-[44px] border-b border-gray-50
+                className="flex items-center gap-2 w-full px-3 min-h-[44px] border-b border-[var(--dc-color-border-subtle)]
                            hover:bg-[var(--dc-color-surface-secondary)] cursor-pointer"
               >
                 <svg
@@ -206,14 +206,14 @@ export function DriveBrowser({
               return (
                 <div
                   key={doc.id}
-                  className="flex items-center w-full border-b border-gray-50 hover:bg-[var(--dc-color-surface-secondary)]"
+                  className="flex items-center w-full border-b border-[var(--dc-color-border-subtle)] hover:bg-[var(--dc-color-surface-secondary)]"
                 >
                   <button
                     onClick={() => onDocumentTap(doc)}
                     className="flex items-center gap-2 flex-1 min-w-0 px-3 min-h-[44px] cursor-pointer"
                   >
                     <svg
-                      className="w-5 h-5 text-blue-400 shrink-0"
+                      className="w-5 h-5 text-[var(--dc-color-interactive-primary-border)] shrink-0"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -232,7 +232,7 @@ export function DriveBrowser({
                   <button
                     onClick={() => (isTagged ? onUntag(doc) : onTag(doc))}
                     className={`p-2 mr-1 shrink-0 min-h-[44px] min-w-[44px] flex items-center justify-center
-                               transition-colors ${isTagged ? 'text-blue-600' : 'text-[var(--dc-color-border-strong)] hover:text-[var(--dc-color-text-muted)]'}`}
+                               transition-colors ${isTagged ? 'text-[var(--dc-color-interactive-primary)]' : 'text-[var(--dc-color-border-strong)] hover:text-[var(--dc-color-text-muted)]'}`}
                     aria-label={isTagged ? 'Remove from desk' : 'Add to desk'}
                   >
                     <svg
@@ -258,8 +258,8 @@ export function DriveBrowser({
               <button
                 onClick={loadMore}
                 disabled={isLoading}
-                className="w-full px-3 py-3 text-xs text-blue-600 hover:bg-[var(--dc-color-surface-secondary)]
-                           min-h-[44px] border-t border-gray-100"
+                className="w-full px-3 py-3 text-xs text-[var(--dc-color-interactive-primary)] hover:bg-[var(--dc-color-surface-secondary)]
+                           min-h-[44px] border-t border-[var(--dc-color-border-subtle)]"
               >
                 {isLoading ? 'Loading...' : 'Load more'}
               </button>

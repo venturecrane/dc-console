@@ -110,7 +110,7 @@ export function DriveFolderPicker({
   return (
     <div className="flex flex-col flex-1 min-h-0">
       {/* Header */}
-      <div className="px-4 py-3 border-b border-gray-200 flex items-center gap-2 shrink-0">
+      <div className="px-4 py-3 border-b border-[var(--dc-color-border-default)] flex items-center gap-2 shrink-0">
         <button
           onClick={onCancel}
           className="min-w-[44px] min-h-[44px] flex items-center justify-center -ml-2"
@@ -136,7 +136,7 @@ export function DriveFolderPicker({
       </div>
 
       {/* Breadcrumbs */}
-      <div className="px-3 py-2 border-b border-gray-100 flex items-center gap-1 overflow-x-auto shrink-0">
+      <div className="px-3 py-2 border-b border-[var(--dc-color-border-subtle)] flex items-center gap-1 overflow-x-auto shrink-0">
         {breadcrumbs.map((crumb, i) => (
           <span key={crumb.id} className="flex items-center gap-1 shrink-0">
             {i > 0 && <span className="text-[var(--dc-color-border-strong)] text-xs">/</span>}
@@ -145,7 +145,7 @@ export function DriveFolderPicker({
               className={`text-xs min-h-[32px] px-1 rounded transition-colors ${
                 i === breadcrumbs.length - 1
                   ? 'font-medium text-[var(--dc-color-text-primary)]'
-                  : 'text-blue-600 hover:text-blue-700'
+                  : 'text-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary-hover)]'
               }`}
             >
               {crumb.name}
@@ -161,7 +161,9 @@ export function DriveFolderPicker({
             Loading...
           </p>
         ) : error ? (
-          <p className="px-3 py-6 text-center text-sm text-red-600">{error}</p>
+          <p className="px-3 py-6 text-center text-sm text-[var(--dc-color-status-error)]">
+            {error}
+          </p>
         ) : files.length === 0 ? (
           <p className="px-3 py-6 text-center text-sm text-[var(--dc-color-text-placeholder)]">
             No folders found
@@ -173,7 +175,7 @@ export function DriveFolderPicker({
                 key={folder.id}
                 onClick={() => navigateToFolder(folder.id, folder.name)}
                 className="flex items-center gap-3 px-3 py-2 cursor-pointer hover:bg-[var(--dc-color-surface-secondary)]
-                           min-h-[44px] border-b border-gray-50"
+                           min-h-[44px] border-b border-[var(--dc-color-border-subtle)]"
               >
                 <svg
                   className="w-5 h-5 text-yellow-500 shrink-0"
@@ -205,8 +207,8 @@ export function DriveFolderPicker({
               <button
                 onClick={loadMore}
                 disabled={isLoading}
-                className="w-full px-3 py-3 text-xs text-blue-600 hover:bg-[var(--dc-color-surface-secondary)]
-                           min-h-[44px] border-t border-gray-100"
+                className="w-full px-3 py-3 text-xs text-[var(--dc-color-interactive-primary)] hover:bg-[var(--dc-color-surface-secondary)]
+                           min-h-[44px] border-t border-[var(--dc-color-border-subtle)]"
               >
                 Load more
               </button>
@@ -216,7 +218,7 @@ export function DriveFolderPicker({
 
         {/* Create new folder */}
         {!isLoading && !error && (
-          <div className="px-3 py-2 border-t border-gray-100">
+          <div className="px-3 py-2 border-t border-[var(--dc-color-border-subtle)]">
             {showCreateInput ? (
               <div className="flex items-center gap-2">
                 <input
@@ -229,13 +231,13 @@ export function DriveFolderPicker({
                   }}
                   placeholder="Folder name"
                   className="flex-1 text-sm border border-[var(--dc-color-border-strong)] rounded-md px-2 py-1.5
-                             focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[36px]"
+                             focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)] min-h-[36px]"
                   autoFocus
                 />
                 <button
                   onClick={handleCreateFolder}
                   disabled={isCreating || !newFolderName.trim()}
-                  className="text-xs font-medium text-blue-600 hover:text-blue-700
+                  className="text-xs font-medium text-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary-hover)]
                              disabled:opacity-50 min-h-[36px] px-2"
                 >
                   {isCreating ? 'Creating...' : 'Create'}
@@ -253,7 +255,7 @@ export function DriveFolderPicker({
             ) : (
               <button
                 onClick={() => setShowCreateInput(true)}
-                className="flex items-center gap-2 text-xs text-blue-600 hover:text-blue-700
+                className="flex items-center gap-2 text-xs text-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary-hover)]
                            min-h-[44px]"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -272,11 +274,11 @@ export function DriveFolderPicker({
       </div>
 
       {/* Action bar */}
-      <div className="px-3 py-2 border-t border-gray-200 shrink-0">
+      <div className="px-3 py-2 border-t border-[var(--dc-color-border-default)] shrink-0">
         <button
           onClick={handleSelectFolder}
-          className="w-full h-10 text-sm font-medium text-white bg-blue-600 rounded-lg
-                     hover:bg-blue-700 min-h-[44px] flex items-center justify-center"
+          className="w-full h-10 text-sm font-medium text-[var(--dc-color-text-inverse)] bg-[var(--dc-color-interactive-primary)] rounded-lg
+                     hover:bg-[var(--dc-color-interactive-primary-hover)] min-h-[44px] flex items-center justify-center"
         >
           Select This Folder
         </button>

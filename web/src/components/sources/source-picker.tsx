@@ -84,11 +84,11 @@ export function SourcePicker({
           className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[var(--dc-color-surface-secondary)]
                      transition-colors min-h-[56px] w-full text-left"
         >
-          <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+          <div className="w-9 h-9 rounded-lg bg-[var(--dc-color-interactive-primary-subtle)] flex items-center justify-center shrink-0">
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
               <path
                 d="M7.71 3.5L1.15 15l3.43 5.99L11.01 9.5 7.71 3.5zm1.14 0l6.87 12H22.86l-3.43-6-6.87-12H8.85l-.01 0 .01-.01zm6.88 12.01H2.58l3.43 6h13.15l-3.43-6z"
-                className="text-blue-500"
+                className="text-[var(--dc-color-interactive-primary)]"
               />
             </svg>
           </div>
@@ -123,7 +123,7 @@ export function SourcePicker({
                 <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor">
                   <path
                     d="M7.71 3.5L1.15 15l3.43 5.99L11.01 9.5 7.71 3.5zm1.14 0l6.87 12H22.86l-3.43-6-6.87-12H8.85l-.01 0 .01-.01zm6.88 12.01H2.58l3.43 6h13.15l-3.43-6z"
-                    className="text-blue-500"
+                    className="text-[var(--dc-color-interactive-primary)]"
                   />
                 </svg>
                 <span className="text-sm text-[var(--dc-color-text-secondary)] truncate flex-1">
@@ -147,7 +147,7 @@ export function SourcePicker({
             <button
               onClick={onConnectDrive}
               className="flex items-center gap-3 px-3 py-2.5 hover:bg-[var(--dc-color-surface-tertiary)]
-                         transition-colors min-h-[44px] w-full text-left border-t border-gray-200"
+                         transition-colors min-h-[44px] w-full text-left border-t border-[var(--dc-color-border-default)]"
             >
               <svg
                 className="w-4 h-4 shrink-0 text-[var(--dc-color-text-placeholder)]"

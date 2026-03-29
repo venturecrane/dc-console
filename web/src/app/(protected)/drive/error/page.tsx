@@ -29,9 +29,9 @@ function DriveErrorContent() {
     <div className="flex min-h-[60vh] items-center justify-center p-4">
       <div className="w-full max-w-md text-center">
         {/* Error icon */}
-        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-amber-100">
+        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--dc-color-status-warning-bg)]">
           <svg
-            className="h-8 w-8 text-amber-600"
+            className="h-8 w-8 text-[var(--dc-color-status-warning)]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -54,7 +54,7 @@ function DriveErrorContent() {
         <div className="mt-6 flex flex-col items-center gap-3">
           <button
             onClick={() => router.push('/dashboard')}
-            className="inline-flex h-11 items-center justify-center rounded-lg bg-gray-900 px-6 text-sm font-medium text-white hover:bg-gray-800 transition-colors"
+            className="inline-flex h-11 items-center justify-center rounded-lg bg-[var(--dc-color-text-primary)] px-6 text-sm font-medium text-[var(--dc-color-text-inverse)] hover:bg-[var(--dc-color-text-secondary)] transition-colors"
           >
             Back to DraftCrane
           </button>

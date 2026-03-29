@@ -160,7 +160,7 @@ export function SourceDetailView({ onBack }: SourceDetailViewProps) {
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="px-4 py-3 border-b border-gray-100 shrink-0">
+      <div className="px-4 py-3 border-b border-[var(--dc-color-border-subtle)] shrink-0">
         <div className="flex items-center gap-2">
           <button
             onClick={onBack}
@@ -197,7 +197,7 @@ export function SourceDetailView({ onBack }: SourceDetailViewProps) {
           </div>
         ) : error ? (
           <div className="flex items-center justify-center py-12">
-            <p className="text-sm text-red-500">{error}</p>
+            <p className="text-sm text-[var(--dc-color-status-error)]">{error}</p>
           </div>
         ) : content ? (
           <div
@@ -212,8 +212,8 @@ export function SourceDetailView({ onBack }: SourceDetailViewProps) {
           <div className="fixed bottom-24 right-8 z-50">
             <button
               onClick={handleInsertSelected}
-              className="h-10 px-4 bg-blue-600 text-white text-sm font-medium rounded-full
-                         shadow-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+              className="h-10 px-4 bg-[var(--dc-color-interactive-primary)] text-[var(--dc-color-text-inverse)] text-sm font-medium rounded-full
+                         shadow-lg hover:bg-[var(--dc-color-interactive-primary-hover)] transition-colors flex items-center gap-2"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -231,11 +231,11 @@ export function SourceDetailView({ onBack }: SourceDetailViewProps) {
 
       {/* Action bar */}
       {content && (
-        <div className="px-4 py-3 border-t border-gray-100 flex gap-2 shrink-0">
+        <div className="px-4 py-3 border-t border-[var(--dc-color-border-subtle)] flex gap-2 shrink-0">
           <button
             onClick={handleInsertAll}
-            className="flex-1 h-10 rounded-lg border border-blue-300 text-sm font-medium text-blue-700
-                       hover:bg-blue-50 transition-colors min-h-[44px]"
+            className="flex-1 h-10 rounded-lg border border-[var(--dc-color-interactive-primary-border)] text-sm font-medium text-[var(--dc-color-interactive-primary-hover)]
+                       hover:bg-[var(--dc-color-interactive-primary-subtle)] transition-colors min-h-[44px]"
           >
             Insert All
           </button>

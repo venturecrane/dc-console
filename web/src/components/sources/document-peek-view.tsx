@@ -135,7 +135,7 @@ export function DocumentPeekView({
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="px-4 py-3 border-b border-gray-100 shrink-0">
+      <div className="px-4 py-3 border-b border-[var(--dc-color-border-subtle)] shrink-0">
         <div className="flex items-center gap-2">
           <button
             onClick={onBack}
@@ -172,7 +172,7 @@ export function DocumentPeekView({
           </div>
         ) : error ? (
           <div className="flex items-center justify-center py-12">
-            <p className="text-sm text-red-500">{error}</p>
+            <p className="text-sm text-[var(--dc-color-status-error)]">{error}</p>
           </div>
         ) : content ? (
           <div ref={contentRef}>
@@ -189,14 +189,14 @@ export function DocumentPeekView({
 
       {/* Action bar */}
       {content && (
-        <div className="px-4 py-3 border-t border-gray-100 flex gap-2 shrink-0">
+        <div className="px-4 py-3 border-t border-[var(--dc-color-border-subtle)] flex gap-2 shrink-0">
           <button
             onClick={isOnDesk ? handleRemoveFromDesk : handleAddToDesk}
             disabled={isAdding || isRemoving}
             className={`h-10 px-4 rounded-lg border text-sm font-medium transition-colors min-h-[44px]
                        disabled:opacity-50 disabled:cursor-default ${
                          isOnDesk
-                           ? 'border-blue-300 text-blue-700 hover:bg-blue-50'
+                           ? 'border-[var(--dc-color-interactive-primary-border)] text-[var(--dc-color-interactive-primary-hover)] hover:bg-[var(--dc-color-interactive-primary-subtle)]'
                            : 'border-[var(--dc-color-border-strong)] text-[var(--dc-color-text-secondary)] hover:bg-[var(--dc-color-surface-secondary)]'
                        }`}
           >
@@ -211,8 +211,8 @@ export function DocumentPeekView({
 
           <button
             onClick={selectedText ? handleInsertSelected : handleInsertAll}
-            className="flex-1 h-10 rounded-lg border border-blue-300 text-sm font-medium text-blue-700
-                       hover:bg-blue-50 transition-colors min-h-[44px]"
+            className="flex-1 h-10 rounded-lg border border-[var(--dc-color-interactive-primary-border)] text-sm font-medium text-[var(--dc-color-interactive-primary-hover)]
+                       hover:bg-[var(--dc-color-interactive-primary-subtle)] transition-colors min-h-[44px]"
           >
             {selectedText ? 'Insert Selected' : 'Insert All'}
           </button>

@@ -93,8 +93,8 @@ export function ProjectSourceList() {
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
               placeholder="Search documents..."
-              className="w-full h-9 pl-8 pr-8 text-sm border border-gray-200 rounded-lg
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full h-9 pl-8 pr-8 text-sm border border-[var(--dc-color-border-default)] rounded-lg
+                         focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)] focus:border-transparent"
             />
             {searchQuery && (
               <button
@@ -152,7 +152,7 @@ export function ProjectSourceList() {
                 <>
                   <button
                     onClick={() => openSourceAnalysis(source.id)}
-                    className="p-1.5 text-[var(--dc-color-text-placeholder)] hover:text-blue-600 transition-colors
+                    className="p-1.5 text-[var(--dc-color-text-placeholder)] hover:text-[var(--dc-color-interactive-primary)] transition-colors
                                min-h-[44px] min-w-[44px] flex items-center justify-center"
                     aria-label={`Analyze ${source.title}`}
                     title="Analyze with AI"
@@ -168,7 +168,7 @@ export function ProjectSourceList() {
                   </button>
                   <button
                     onClick={() => handleRemove(source.id, source.title)}
-                    className="p-1.5 text-[var(--dc-color-text-placeholder)] hover:text-red-600 transition-colors
+                    className="p-1.5 text-[var(--dc-color-text-placeholder)] hover:text-[var(--dc-color-status-error)] transition-colors
                                min-h-[44px] min-w-[44px] flex items-center justify-center"
                     aria-label={`Remove ${source.title}`}
                     title="Remove source"

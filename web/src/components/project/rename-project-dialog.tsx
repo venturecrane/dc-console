@@ -51,7 +51,7 @@ export function RenameProjectDialog({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--dc-color-surface-overlay)]"
       role="dialog"
       aria-modal="true"
       aria-labelledby="rename-dialog-title"
@@ -72,7 +72,7 @@ export function RenameProjectDialog({
             if (e.key === 'Escape') onCancel()
           }}
           className="w-full px-3 py-2 border border-[var(--dc-color-border-strong)] rounded-lg text-sm
-                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                     focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)] focus:border-transparent"
           maxLength={500}
           autoFocus
         />
@@ -81,7 +81,7 @@ export function RenameProjectDialog({
             onClick={onCancel}
             disabled={isSubmitting}
             className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-secondary)] bg-[var(--dc-color-surface-tertiary)] rounded-lg
-                       hover:bg-gray-200 transition-colors min-h-[44px]
+                       hover:bg-[var(--dc-color-surface-tertiary)] transition-colors min-h-[44px]
                        disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancel
@@ -89,8 +89,8 @@ export function RenameProjectDialog({
           <button
             onClick={handleSubmit}
             disabled={isSubmitting || !value.trim()}
-            className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg
-                       hover:bg-gray-800 transition-colors min-h-[44px]
+            className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-inverse)] bg-[var(--dc-color-text-primary)] rounded-lg
+                       hover:bg-[var(--dc-color-text-secondary)] transition-colors min-h-[44px]
                        disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Saving...' : 'Save'}

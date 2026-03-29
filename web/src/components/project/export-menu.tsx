@@ -452,7 +452,7 @@ export function ExportMenu({
       {/* Dropdown menu */}
       {isOpen && (
         <div
-          className="absolute right-0 top-full mt-1 w-56 bg-[var(--dc-color-surface-primary)] rounded-lg shadow-lg border border-gray-200 py-1 z-50"
+          className="absolute right-0 top-full mt-1 w-56 bg-[var(--dc-color-surface-primary)] rounded-lg shadow-lg border border-[var(--dc-color-border-default)] py-1 z-50"
           role="menu"
           aria-label="Export options"
         >
@@ -500,7 +500,7 @@ export function ExportMenu({
             Export Book as EPUB
           </button>
 
-          <div className="border-t border-gray-100 my-1" role="separator" />
+          <div className="border-t border-[var(--dc-color-border-subtle)] my-1" role="separator" />
 
           <button
             onClick={() => handleExport('chapter', 'pdf')}
@@ -550,7 +550,7 @@ export function ExportMenu({
             Export This Chapter as EPUB
           </button>
 
-          <div className="border-t border-gray-100 my-1" role="separator" />
+          <div className="border-t border-[var(--dc-color-border-subtle)] my-1" role="separator" />
 
           {/* Export destination settings */}
           <button
@@ -654,10 +654,10 @@ export function ExportMenu({
 
       {/* Confirmation toast (auto-delivered with default) */}
       {state.phase === 'complete' && deliveryPhase === 'auto-delivered' && (
-        <div className="fixed bottom-4 right-4 bg-green-50 border border-green-200 rounded-lg px-4 py-3 shadow-lg z-50 max-w-sm">
+        <div className="fixed bottom-4 right-4 bg-[var(--dc-color-success-bg)] border border-[var(--dc-color-status-success)] rounded-lg px-4 py-3 shadow-lg z-50 max-w-sm">
           <div className="flex items-start gap-3">
             <svg
-              className="w-5 h-5 text-green-600 shrink-0 mt-0.5"
+              className="w-5 h-5 text-[var(--dc-color-status-success)] shrink-0 mt-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -671,35 +671,49 @@ export function ExportMenu({
             </svg>
             <div className="flex-1 min-w-0">
               {driveState.phase === 'saving' ? (
-                <p className="text-sm font-medium text-green-800">Saving to Google Drive...</p>
+                <p className="text-sm font-medium text-[var(--dc-color-status-success)]">
+                  Saving to Google Drive...
+                </p>
               ) : driveState.phase === 'saved' ? (
                 <>
-                  <p className="text-sm font-medium text-green-800">Saved to Google Drive</p>
+                  <p className="text-sm font-medium text-[var(--dc-color-status-success)]">
+                    Saved to Google Drive
+                  </p>
                   {driveState.folderPath && (
-                    <p className="text-xs text-green-600 mt-0.5">{driveState.folderPath}</p>
+                    <p className="text-xs text-[var(--dc-color-status-success)] mt-0.5">
+                      {driveState.folderPath}
+                    </p>
                   )}
                 </>
               ) : driveState.phase === 'error' ? (
                 <>
-                  <p className="text-sm font-medium text-red-800">Save failed</p>
-                  <p className="text-xs text-red-600 mt-0.5">{driveState.message}</p>
+                  <p className="text-sm font-medium text-[var(--dc-color-interactive-destructive)]">
+                    Save failed
+                  </p>
+                  <p className="text-xs text-[var(--dc-color-status-error)] mt-0.5">
+                    {driveState.message}
+                  </p>
                 </>
               ) : (
                 <>
-                  <p className="text-sm font-medium text-green-800">Downloaded</p>
-                  <p className="text-xs text-green-600 truncate mt-0.5">{state.fileName}</p>
+                  <p className="text-sm font-medium text-[var(--dc-color-status-success)]">
+                    Downloaded
+                  </p>
+                  <p className="text-xs text-[var(--dc-color-status-success)] truncate mt-0.5">
+                    {state.fileName}
+                  </p>
                 </>
               )}
               <button
                 onClick={() => setDeliveryPhase('picker-open')}
-                className="text-xs text-blue-600 hover:text-blue-700 mt-1 min-h-[32px]"
+                className="text-xs text-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary-hover)] mt-1 min-h-[32px]"
               >
                 Change
               </button>
             </div>
             <button
               onClick={handleDismiss}
-              className="text-green-500 hover:text-green-700 min-w-[44px] min-h-[44px] flex items-center justify-center -m-2"
+              className="text-[var(--dc-color-status-success)] hover:text-[var(--dc-color-status-success)] min-w-[44px] min-h-[44px] flex items-center justify-center -m-2"
               aria-label="Dismiss"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -717,10 +731,10 @@ export function ExportMenu({
 
       {/* Recovery toast: export complete but picker was dismissed */}
       {state.phase === 'complete' && deliveryPhase === 'none' && (
-        <div className="fixed bottom-4 right-4 bg-blue-50 border border-blue-200 rounded-lg px-4 py-3 shadow-lg z-50 max-w-sm">
+        <div className="fixed bottom-4 right-4 bg-[var(--dc-color-interactive-primary-subtle)] border border-[var(--dc-color-interactive-primary-border)] rounded-lg px-4 py-3 shadow-lg z-50 max-w-sm">
           <div className="flex items-start gap-3">
             <svg
-              className="w-5 h-5 text-blue-600 shrink-0 mt-0.5"
+              className="w-5 h-5 text-[var(--dc-color-interactive-primary)] shrink-0 mt-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -733,18 +747,22 @@ export function ExportMenu({
               />
             </svg>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-blue-800">Export ready</p>
-              <p className="text-xs text-blue-600 truncate mt-0.5">{state.fileName}</p>
+              <p className="text-sm font-medium text-[var(--dc-color-interactive-primary-on-subtle)]">
+                Export ready
+              </p>
+              <p className="text-xs text-[var(--dc-color-interactive-primary)] truncate mt-0.5">
+                {state.fileName}
+              </p>
               <button
                 onClick={() => setDeliveryPhase('picker-open')}
-                className="text-xs text-blue-600 hover:text-blue-700 font-medium mt-1 min-h-[32px]"
+                className="text-xs text-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary-hover)] font-medium mt-1 min-h-[32px]"
               >
                 Choose destination
               </button>
             </div>
             <button
               onClick={handleDismiss}
-              className="text-blue-400 hover:text-blue-600 min-w-[44px] min-h-[44px] flex items-center justify-center -m-2"
+              className="text-[var(--dc-color-interactive-primary-border)] hover:text-[var(--dc-color-interactive-primary)] min-w-[44px] min-h-[44px] flex items-center justify-center -m-2"
               aria-label="Dismiss"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -761,10 +779,10 @@ export function ExportMenu({
       )}
 
       {state.phase === 'error' && (
-        <div className="fixed bottom-4 right-4 bg-red-50 border border-red-200 rounded-lg px-4 py-3 shadow-lg z-50 max-w-sm">
+        <div className="fixed bottom-4 right-4 bg-[var(--dc-color-interactive-destructive-subtle)] border border-[var(--dc-color-interactive-destructive-subtle)] rounded-lg px-4 py-3 shadow-lg z-50 max-w-sm">
           <div className="flex items-start gap-3">
             <svg
-              className="w-5 h-5 text-red-600 shrink-0 mt-0.5"
+              className="w-5 h-5 text-[var(--dc-color-status-error)] shrink-0 mt-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -777,12 +795,14 @@ export function ExportMenu({
               />
             </svg>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-red-800">Export failed</p>
-              <p className="text-xs text-red-600 mt-0.5">{state.message}</p>
+              <p className="text-sm font-medium text-[var(--dc-color-interactive-destructive)]">
+                Export failed
+              </p>
+              <p className="text-xs text-[var(--dc-color-status-error)] mt-0.5">{state.message}</p>
             </div>
             <button
               onClick={handleDismiss}
-              className="text-red-500 hover:text-red-700 min-w-[44px] min-h-[44px] flex items-center justify-center -m-2"
+              className="text-[var(--dc-color-status-error)] hover:text-[var(--dc-color-interactive-destructive-hover)] min-w-[44px] min-h-[44px] flex items-center justify-center -m-2"
               aria-label="Dismiss"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

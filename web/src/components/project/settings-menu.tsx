@@ -74,7 +74,7 @@ export function SettingsMenu({
 
       {isOpen && (
         <div
-          className="absolute right-0 top-full mt-1 w-52 bg-[var(--dc-color-surface-primary)] rounded-lg shadow-lg border border-gray-200 py-1 z-50"
+          className="absolute right-0 top-full mt-1 w-52 bg-[var(--dc-color-surface-primary)] rounded-lg shadow-lg border border-[var(--dc-color-border-default)] py-1 z-50"
           role="menu"
           aria-label="Project settings"
         >
@@ -116,11 +116,11 @@ export function SettingsMenu({
             {isDuplicating ? 'Duplicating...' : 'Duplicate Book'}
           </button>
 
-          <div className="my-1 border-t border-gray-200" role="separator" />
+          <div className="my-1 border-t border-[var(--dc-color-border-default)]" role="separator" />
 
           <button
             onClick={() => handleMenuItem(onDeleteProject)}
-            className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50
+            className="w-full text-left px-4 py-2.5 text-sm text-[var(--dc-color-status-error)] hover:bg-[var(--dc-color-interactive-destructive-subtle)]
                        transition-colors min-h-[44px] flex items-center gap-2"
             role="menuitem"
           >
@@ -155,7 +155,7 @@ export function SettingsMenu({
           </Link>
 
           {/* Separator */}
-          <div className="my-1 border-t border-gray-200" role="separator" />
+          <div className="my-1 border-t border-[var(--dc-color-border-default)]" role="separator" />
 
           {/* Sign out (US-003) */}
           <button

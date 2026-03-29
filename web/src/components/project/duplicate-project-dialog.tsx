@@ -41,7 +41,7 @@ export function DuplicateProjectDialog({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--dc-color-surface-overlay)]"
       role="dialog"
       aria-modal="true"
       aria-labelledby="duplicate-dialog-title"
@@ -61,7 +61,7 @@ export function DuplicateProjectDialog({
             onClick={onCancel}
             disabled={isSubmitting}
             className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-secondary)] bg-[var(--dc-color-surface-tertiary)] rounded-lg
-                       hover:bg-gray-200 transition-colors min-h-[44px]
+                       hover:bg-[var(--dc-color-surface-tertiary)] transition-colors min-h-[44px]
                        disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancel
@@ -69,8 +69,8 @@ export function DuplicateProjectDialog({
           <button
             onClick={handleConfirm}
             disabled={isSubmitting}
-            className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg
-                       hover:bg-gray-800 transition-colors min-h-[44px]
+            className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-inverse)] bg-[var(--dc-color-text-primary)] rounded-lg
+                       hover:bg-[var(--dc-color-text-secondary)] transition-colors min-h-[44px]
                        disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Duplicating...' : 'Duplicate'}
