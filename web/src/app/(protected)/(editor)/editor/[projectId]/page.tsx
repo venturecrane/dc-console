@@ -395,7 +395,6 @@ function EditorPageInner() {
               onSaveRetry={saveNow}
               viewMode={viewMode}
               onViewModeChange={handleViewModeChange}
-              isEditorPanelOpen={editorPanelOpen}
               onToggleEditorPanel={handleToggleEditorPanel}
               projectId={projectId}
               activeChapterId={activeChapterId}

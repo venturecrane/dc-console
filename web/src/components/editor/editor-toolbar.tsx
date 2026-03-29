@@ -25,8 +25,7 @@ interface EditorToolbarProps {
   viewMode: ViewMode
   onViewModeChange: (mode: ViewMode) => void
 
-  // Editor Panel
-  isEditorPanelOpen?: boolean
+  // Editor Panel (keyboard shortcut only — toggle lives in sidebar)
   onToggleEditorPanel?: () => void
 
   // Export
@@ -68,7 +67,6 @@ export function EditorToolbar({
   onSaveRetry,
   viewMode,
   onViewModeChange,
-  isEditorPanelOpen = false,
   onToggleEditorPanel,
   projectId,
   activeChapterId,
