@@ -119,26 +119,24 @@ describe('EditorToolbar', () => {
   // Editor Panel toggle button
   // ────────────────────────────────────────────
 
-  it('renders Editor panel toggle button when onToggleEditorPanel is provided', () => {
-    render(<EditorToolbar {...makeProps({ onToggleEditorPanel: vi.fn() })} />)
+  it('renders logomark sidebar toggle', () => {
+    render(<EditorToolbar {...makeProps()} />)
 
-    expect(screen.getByLabelText('Open editor panel')).toBeInTheDocument()
+    expect(screen.getByLabelText('Open navigation')).toBeInTheDocument()
   })
 
-  it('calls onToggleEditorPanel when Editor button is clicked', () => {
-    const onToggleEditorPanel = vi.fn()
-    render(<EditorToolbar {...makeProps({ onToggleEditorPanel })} />)
+  it('calls onToggleSidebar when logomark is clicked', () => {
+    const onToggleSidebar = vi.fn()
+    render(<EditorToolbar {...makeProps({ onToggleSidebar })} />)
 
-    fireEvent.click(screen.getByLabelText('Open editor panel'))
-    expect(onToggleEditorPanel).toHaveBeenCalledTimes(1)
+    fireEvent.click(screen.getByLabelText('Open navigation'))
+    expect(onToggleSidebar).toHaveBeenCalledTimes(1)
   })
 
-  it('shows active state when editor panel is open', () => {
-    render(
-      <EditorToolbar {...makeProps({ isEditorPanelOpen: true, onToggleEditorPanel: vi.fn() })} />
-    )
+  it('shows active state when sidebar is open', () => {
+    render(<EditorToolbar {...makeProps({ isSidebarOpen: true })} />)
 
-    expect(screen.getByLabelText('Close editor panel')).toBeInTheDocument()
+    expect(screen.getByLabelText('Close navigation')).toBeInTheDocument()
   })
 
   // ────────────────────────────────────────────
