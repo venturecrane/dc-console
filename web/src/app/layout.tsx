@@ -44,7 +44,7 @@ export const viewport: Viewport = {
   // Per ADR-001: interactive-widget=resizes-content keeps cursor visible
   // above the virtual keyboard on iPad Safari
   interactiveWidget: 'resizes-content',
-  themeColor: '#1a1a2e',
+  themeColor: '#1c1917',
 }
 
 export default function RootLayout({
