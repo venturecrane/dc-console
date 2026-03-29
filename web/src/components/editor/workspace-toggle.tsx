@@ -110,7 +110,7 @@ function ToggleOption({ label, value, isSelected, onSelect }: ToggleOptionProps)
       className={`relative z-10 flex items-center justify-center px-3 h-10 min-w-[72px]
                  text-sm font-medium rounded-md transition-colors duration-200
                  focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dc-color-border-focus)] focus-visible:ring-offset-1
-                 ${isSelected ? 'text-foreground' : 'text-[var(--dc-color-text-secondary)] hover:text-foreground'}`}
+                 ${isSelected ? 'text-[var(--dc-color-text-primary)]' : 'text-[var(--dc-color-text-secondary)] hover:text-[var(--dc-color-text-primary)]'}`}
       aria-label={`${label} view${isSelected ? ' (selected)' : ''}`}
       data-view={value}
     >

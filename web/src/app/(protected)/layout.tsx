@@ -21,7 +21,7 @@ export default async function ProtectedLayout({ children }: ProtectedLayoutProps
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-background">
+    <div className="flex min-h-dvh flex-col bg-[var(--dc-color-surface-primary)]">
       <AppHeader />
       <main className="flex-1 pb-[env(safe-area-inset-bottom)]">{children}</main>
     </div>

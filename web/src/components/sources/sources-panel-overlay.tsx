@@ -42,13 +42,13 @@ export function SourcesPanelOverlay() {
       <div
         ref={panelRef}
         className={`sources-panel-overlay fixed inset-y-0 right-0 z-50 w-full max-w-[380px]
-                   bg-background shadow-xl flex flex-col lg:hidden ${isClosing ? 'sources-panel-slide-out' : 'sources-panel-slide-in'}`}
+                   bg-[var(--dc-color-surface-primary)] shadow-xl flex flex-col lg:hidden ${isClosing ? 'sources-panel-slide-out' : 'sources-panel-slide-in'}`}
         role="dialog"
         aria-modal="true"
         aria-label="Library panel"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 h-12 border-b border-border shrink-0">
+        <div className="flex items-center justify-between px-4 h-12 border-b border-[var(--dc-color-border-default)] shrink-0">
           <div className="flex items-center gap-1">
             {tabs.map((tab) => (
               <button

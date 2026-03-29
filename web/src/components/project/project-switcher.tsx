@@ -47,9 +47,11 @@ export function ProjectSwitcher({ currentProject, projects }: ProjectSwitcherPro
         aria-expanded={isOpen}
         aria-haspopup="listbox"
       >
-        <span className="text-sm font-medium text-foreground truncate">{currentProject.title}</span>
+        <span className="text-sm font-medium text-[var(--dc-color-text-primary)] truncate">
+          {currentProject.title}
+        </span>
         <svg
-          className={`w-4 h-4 text-muted-foreground transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 text-[var(--dc-color-text-muted)] transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -61,7 +63,7 @@ export function ProjectSwitcher({ currentProject, projects }: ProjectSwitcherPro
       {/* Dropdown menu */}
       {isOpen && (
         <div
-          className="absolute top-full left-0 mt-1 w-64 bg-[var(--dc-color-surface-primary)] border border-border rounded-lg shadow-lg z-50 py-1"
+          className="absolute top-full left-0 mt-1 w-64 bg-[var(--dc-color-surface-primary)] border border-[var(--dc-color-border-default)] rounded-lg shadow-lg z-50 py-1"
           role="listbox"
         >
           {/* Project list */}
@@ -76,11 +78,11 @@ export function ProjectSwitcher({ currentProject, projects }: ProjectSwitcherPro
               aria-selected={project.id === currentProject.id}
             >
               <div className="min-w-0 flex-1">
-                <span className="block text-sm font-medium text-foreground truncate">
+                <span className="block text-sm font-medium text-[var(--dc-color-text-primary)] truncate">
                   {project.title}
                 </span>
               </div>
-              <span className="ml-2 text-xs text-muted-foreground tabular-nums shrink-0">
+              <span className="ml-2 text-xs text-[var(--dc-color-text-muted)] tabular-nums shrink-0">
                 {project.wordCount.toLocaleString()}w
               </span>
               {project.id === currentProject.id && (
@@ -102,7 +104,7 @@ export function ProjectSwitcher({ currentProject, projects }: ProjectSwitcherPro
           ))}
 
           {/* Separator */}
-          <div className="border-t border-border my-1" />
+          <div className="border-t border-[var(--dc-color-border-default)] my-1" />
 
           {/* New project link */}
           <Link

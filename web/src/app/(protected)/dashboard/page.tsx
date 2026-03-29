@@ -134,7 +134,7 @@ export default function DashboardPage() {
   if (isLoadingProjects) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="text-muted-foreground">Loading...</div>
+        <div className="text-[var(--dc-color-text-muted)]">Loading...</div>
       </div>
     )
   }
@@ -164,10 +164,10 @@ export default function DashboardPage() {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center p-6">
         <div className="text-center max-w-md">
-          <h1 className="font-serif text-3xl font-semibold text-foreground mb-2">
+          <h1 className="font-serif text-3xl font-semibold text-[var(--dc-color-text-primary)] mb-2">
             Welcome to DraftCrane
           </h1>
-          <p className="text-muted-foreground mb-8">
+          <p className="text-[var(--dc-color-text-muted)] mb-8">
             A quiet place to write and shape your nonfiction book, chapter by chapter.
           </p>
 
@@ -233,7 +233,9 @@ export default function DashboardPage() {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
-        <h1 className="font-serif text-2xl font-semibold text-foreground">Your Books</h1>
+        <h1 className="font-serif text-2xl font-semibold text-[var(--dc-color-text-primary)]">
+          Your Books
+        </h1>
         <Link
           href="/setup"
           className="inline-flex h-11 items-center justify-center rounded-lg bg-[var(--dc-color-text-primary)] px-5 text-sm font-medium text-[var(--dc-color-text-inverse)] hover:bg-[var(--dc-color-text-secondary)] transition-colors"
@@ -251,10 +253,10 @@ export default function DashboardPage() {
           >
             {/* Clickable card body */}
             <Link href={`/editor/${project.id}`} className="block min-h-[100px]">
-              <h2 className="font-serif text-lg font-semibold text-foreground truncate pr-8">
+              <h2 className="font-serif text-lg font-semibold text-[var(--dc-color-text-primary)] truncate pr-8">
                 {project.title}
               </h2>
-              <div className="mt-2 flex items-center gap-3 text-sm text-muted-foreground">
+              <div className="mt-2 flex items-center gap-3 text-sm text-[var(--dc-color-text-muted)]">
                 <span>
                   {project.chapterCount} {project.chapterCount === 1 ? 'chapter' : 'chapters'}
                 </span>

@@ -77,13 +77,13 @@ export default function SetupPage() {
   }
 
   return (
-    <div className="min-h-dvh flex items-center justify-center p-4 bg-background">
+    <div className="min-h-dvh flex items-center justify-center p-4 bg-[var(--dc-color-surface-primary)]">
       <div className="w-full max-w-lg">
         <div className="text-center mb-8">
-          <h1 className="font-serif text-3xl font-semibold text-foreground mb-2">
+          <h1 className="font-serif text-3xl font-semibold text-[var(--dc-color-text-primary)] mb-2">
             Create Your Book
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-[var(--dc-color-text-muted)]">
             Give your book a working title. You can change it anytime.
           </p>
         </div>
@@ -91,7 +91,10 @@ export default function SetupPage() {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Title field */}
           <div className="space-y-2">
-            <label htmlFor="title" className="block text-sm font-medium text-foreground">
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-[var(--dc-color-text-primary)]"
+            >
               Book Title <span className="text-[var(--dc-color-status-error)]">*</span>
             </label>
             <input
@@ -100,8 +103,8 @@ export default function SetupPage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter your book title"
-              className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground
-                         placeholder:text-muted-foreground
+              className="w-full px-4 py-3 rounded-lg border border-[var(--dc-color-border-default)] bg-[var(--dc-color-surface-primary)] text-[var(--dc-color-text-primary)]
+                         placeholder:text-[var(--dc-color-text-placeholder)]
                          focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)] focus:border-transparent
                          transition-all"
               maxLength={500}
@@ -109,12 +112,12 @@ export default function SetupPage() {
               aria-describedby="title-help title-count"
             />
             <div className="flex justify-between items-center text-sm">
-              <p id="title-help" className="text-muted-foreground">
+              <p id="title-help" className="text-[var(--dc-color-text-muted)]">
                 This is a working title. You can change it anytime.
               </p>
               <span
                 id="title-count"
-                className={`tabular-nums ${titleLength > 450 ? 'text-[var(--dc-color-status-warning)]' : 'text-muted-foreground'} ${titleLength > 500 ? 'text-[var(--dc-color-status-error)]' : ''}`}
+                className={`tabular-nums ${titleLength > 450 ? 'text-[var(--dc-color-status-warning)]' : 'text-[var(--dc-color-text-muted)]'} ${titleLength > 500 ? 'text-[var(--dc-color-status-error)]' : ''}`}
               >
                 {titleLength}/500
               </span>
@@ -123,8 +126,11 @@ export default function SetupPage() {
 
           {/* Description field */}
           <div className="space-y-2">
-            <label htmlFor="description" className="block text-sm font-medium text-foreground">
-              Description <span className="text-muted-foreground">(optional)</span>
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-[var(--dc-color-text-primary)]"
+            >
+              Description <span className="text-[var(--dc-color-text-muted)]">(optional)</span>
             </label>
             <textarea
               id="description"
@@ -132,8 +138,8 @@ export default function SetupPage() {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="A brief description of what your book is about"
               rows={3}
-              className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground
-                         placeholder:text-muted-foreground
+              className="w-full px-4 py-3 rounded-lg border border-[var(--dc-color-border-default)] bg-[var(--dc-color-surface-primary)] text-[var(--dc-color-text-primary)]
+                         placeholder:text-[var(--dc-color-text-placeholder)]
                          focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)] focus:border-transparent
                          transition-all resize-none"
               maxLength={1000}
@@ -142,7 +148,7 @@ export default function SetupPage() {
             <div className="flex justify-end">
               <span
                 id="description-count"
-                className={`text-sm tabular-nums ${descriptionLength > 900 ? 'text-[var(--dc-color-status-warning)]' : 'text-muted-foreground'} ${descriptionLength > 1000 ? 'text-[var(--dc-color-status-error)]' : ''}`}
+                className={`text-sm tabular-nums ${descriptionLength > 900 ? 'text-[var(--dc-color-status-warning)]' : 'text-[var(--dc-color-text-muted)]'} ${descriptionLength > 1000 ? 'text-[var(--dc-color-status-error)]' : ''}`}
               >
                 {descriptionLength}/1000
               </span>
@@ -172,7 +178,7 @@ export default function SetupPage() {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-muted-foreground">
+        <p className="mt-6 text-center text-sm text-[var(--dc-color-text-muted)]">
           Your first chapter will be waiting for you.
         </p>
       </div>

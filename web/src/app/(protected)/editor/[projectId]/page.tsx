@@ -290,7 +290,7 @@ function EditorPageInner() {
   if (isLoading) {
     return (
       <div className="flex h-dvh items-center justify-center">
-        <div className="text-muted-foreground">Loading project...</div>
+        <div className="text-[var(--dc-color-text-muted)]">Loading project...</div>
       </div>
     )
   }

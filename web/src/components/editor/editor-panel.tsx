@@ -70,14 +70,14 @@ export function EditorPanel({
 
   return (
     <div
-      className={`hidden lg:flex editor-panel w-[320px] h-full flex-col border-r border-[var(--color-border)] bg-[var(--color-background)] shrink-0
+      className={`hidden lg:flex editor-panel w-[320px] h-full flex-col border-r border-[var(--dc-color-border-default)] bg-[var(--dc-color-surface-secondary)] shrink-0
                   ${isClosing ? 'editor-panel-slide-out' : 'editor-panel-slide-in'}`}
       role="complementary"
       aria-label={title}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 h-12 border-b border-[var(--color-border)] shrink-0">
-        <h2 className="text-sm font-semibold text-[var(--color-foreground)]">{title}</h2>
+      <div className="flex items-center justify-between px-4 h-12 border-b border-[var(--dc-color-border-default)] shrink-0">
+        <h2 className="text-sm font-semibold text-[var(--dc-color-text-primary)]">{title}</h2>
         <button
           type="button"
           onClick={onClose}
@@ -165,14 +165,14 @@ export function EditorPanelOverlay({
       <div
         ref={panelRef}
         className={`editor-panel-overlay fixed inset-y-0 left-0 z-50 w-full max-w-[380px]
-                   bg-[var(--color-background)] shadow-xl flex flex-col lg:hidden
+                   bg-[var(--dc-color-surface-secondary)] shadow-xl flex flex-col lg:hidden
                    ${isClosing ? 'editor-panel-slide-out' : 'editor-panel-slide-in'}`}
         role="complementary"
         aria-label={title}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 h-12 border-b border-[var(--color-border)] shrink-0">
-          <h2 className="text-sm font-semibold text-[var(--color-foreground)]">{title}</h2>
+        <div className="flex items-center justify-between px-4 h-12 border-b border-[var(--dc-color-border-default)] shrink-0">
+          <h2 className="text-sm font-semibold text-[var(--dc-color-text-primary)]">{title}</h2>
           <button
             type="button"
             onClick={onClose}
