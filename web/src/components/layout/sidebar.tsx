@@ -231,13 +231,13 @@ export function Sidebar({
   return (
     <aside
       className="flex flex-col h-full w-[260px] min-w-[240px] max-w-[280px]
-                 bg-[var(--dc-color-surface-secondary)] border-r border-border"
+                 bg-[var(--dc-color-surface-secondary)] border-r border-[var(--dc-color-border-default)]"
       role="navigation"
       aria-label="Chapter navigation"
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-        <h2 className="text-sm font-semibold text-foreground">Chapters</h2>
+      <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--dc-color-border-default)]">
+        <h2 className="text-sm font-semibold text-[var(--dc-color-text-primary)]">Chapters</h2>
         <button
           onClick={onToggleCollapsed}
           className="p-2 rounded-lg hover:bg-[var(--dc-color-surface-tertiary)]
@@ -255,7 +255,7 @@ export function Sidebar({
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="text-muted-foreground"
+            className="text-[var(--dc-color-text-muted)]"
           >
             <polyline points="15 18 9 12 15 6" />
           </svg>
@@ -330,11 +330,11 @@ export function Sidebar({
       </DndContext>
 
       {/* Add chapter button */}
-      <div className="px-4 py-2 border-t border-border">
+      <div className="px-4 py-2 border-t border-[var(--dc-color-border-default)]">
         <button
           onClick={onAddChapter}
           className="w-full py-3 px-4 rounded-lg border border-dashed border-[var(--dc-color-border-strong)]
-                     text-muted-foreground hover:border-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary)]
+                     text-[var(--dc-color-text-muted)] hover:border-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary)]
                      focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)]
                      transition-colors flex items-center justify-center gap-2
                      min-h-[48px]"
@@ -359,10 +359,10 @@ export function Sidebar({
       </div>
 
       {/* Total word count */}
-      <div className="px-4 py-3 border-t border-border bg-[var(--dc-color-surface-tertiary)]">
+      <div className="px-4 py-3 border-t border-[var(--dc-color-border-default)] bg-[var(--dc-color-surface-tertiary)]">
         <div className="flex items-center justify-between text-sm">
-          <span className="text-muted-foreground">Total</span>
-          <span className="font-medium text-foreground tabular-nums">
+          <span className="text-[var(--dc-color-text-muted)]">Total</span>
+          <span className="font-medium text-[var(--dc-color-text-primary)] tabular-nums">
             {formatWordCount(effectiveTotalWordCount)} words
           </span>
         </div>
@@ -457,14 +457,14 @@ function ChapterListItem({
   return (
     <div
       className={`group w-full flex items-center min-h-[48px] transition-colors
-                 ${isActive ? 'bg-[var(--dc-color-interactive-primary-subtle)] text-[var(--dc-color-interactive-primary-on-subtle)]' : 'hover:bg-[var(--dc-color-surface-tertiary)] text-foreground'}
+                 ${isActive ? 'bg-[var(--dc-color-interactive-primary-subtle)] text-[var(--dc-color-interactive-primary-on-subtle)]' : 'hover:bg-[var(--dc-color-surface-tertiary)] text-[var(--dc-color-text-primary)]'}
                  ${isDragOverlay ? 'shadow-lg rounded-lg bg-[var(--dc-color-surface-primary)] border border-[var(--dc-color-interactive-primary-border)]' : ''}`}
       role="listitem"
     >
       {/* Drag handle */}
       <button
         className="flex items-center justify-center w-6 shrink-0 ml-1 cursor-grab
-                   text-muted-foreground hover:text-foreground transition-colors
+                   text-[var(--dc-color-text-muted)] hover:text-[var(--dc-color-text-primary)] transition-colors
                    touch-none select-none"
         aria-label={`Drag to reorder ${chapter.title || 'Untitled Chapter'}`}
         tabIndex={-1}
@@ -504,7 +504,9 @@ function ChapterListItem({
         </div>
         <span
           className={`ml-2 text-xs tabular-nums ${
-            isActive ? 'text-[var(--dc-color-interactive-primary-hover)]' : 'text-muted-foreground'
+            isActive
+              ? 'text-[var(--dc-color-interactive-primary-hover)]'
+              : 'text-[var(--dc-color-text-muted)]'
           }`}
         >
           {formatWordCount(displayWordCount)}w
@@ -519,7 +521,7 @@ function ChapterListItem({
             onDelete()
           }}
           className="mr-2 p-1.5 rounded opacity-0 group-hover:opacity-100 focus:opacity-100
-                     hover:bg-[var(--dc-color-interactive-destructive-subtle)] text-muted-foreground
+                     hover:bg-[var(--dc-color-interactive-destructive-subtle)] text-[var(--dc-color-text-muted)]
                      hover:text-[var(--dc-color-interactive-destructive)] transition-all
                      focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-interactive-destructive)]
                      min-w-[32px] min-h-[32px] flex items-center justify-center shrink-0"
@@ -598,7 +600,7 @@ function InlineRenameInput({
     <div
       className={`w-full px-4 py-3 flex items-center justify-between
                  min-h-[48px] transition-colors
-                 ${isActive ? 'bg-[var(--dc-color-interactive-primary-subtle)] text-[var(--dc-color-interactive-primary-on-subtle)]' : 'bg-[var(--dc-color-surface-tertiary)] text-foreground'}`}
+                 ${isActive ? 'bg-[var(--dc-color-interactive-primary-subtle)] text-[var(--dc-color-interactive-primary-on-subtle)]' : 'bg-[var(--dc-color-surface-tertiary)] text-[var(--dc-color-text-primary)]'}`}
       role="listitem"
     >
       <input
@@ -616,7 +618,9 @@ function InlineRenameInput({
       />
       <span
         className={`ml-2 text-xs tabular-nums shrink-0 ${
-          isActive ? 'text-[var(--dc-color-interactive-primary-hover)]' : 'text-muted-foreground'
+          isActive
+            ? 'text-[var(--dc-color-interactive-primary-hover)]'
+            : 'text-[var(--dc-color-text-muted)]'
         }`}
       >
         {formatWordCount(displayWordCount)}w

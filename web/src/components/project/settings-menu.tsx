@@ -52,7 +52,7 @@ export function SettingsMenu({
         aria-haspopup="true"
       >
         <svg
-          className="w-5 h-5 text-muted-foreground"
+          className="w-5 h-5 text-[var(--dc-color-text-muted)]"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

@@ -41,14 +41,14 @@ export function SaveIndicator({ status, onRetry }: SaveIndicatorProps) {
 function getStatusDisplay(status: SaveStatus): { text: string; className: string } {
   switch (status.state) {
     case 'idle':
-      return { text: '', className: 'text-muted-foreground' }
+      return { text: '', className: 'text-[var(--dc-color-text-muted)]' }
 
     case 'saving':
       return { text: 'Saving\u2026', className: 'text-[var(--dc-color-interactive-primary)]' }
 
     case 'saved': {
       const timeStr = formatTime(status.at)
-      return { text: `Saved ${timeStr}`, className: 'text-muted-foreground' }
+      return { text: `Saved ${timeStr}`, className: 'text-[var(--dc-color-text-muted)]' }
     }
 
     case 'error':

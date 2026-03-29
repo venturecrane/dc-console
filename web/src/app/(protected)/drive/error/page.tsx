@@ -45,11 +45,11 @@ function DriveErrorContent() {
           </svg>
         </div>
 
-        <h1 className="font-serif text-3xl font-semibold text-foreground mb-2">
+        <h1 className="font-serif text-3xl font-semibold text-[var(--dc-color-text-primary)] mb-2">
           Drive Connection Issue
         </h1>
 
-        <p className="text-muted-foreground">{errorMessage}</p>
+        <p className="text-[var(--dc-color-text-muted)]">{errorMessage}</p>
 
         <div className="mt-6 flex flex-col items-center gap-3">
           <button
@@ -59,7 +59,7 @@ function DriveErrorContent() {
             Back to DraftCrane
           </button>
 
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-[var(--dc-color-text-muted)]">
             You can connect Google Drive anytime from the editor.
           </p>
         </div>
@@ -73,7 +73,7 @@ export default function DriveErrorPage() {
     <Suspense
       fallback={
         <div className="flex min-h-[60vh] items-center justify-center">
-          <div className="text-muted-foreground">Loading...</div>
+          <div className="text-[var(--dc-color-text-muted)]">Loading...</div>
         </div>
       }
     >

@@ -45,9 +45,9 @@ export function SourcesPanel() {
   if (!isPanelOpen) return null
 
   return (
-    <div className="hidden lg:flex sources-panel w-[320px] h-full flex-col border-l border-border bg-background shrink-0">
+    <div className="hidden lg:flex sources-panel w-[320px] h-full flex-col border-l border-[var(--dc-color-border-default)] bg-[var(--dc-color-surface-secondary)] shrink-0">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 h-12 border-b border-border shrink-0">
+      <div className="flex items-center justify-between px-4 h-12 border-b border-[var(--dc-color-border-default)] shrink-0">
         <div className="flex items-center gap-1">
           {tabs.map((tab) => (
             <button

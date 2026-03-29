@@ -171,23 +171,24 @@ export default function DriveSuccessPage() {
           </svg>
         </div>
 
-        <h1 className="font-serif text-3xl font-semibold text-foreground mb-2">
+        <h1 className="font-serif text-3xl font-semibold text-[var(--dc-color-text-primary)] mb-2">
           Google Drive Connected
         </h1>
 
         {isLoadingDrive ? (
-          <p className="text-muted-foreground">Verifying connection...</p>
+          <p className="text-[var(--dc-color-text-muted)]">Verifying connection...</p>
         ) : isConnected ? (
-          <p className="text-muted-foreground">
-            Connected as <span className="font-medium text-foreground">{displayEmail}</span>.
+          <p className="text-[var(--dc-color-text-muted)]">
+            Connected as{' '}
+            <span className="font-medium text-[var(--dc-color-text-primary)]">{displayEmail}</span>.
           </p>
         ) : (
-          <p className="text-muted-foreground">Your Google Drive is now connected.</p>
+          <p className="text-[var(--dc-color-text-muted)]">Your Google Drive is now connected.</p>
         )}
 
         {sourceLinkProjectId && (
           <div className="mt-4">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-[var(--dc-color-text-muted)]">
               {linkComplete
                 ? 'Source connected. Redirecting to your book...'
                 : 'Connecting source...'}

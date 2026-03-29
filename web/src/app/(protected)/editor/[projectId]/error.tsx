@@ -16,7 +16,9 @@ export default function EditorError({
   return (
     <div className="flex h-[calc(100dvh-3.5rem)] items-center justify-center p-4">
       <div className="text-center max-w-md">
-        <h2 className="text-lg font-semibold text-foreground mb-2">Something went wrong</h2>
+        <h2 className="text-lg font-semibold text-[var(--dc-color-text-primary)] mb-2">
+          Something went wrong
+        </h2>
         <p className="text-sm text-[var(--dc-color-status-error)] mb-4 font-mono break-all">
           {error.message}
         </p>
