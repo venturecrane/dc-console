@@ -169,7 +169,7 @@ export function WorkspaceShell({ children, className = '' }: WorkspaceShellProps
  * WorkspaceSidebar - Sidebar grid area for chapter navigation
  *
  * Behavior by breakpoint:
- * - Portrait: collapsed to pill (not rendered in grid, use SidebarPill)
+ * - Portrait: collapsed (breadcrumb nav handles chapter switching)
  * - Landscape: persistent, collapsible (240-280px)
  * - Desktop: always persistent (260px)
  */
@@ -295,33 +295,6 @@ export function OverlayPanel({
         {children}
       </div>
     </div>
-  )
-}
-
-// -----------------------------------------------------------------------------
-// Collapsed Sidebar Pill
-// -----------------------------------------------------------------------------
-
-interface SidebarPillProps {
-  label: string
-  onClick: () => void
-}
-
-/**
- * SidebarPill - Collapsed sidebar indicator
- *
- * Shows "Ch X" pill when sidebar is collapsed in portrait mode.
- * Tapping opens the sidebar overlay.
- */
-export function SidebarPill({ label, onClick }: SidebarPillProps) {
-  return (
-    <button
-      onClick={onClick}
-      className="workspace-sidebar-pill"
-      aria-label={`${label}. Tap to open chapter list.`}
-    >
-      {label}
-    </button>
   )
 }
 

@@ -17,7 +17,6 @@ export {
   WorkspaceCenter,
   WorkspaceLibraryPanel,
   OverlayPanel,
-  SidebarPill,
   StandaloneWorkspaceShell,
   useWorkspaceShell,
 } from './workspace-shell'
