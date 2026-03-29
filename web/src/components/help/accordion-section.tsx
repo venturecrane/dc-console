@@ -48,7 +48,7 @@ export function AccordionSection({
   })
 
   return (
-    <div id={id} className="border-b border-gray-200">
+    <div id={id} className="border-b border-[var(--dc-color-border-default)]">
       <h3>
         <button
           id={headerId}

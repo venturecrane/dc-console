@@ -52,7 +52,7 @@ function getStatusDisplay(status: SaveStatus): { text: string; className: string
     }
 
     case 'error':
-      return { text: status.message, className: 'text-red-600' }
+      return { text: status.message, className: 'text-[var(--dc-color-status-error)]' }
   }
 }
 

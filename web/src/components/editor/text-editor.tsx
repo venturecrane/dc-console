@@ -310,7 +310,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 
   return (
     <div
-      className="flex flex-wrap items-center gap-1 p-2 mb-4 border border-gray-200 rounded-lg bg-white sticky top-0 z-10"
+      className="flex flex-wrap items-center gap-1 p-2 mb-4 border border-[var(--dc-color-border-default)] rounded-lg bg-[var(--dc-color-surface-primary)] sticky top-0 z-10"
       role="toolbar"
       aria-label="Formatting toolbar"
     >
@@ -349,7 +349,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
           <line x1="6" y1="20" x2="14" y2="20" strokeWidth={2} />
         </svg>
       </button>
-      <div className="w-px h-6 bg-gray-200 mx-1" aria-hidden="true" />
+      <div className="w-px h-6 bg-[var(--dc-color-border-default)] mx-1" aria-hidden="true" />
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         className={buttonClass(editor.isActive('heading', { level: 2 }))}
@@ -368,7 +368,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
       >
         <span className="font-semibold text-sm">H3</span>
       </button>
-      <div className="w-px h-6 bg-gray-200 mx-1" aria-hidden="true" />
+      <div className="w-px h-6 bg-[var(--dc-color-border-default)] mx-1" aria-hidden="true" />
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={buttonClass(editor.isActive('bulletList'))}
@@ -430,7 +430,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
           />
         </svg>
       </button>
-      <div className="w-px h-6 bg-gray-200 mx-1" aria-hidden="true" />
+      <div className="w-px h-6 bg-[var(--dc-color-border-default)] mx-1" aria-hidden="true" />
       <button
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().undo()}

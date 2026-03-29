@@ -85,7 +85,7 @@ export function ProjectSwitcher({ currentProject, projects }: ProjectSwitcherPro
               </span>
               {project.id === currentProject.id && (
                 <svg
-                  className="ml-2 w-4 h-4 text-blue-600 shrink-0"
+                  className="ml-2 w-4 h-4 text-[var(--dc-color-interactive-primary)] shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -109,7 +109,7 @@ export function ProjectSwitcher({ currentProject, projects }: ProjectSwitcherPro
             href="/setup"
             onClick={close}
             className="w-full px-4 py-3 text-left flex items-center gap-2 min-h-[48px]
-                       hover:bg-[var(--dc-color-surface-secondary)] transition-colors text-blue-600"
+                       hover:bg-[var(--dc-color-surface-secondary)] transition-colors text-[var(--dc-color-interactive-primary)]"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path

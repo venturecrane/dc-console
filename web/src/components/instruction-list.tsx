@@ -314,7 +314,7 @@ export function InstructionList({
               }}
               placeholder="Search instructions"
               className="w-full pl-8 pr-7 py-1.5 text-xs border border-[var(--dc-color-border-strong)] rounded-lg
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)] focus:border-transparent
                          placeholder:text-[var(--dc-color-text-placeholder)]"
             />
             {searchQuery && (
@@ -439,7 +439,7 @@ export function InstructionList({
               value={newLabel}
               onChange={(e) => setNewLabel(e.target.value)}
               className="w-full px-2.5 py-1.5 text-xs border border-[var(--dc-color-border-strong)] rounded-lg
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                         focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)] focus:border-transparent"
               placeholder="Label (e.g., 'Find counterarguments')"
               maxLength={100}
             />
@@ -447,7 +447,7 @@ export function InstructionList({
               value={newText}
               onChange={(e) => setNewText(e.target.value)}
               className="w-full px-2.5 py-1.5 text-xs border border-[var(--dc-color-border-strong)] rounded-lg resize-none
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                         focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)] focus:border-transparent"
               rows={2}
               placeholder="Instruction text"
               maxLength={2000}
@@ -536,7 +536,7 @@ function InstructionRow({
           value={editLabel}
           onChange={(e) => onEditLabelChange(e.target.value)}
           className="w-full px-2.5 py-1.5 text-xs border border-[var(--dc-color-border-strong)] rounded-lg
-                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                     focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)] focus:border-transparent"
           placeholder="Label"
           maxLength={100}
           autoFocus
@@ -545,7 +545,7 @@ function InstructionRow({
           value={editText}
           onChange={(e) => onEditTextChange(e.target.value)}
           className="w-full px-2.5 py-1.5 text-xs border border-[var(--dc-color-border-strong)] rounded-lg resize-none
-                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                     focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)] focus:border-transparent"
           rows={2}
           placeholder="Instruction text"
           maxLength={2000}
@@ -611,7 +611,7 @@ function InstructionRow({
           <button
             type="button"
             onClick={onDelete}
-            className="p-1.5 text-[var(--dc-color-text-muted)] hover:text-red-600
+            className="p-1.5 text-[var(--dc-color-text-muted)] hover:text-[var(--dc-color-status-error)]
                        min-h-[32px] min-w-[32px] flex items-center justify-center"
             aria-label={`Delete ${instruction.label}`}
           >

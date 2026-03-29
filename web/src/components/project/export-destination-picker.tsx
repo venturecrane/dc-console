@@ -108,7 +108,7 @@ export function ExportDestinationPicker({
   if (folderPickerOpen) {
     const folder = driveFolders[folderPickerOpen]
     return (
-      <div className="fixed inset-0 bg-black/30 z-50 flex items-end justify-center">
+      <div className="fixed inset-0 bg-[var(--dc-color-surface-overlay)] z-50 flex items-end justify-center">
         <div className="bg-[var(--dc-color-surface-primary)] rounded-t-2xl w-full max-w-lg max-h-[70vh] flex flex-col shadow-xl">
           <DriveFolderPicker
             connectionId={folderPickerOpen}
@@ -125,10 +125,10 @@ export function ExportDestinationPicker({
   }
 
   return (
-    <div className="fixed inset-0 bg-black/30 z-50 flex items-end justify-center">
+    <div className="fixed inset-0 bg-[var(--dc-color-surface-overlay)] z-50 flex items-end justify-center">
       <div className="bg-[var(--dc-color-surface-primary)] rounded-t-2xl w-full max-w-lg shadow-xl">
         {/* Header */}
-        <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
+        <div className="px-4 py-3 border-b border-[var(--dc-color-border-default)] flex items-center justify-between">
           <div>
             <h2 className="text-base font-semibold text-[var(--dc-color-text-primary)]">
               {editMode ? 'Export Destination' : 'Save Export'}
@@ -167,8 +167,8 @@ export function ExportDestinationPicker({
             onClick={handleSelectDevice}
             className={`w-full text-left p-3 rounded-lg border transition-colors min-h-[44px] ${
               selected.type === 'device'
-                ? 'border-blue-500 bg-blue-50'
-                : 'border-gray-200 hover:border-[var(--dc-color-border-strong)]'
+                ? 'border-[var(--dc-color-interactive-primary)] bg-[var(--dc-color-interactive-primary-subtle)]'
+                : 'border-[var(--dc-color-border-default)] hover:border-[var(--dc-color-border-strong)]'
             }`}
           >
             <div className="flex items-center gap-3">
@@ -208,8 +208,8 @@ export function ExportDestinationPicker({
                 onClick={() => handleSelectDrive(connection)}
                 className={`w-full text-left p-3 rounded-lg border transition-colors min-h-[44px] ${
                   isSelected
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-[var(--dc-color-border-strong)]'
+                    ? 'border-[var(--dc-color-interactive-primary)] bg-[var(--dc-color-interactive-primary-subtle)]'
+                    : 'border-[var(--dc-color-border-default)] hover:border-[var(--dc-color-border-strong)]'
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -236,7 +236,7 @@ export function ExportDestinationPicker({
                           e.stopPropagation()
                           setFolderPickerOpen(connection.driveConnectionId)
                         }}
-                        className="text-xs text-blue-600 hover:text-blue-700 mt-1 min-h-[32px]"
+                        className="text-xs text-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary-hover)] mt-1 min-h-[32px]"
                       >
                         Change folder...
                       </button>
@@ -255,7 +255,7 @@ export function ExportDestinationPicker({
               type="checkbox"
               checked={rememberDefault}
               onChange={(e) => setRememberDefault(e.target.checked)}
-              className="w-4 h-4 rounded border-[var(--dc-color-border-strong)] text-blue-600 focus:ring-blue-500"
+              className="w-4 h-4 rounded border-[var(--dc-color-border-strong)] text-[var(--dc-color-interactive-primary)] focus:ring-[var(--dc-color-border-focus)]"
             />
             <span className="text-sm text-[var(--dc-color-text-secondary)]">
               Always save exports here
@@ -264,11 +264,11 @@ export function ExportDestinationPicker({
         </div>
 
         {/* Actions */}
-        <div className="px-4 py-3 border-t border-gray-200 flex items-center gap-2">
+        <div className="px-4 py-3 border-t border-[var(--dc-color-border-default)] flex items-center gap-2">
           {editMode && currentDefault && onClear && (
             <button
               onClick={onClear}
-              className="h-10 px-4 text-sm text-red-600 hover:bg-red-50 rounded-lg
+              className="h-10 px-4 text-sm text-[var(--dc-color-status-error)] hover:bg-[var(--dc-color-interactive-destructive-subtle)] rounded-lg
                          transition-colors min-h-[44px]"
             >
               Clear default
@@ -277,8 +277,8 @@ export function ExportDestinationPicker({
           <div className="flex-1" />
           <button
             onClick={handleSave}
-            className="h-10 px-6 text-sm font-medium text-white bg-blue-600 rounded-lg
-                       hover:bg-blue-700 min-h-[44px]"
+            className="h-10 px-6 text-sm font-medium text-[var(--dc-color-text-inverse)] bg-[var(--dc-color-interactive-primary)] rounded-lg
+                       hover:bg-[var(--dc-color-interactive-primary-hover)] min-h-[44px]"
           >
             Save
           </button>

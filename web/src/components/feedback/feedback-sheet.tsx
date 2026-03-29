@@ -121,7 +121,7 @@ export function FeedbackSheet({ isOpen, onClose }: FeedbackSheetProps) {
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 z-40 bg-black/30 ${isClosing ? 'backdrop-fade-out' : 'backdrop-fade-in'}`}
+        className={`fixed inset-0 z-40 bg-[var(--dc-color-surface-overlay)] ${isClosing ? 'backdrop-fade-out' : 'backdrop-fade-in'}`}
         onClick={onClose}
         aria-hidden="true"
       />
@@ -134,8 +134,8 @@ export function FeedbackSheet({ isOpen, onClose }: FeedbackSheetProps) {
         aria-label="Report a problem"
         className={
           isLandscape
-            ? `fixed inset-y-0 right-0 z-50 w-full max-w-[380px] bg-[var(--dc-color-surface-primary)] rounded-l-2xl shadow-2xl border-l border-gray-200 flex flex-col ${isClosing ? 'sheet-slide-right-out' : 'sheet-slide-right'}`
-            : `fixed bottom-0 left-0 right-0 z-50 bg-[var(--dc-color-surface-primary)] rounded-t-2xl shadow-2xl border-t border-gray-200 max-h-[80vh] flex flex-col ${isClosing ? 'sheet-slide-down' : 'sheet-slide-up'}`
+            ? `fixed inset-y-0 right-0 z-50 w-full max-w-[380px] bg-[var(--dc-color-surface-primary)] rounded-l-2xl shadow-2xl border-l border-[var(--dc-color-border-default)] flex flex-col ${isClosing ? 'sheet-slide-right-out' : 'sheet-slide-right'}`
+            : `fixed bottom-0 left-0 right-0 z-50 bg-[var(--dc-color-surface-primary)] rounded-t-2xl shadow-2xl border-t border-[var(--dc-color-border-default)] max-h-[80vh] flex flex-col ${isClosing ? 'sheet-slide-down' : 'sheet-slide-up'}`
         }
       >
         {/* Drag handle — portrait only */}
@@ -149,7 +149,7 @@ export function FeedbackSheet({ isOpen, onClose }: FeedbackSheetProps) {
         )}
 
         {/* Header */}
-        <div className="flex items-center justify-between px-6 pb-3 pt-4 border-b border-gray-100">
+        <div className="flex items-center justify-between px-6 pb-3 pt-4 border-b border-[var(--dc-color-border-subtle)]">
           <h2 className="text-lg font-semibold text-[var(--dc-color-text-primary)]">
             Report a Problem
           </h2>
@@ -197,7 +197,7 @@ export function FeedbackSheet({ isOpen, onClose }: FeedbackSheetProps) {
                 className={`flex items-center gap-2 rounded-lg border p-3 min-h-[44px] text-sm font-medium
                            transition-colors ${
                              type === 'bug'
-                               ? 'border-red-200 bg-red-50 text-red-600'
+                               ? 'border-[var(--dc-color-interactive-destructive-subtle)] bg-[var(--dc-color-interactive-destructive-subtle)] text-[var(--dc-color-status-error)]'
                                : 'border-[var(--dc-color-border-strong)] text-[var(--dc-color-text-secondary)] hover:bg-[var(--dc-color-surface-secondary)]'
                            }`}
               >
@@ -231,7 +231,7 @@ export function FeedbackSheet({ isOpen, onClose }: FeedbackSheetProps) {
                 className={`flex items-center gap-2 rounded-lg border p-3 min-h-[44px] text-sm font-medium
                            transition-colors ${
                              type === 'suggestion'
-                               ? 'border-blue-200 bg-blue-50 text-blue-600'
+                               ? 'border-[var(--dc-color-interactive-primary-border)] bg-[var(--dc-color-interactive-primary-subtle)] text-[var(--dc-color-interactive-primary)]'
                                : 'border-[var(--dc-color-border-strong)] text-[var(--dc-color-text-secondary)] hover:bg-[var(--dc-color-surface-secondary)]'
                            }`}
               >
@@ -277,7 +277,7 @@ export function FeedbackSheet({ isOpen, onClose }: FeedbackSheetProps) {
               maxLength={2000}
               className="w-full min-h-[120px] rounded-lg border border-[var(--dc-color-border-strong)] p-3 text-base leading-relaxed
                          placeholder:text-[var(--dc-color-text-placeholder)]
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)] focus:border-transparent
                          disabled:opacity-50 disabled:cursor-not-allowed
                          resize-none"
               style={{ fontSize: '16px' }}
@@ -311,19 +311,19 @@ export function FeedbackSheet({ isOpen, onClose }: FeedbackSheetProps) {
 
           {/* Error message */}
           {error && (
-            <p className="text-sm text-red-600" role="alert">
+            <p className="text-sm text-[var(--dc-color-status-error)]" role="alert">
               {error}
             </p>
           )}
         </div>
 
         {/* Submit button */}
-        <div className="px-6 py-4 border-t border-gray-100">
+        <div className="px-6 py-4 border-t border-[var(--dc-color-border-subtle)]">
           <button
             onClick={handleSubmit}
             disabled={!canSubmit}
-            className="w-full h-11 rounded-lg bg-gray-900 text-sm font-medium text-white
-                       hover:bg-gray-800 transition-colors min-h-[44px]
+            className="w-full h-11 rounded-lg bg-[var(--dc-color-text-primary)] text-sm font-medium text-[var(--dc-color-text-inverse)]
+                       hover:bg-[var(--dc-color-text-secondary)] transition-colors min-h-[44px]
                        disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Sending...' : 'Send Report'}

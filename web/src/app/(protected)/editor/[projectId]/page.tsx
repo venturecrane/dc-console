@@ -299,10 +299,10 @@ function EditorPageInner() {
     return (
       <div className="flex h-dvh items-center justify-center p-4">
         <div className="text-center">
-          <p className="text-red-600 mb-4">{error}</p>
+          <p className="text-[var(--dc-color-status-error)] mb-4">{error}</p>
           <button
             onClick={() => router.push('/dashboard')}
-            className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+            className="px-4 py-2 rounded-lg bg-[var(--dc-color-interactive-primary)] text-[var(--dc-color-text-inverse)] hover:bg-[var(--dc-color-interactive-primary-hover)]"
           >
             Back to Dashboard
           </button>

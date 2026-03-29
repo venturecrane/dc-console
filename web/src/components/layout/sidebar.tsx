@@ -240,8 +240,8 @@ export function Sidebar({
         <h2 className="text-sm font-semibold text-foreground">Chapters</h2>
         <button
           onClick={onToggleCollapsed}
-          className="p-2 rounded-lg hover:bg-gray-200
-                     focus:outline-none focus:ring-2 focus:ring-blue-500
+          className="p-2 rounded-lg hover:bg-[var(--dc-color-surface-tertiary)]
+                     focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)]
                      transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
           aria-label="Collapse sidebar"
         >
@@ -334,8 +334,8 @@ export function Sidebar({
         <button
           onClick={onAddChapter}
           className="w-full py-3 px-4 rounded-lg border border-dashed border-[var(--dc-color-border-strong)]
-                     text-muted-foreground hover:border-blue-500 hover:text-blue-600
-                     focus:outline-none focus:ring-2 focus:ring-blue-500
+                     text-muted-foreground hover:border-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary)]
+                     focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)]
                      transition-colors flex items-center justify-center gap-2
                      min-h-[48px]"
           aria-label="Add new chapter"
@@ -457,8 +457,8 @@ function ChapterListItem({
   return (
     <div
       className={`group w-full flex items-center min-h-[48px] transition-colors
-                 ${isActive ? 'bg-blue-100 text-blue-900' : 'hover:bg-[var(--dc-color-surface-tertiary)] text-foreground'}
-                 ${isDragOverlay ? 'shadow-lg rounded-lg bg-[var(--dc-color-surface-primary)] border border-blue-300' : ''}`}
+                 ${isActive ? 'bg-[var(--dc-color-interactive-primary-subtle)] text-[var(--dc-color-interactive-primary-on-subtle)]' : 'hover:bg-[var(--dc-color-surface-tertiary)] text-foreground'}
+                 ${isDragOverlay ? 'shadow-lg rounded-lg bg-[var(--dc-color-surface-primary)] border border-[var(--dc-color-interactive-primary-border)]' : ''}`}
       role="listitem"
     >
       {/* Drag handle */}
@@ -493,7 +493,7 @@ function ChapterListItem({
           onRenameStart()
         }}
         className="flex-1 px-2 py-3 text-left flex items-center justify-between min-w-0
-                   focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                   focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[var(--dc-color-border-focus)]"
         aria-current={isActive ? 'page' : undefined}
         aria-label={`${chapter.title || 'Untitled Chapter'}, ${formatWordCount(displayWordCount)} words. Double-tap to rename.`}
       >
@@ -504,7 +504,7 @@ function ChapterListItem({
         </div>
         <span
           className={`ml-2 text-xs tabular-nums ${
-            isActive ? 'text-blue-700' : 'text-muted-foreground'
+            isActive ? 'text-[var(--dc-color-interactive-primary-hover)]' : 'text-muted-foreground'
           }`}
         >
           {formatWordCount(displayWordCount)}w
@@ -519,9 +519,9 @@ function ChapterListItem({
             onDelete()
           }}
           className="mr-2 p-1.5 rounded opacity-0 group-hover:opacity-100 focus:opacity-100
-                     hover:bg-red-100 text-muted-foreground
-                     hover:text-red-600 transition-all
-                     focus:outline-none focus:ring-2 focus:ring-red-500
+                     hover:bg-[var(--dc-color-interactive-destructive-subtle)] text-muted-foreground
+                     hover:text-[var(--dc-color-interactive-destructive)] transition-all
+                     focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-interactive-destructive)]
                      min-w-[32px] min-h-[32px] flex items-center justify-center shrink-0"
           aria-label={`Delete ${chapter.title || 'Untitled Chapter'}`}
         >
@@ -598,7 +598,7 @@ function InlineRenameInput({
     <div
       className={`w-full px-4 py-3 flex items-center justify-between
                  min-h-[48px] transition-colors
-                 ${isActive ? 'bg-blue-100 text-blue-900' : 'bg-[var(--dc-color-surface-tertiary)] text-foreground'}`}
+                 ${isActive ? 'bg-[var(--dc-color-interactive-primary-subtle)] text-[var(--dc-color-interactive-primary-on-subtle)]' : 'bg-[var(--dc-color-surface-tertiary)] text-foreground'}`}
       role="listitem"
     >
       <input
@@ -610,13 +610,13 @@ function InlineRenameInput({
         onKeyDown={handleKeyDown}
         maxLength={200}
         className="flex-1 min-w-0 text-sm font-medium bg-[var(--dc-color-surface-primary)]
-                   border border-blue-500 rounded px-2 py-1 outline-none
-                   focus:ring-2 focus:ring-blue-500"
+                   border border-[var(--dc-color-interactive-primary)] rounded px-2 py-1 outline-none
+                   focus:ring-2 focus:ring-[var(--dc-color-border-focus)]"
         aria-label="Chapter title"
       />
       <span
         className={`ml-2 text-xs tabular-nums shrink-0 ${
-          isActive ? 'text-blue-700' : 'text-muted-foreground'
+          isActive ? 'text-[var(--dc-color-interactive-primary-hover)]' : 'text-muted-foreground'
         }`}
       >
         {formatWordCount(displayWordCount)}w
@@ -654,7 +654,7 @@ export function SidebarOverlay({
     <div className="fixed inset-0 z-50 lg:hidden">
       {/* Backdrop */}
       <div
-        className={`absolute inset-0 bg-black/50 ${isClosing ? 'sidebar-backdrop-fade-out' : 'sidebar-backdrop-fade-in'}`}
+        className={`absolute inset-0 bg-[var(--dc-color-surface-overlay)] ${isClosing ? 'sidebar-backdrop-fade-out' : 'sidebar-backdrop-fade-in'}`}
         onClick={onClose}
         aria-hidden="true"
       />

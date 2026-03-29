@@ -92,7 +92,7 @@ export default function SetupPage() {
           {/* Title field */}
           <div className="space-y-2">
             <label htmlFor="title" className="block text-sm font-medium text-foreground">
-              Book Title <span className="text-red-500">*</span>
+              Book Title <span className="text-[var(--dc-color-status-error)]">*</span>
             </label>
             <input
               id="title"
@@ -102,7 +102,7 @@ export default function SetupPage() {
               placeholder="Enter your book title"
               className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground
                          placeholder:text-muted-foreground
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)] focus:border-transparent
                          transition-all"
               maxLength={500}
               autoFocus
@@ -114,7 +114,7 @@ export default function SetupPage() {
               </p>
               <span
                 id="title-count"
-                className={`tabular-nums ${titleLength > 450 ? 'text-amber-500' : 'text-muted-foreground'} ${titleLength > 500 ? 'text-red-500' : ''}`}
+                className={`tabular-nums ${titleLength > 450 ? 'text-[var(--dc-color-status-warning)]' : 'text-muted-foreground'} ${titleLength > 500 ? 'text-[var(--dc-color-status-error)]' : ''}`}
               >
                 {titleLength}/500
               </span>
@@ -134,7 +134,7 @@ export default function SetupPage() {
               rows={3}
               className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground
                          placeholder:text-muted-foreground
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)] focus:border-transparent
                          transition-all resize-none"
               maxLength={1000}
               aria-describedby="description-count"
@@ -142,7 +142,7 @@ export default function SetupPage() {
             <div className="flex justify-end">
               <span
                 id="description-count"
-                className={`text-sm tabular-nums ${descriptionLength > 900 ? 'text-amber-500' : 'text-muted-foreground'} ${descriptionLength > 1000 ? 'text-red-500' : ''}`}
+                className={`text-sm tabular-nums ${descriptionLength > 900 ? 'text-[var(--dc-color-status-warning)]' : 'text-muted-foreground'} ${descriptionLength > 1000 ? 'text-[var(--dc-color-status-error)]' : ''}`}
               >
                 {descriptionLength}/1000
               </span>
@@ -153,7 +153,7 @@ export default function SetupPage() {
           {error && (
             <div
               role="alert"
-              className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm"
+              className="p-3 rounded-lg bg-[var(--dc-color-interactive-destructive-subtle)] border border-[var(--dc-color-interactive-destructive-subtle)] text-[var(--dc-color-interactive-destructive)] text-sm"
             >
               {error}
             </div>
@@ -163,8 +163,8 @@ export default function SetupPage() {
           <button
             type="submit"
             disabled={!isValid || isSubmitting}
-            className="w-full py-3 px-4 rounded-lg bg-gray-900 text-white font-medium
-                       hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2
+            className="w-full py-3 px-4 rounded-lg bg-[var(--dc-color-text-primary)] text-[var(--dc-color-text-inverse)] font-medium
+                       hover:bg-[var(--dc-color-text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-strong)] focus:ring-offset-2
                        disabled:opacity-50 disabled:cursor-not-allowed
                        transition-all"
           >

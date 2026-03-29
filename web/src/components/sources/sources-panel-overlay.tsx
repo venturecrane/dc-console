@@ -33,7 +33,7 @@ export function SourcesPanelOverlay() {
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 z-40 bg-black/30 lg:hidden ${isClosing ? 'sources-backdrop-fade-out' : 'sources-backdrop-fade-in'}`}
+        className={`fixed inset-0 z-40 bg-[var(--dc-color-surface-overlay)] lg:hidden ${isClosing ? 'sources-backdrop-fade-out' : 'sources-backdrop-fade-in'}`}
         onClick={closePanel}
         aria-hidden="true"
       />

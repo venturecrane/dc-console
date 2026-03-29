@@ -40,7 +40,7 @@ export default function LandingPage() {
         {/* CTA Button - 44pt minimum touch target for iPad */}
         <Link
           href="/sign-up"
-          className="inline-flex h-12 min-w-[160px] items-center justify-center rounded-lg bg-gray-900 px-8 text-lg font-medium text-white transition-colors hover:bg-gray-800 active:bg-gray-950"
+          className="inline-flex h-12 min-w-[160px] items-center justify-center rounded-lg bg-[var(--dc-color-text-primary)] px-8 text-lg font-medium text-[var(--dc-color-text-inverse)] transition-colors hover:bg-[var(--dc-color-text-secondary)] active:bg-[var(--dc-color-text-primary)]"
         >
           Get Started
         </Link>

@@ -58,7 +58,7 @@
 }
 
 .source-content blockquote {
-  border-left: 3px solid #e5e7eb;
+  border-left: 3px solid var(--dc-color-border-default);
   padding-left: 1em;
   font-style: italic;
   color: var(--dc-color-text-muted);
@@ -90,7 +90,7 @@
 
 .source-content th,
 .source-content td {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--dc-color-border-default);
   padding: 0.5em 0.75em;
   text-align: left;
 }
@@ -101,17 +101,20 @@
 }
 
 /* Search highlight styles */
+/* TODO: migrate to token in design V2 */
 .search-highlight {
   background-color: rgba(250, 204, 21, 0.4);
   border-radius: 2px;
 }
 
+/* TODO: migrate to token in design V2 */
 .search-highlight-active {
   background-color: rgba(250, 204, 21, 0.8);
   box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.6);
 }
 
 /* Scroll-to-position flash — distinct from highlight-flash (AI rewrite, editor.css) */
+/* TODO: migrate to token in design V2 */
 @keyframes scroll-target-flash {
   0% {
     background-color: rgba(250, 204, 21, 0.5);

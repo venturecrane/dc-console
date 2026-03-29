@@ -17,10 +17,12 @@ export default function EditorError({
     <div className="flex h-[calc(100dvh-3.5rem)] items-center justify-center p-4">
       <div className="text-center max-w-md">
         <h2 className="text-lg font-semibold text-foreground mb-2">Something went wrong</h2>
-        <p className="text-sm text-red-600 mb-4 font-mono break-all">{error.message}</p>
+        <p className="text-sm text-[var(--dc-color-status-error)] mb-4 font-mono break-all">
+          {error.message}
+        </p>
         <button
           onClick={reset}
-          className="px-4 py-2 rounded-lg bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 transition-colors"
+          className="px-4 py-2 rounded-lg bg-[var(--dc-color-text-primary)] text-[var(--dc-color-text-inverse)] text-sm font-medium hover:bg-[var(--dc-color-text-secondary)] transition-colors"
         >
           Try again
         </button>

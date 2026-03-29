@@ -83,7 +83,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           {toasts.map((toast) => (
             <div
               key={toast.id}
-              className="pointer-events-auto px-4 py-2.5 bg-gray-900 text-white text-sm font-medium
+              className="pointer-events-auto px-4 py-2.5 bg-[var(--dc-color-text-primary)] text-[var(--dc-color-text-inverse)] text-sm font-medium
                          rounded-lg shadow-lg toast-fade-in flex items-center gap-3"
               role="status"
             >
@@ -94,7 +94,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                     toast.action!.onClick()
                     removeToast(toast.id)
                   }}
-                  className="text-blue-300 hover:text-blue-200 font-semibold text-sm underline underline-offset-2 shrink-0"
+                  className="text-[var(--dc-color-interactive-primary-border)] hover:text-[var(--dc-color-interactive-primary-subtle)] font-semibold text-sm underline underline-offset-2 shrink-0"
                 >
                   {toast.action.label}
                 </button>

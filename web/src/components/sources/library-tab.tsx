@@ -283,11 +283,11 @@ export function LibraryTab() {
         {fileInput}
 
         {/* Connection header */}
-        <div className="px-3 py-2 border-b border-gray-100 flex items-center gap-2 shrink-0">
+        <div className="px-3 py-2 border-b border-[var(--dc-color-border-subtle)] flex items-center gap-2 shrink-0">
           <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor">
             <path
               d="M7.71 3.5L1.15 15l3.43 5.99L11.01 9.5 7.71 3.5zm1.14 0l6.87 12H22.86l-3.43-6-6.87-12H8.85l-.01 0 .01-.01zm6.88 12.01H2.58l3.43 6h13.15l-3.43-6z"
-              className="text-blue-500"
+              className="text-[var(--dc-color-interactive-primary)]"
             />
           </svg>
 
@@ -304,7 +304,7 @@ export function LibraryTab() {
                 id="browse-account-picker"
                 value={safeIndex}
                 onChange={(e) => setSelectedConnectionIndex(Number(e.target.value))}
-                className="text-xs text-[var(--dc-color-text-secondary)] bg-white border border-gray-200 rounded-md
+                className="text-xs text-[var(--dc-color-text-secondary)] bg-white border border-[var(--dc-color-border-default)] rounded-md
                            px-2 py-1.5 min-h-[32px] flex-1 truncate"
               >
                 {connections.map((connection, i) => (

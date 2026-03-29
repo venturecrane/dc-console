@@ -51,7 +51,7 @@
 }
 
 .text-editor-content blockquote {
-  border-left: 3px solid #e5e7eb;
+  border-left: 3px solid var(--dc-color-border-default);
   padding-left: 1em;
   margin-left: 0;
   margin-right: 0;
@@ -113,7 +113,7 @@
 
 .text-editor-content hr {
   border: none;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--dc-color-border-default);
   margin: 1.5em 0 0;
 }
 

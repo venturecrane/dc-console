@@ -144,13 +144,13 @@ export default function DashboardPage() {
     return (
       <div className="flex min-h-[60vh] items-center justify-center p-4">
         <div className="text-center">
-          <p className="text-red-600 mb-4">{projectsError}</p>
+          <p className="text-[var(--dc-color-status-error)] mb-4">{projectsError}</p>
           <button
             onClick={() => {
               clearProjectsError()
               fetchProjects()
             }}
-            className="px-4 py-2 rounded-lg bg-gray-900 text-white hover:bg-gray-800"
+            className="px-4 py-2 rounded-lg bg-[var(--dc-color-text-primary)] text-[var(--dc-color-text-inverse)] hover:bg-[var(--dc-color-text-secondary)]"
           >
             Try Again
           </button>
@@ -174,7 +174,7 @@ export default function DashboardPage() {
           <div>
             <Link
               href="/setup"
-              className="inline-flex h-12 items-center justify-center rounded-lg bg-gray-900 px-8 text-lg font-medium text-white hover:bg-gray-800 transition-colors"
+              className="inline-flex h-12 items-center justify-center rounded-lg bg-[var(--dc-color-text-primary)] px-8 text-lg font-medium text-[var(--dc-color-text-inverse)] hover:bg-[var(--dc-color-text-secondary)] transition-colors"
             >
               Create Your First Book
             </Link>
@@ -208,7 +208,9 @@ export default function DashboardPage() {
             >
               {isImporting ? 'Importing...' : 'Import from a backup file'}
             </button>
-            {importError && <p className="text-sm text-red-600 mt-1">{importError}</p>}
+            {importError && (
+              <p className="text-sm text-[var(--dc-color-status-error)] mt-1">{importError}</p>
+            )}
           </div>
 
           <div className="mt-8">
@@ -234,7 +236,7 @@ export default function DashboardPage() {
         <h1 className="font-serif text-2xl font-semibold text-foreground">Your Books</h1>
         <Link
           href="/setup"
-          className="inline-flex h-11 items-center justify-center rounded-lg bg-gray-900 px-5 text-sm font-medium text-white hover:bg-gray-800 transition-colors"
+          className="inline-flex h-11 items-center justify-center rounded-lg bg-[var(--dc-color-text-primary)] px-5 text-sm font-medium text-[var(--dc-color-text-inverse)] hover:bg-[var(--dc-color-text-secondary)] transition-colors"
         >
           New Book
         </Link>
@@ -245,7 +247,7 @@ export default function DashboardPage() {
         {projects.map((project) => (
           <div
             key={project.id}
-            className="relative bg-[var(--dc-color-surface-primary)] border border-gray-200 rounded-xl p-5 hover:shadow-md transition-shadow group"
+            className="relative bg-[var(--dc-color-surface-primary)] border border-[var(--dc-color-border-default)] rounded-xl p-5 hover:shadow-md transition-shadow group"
           >
             {/* Clickable card body */}
             <Link href={`/editor/${project.id}`} className="block min-h-[100px]">
@@ -295,7 +297,7 @@ export default function DashboardPage() {
               {/* Overflow menu dropdown */}
               {openMenuId === project.id && (
                 <div
-                  className="absolute right-0 top-full mt-1 w-48 bg-[var(--dc-color-surface-primary)] rounded-lg shadow-lg border border-gray-200 py-1 z-50"
+                  className="absolute right-0 top-full mt-1 w-48 bg-[var(--dc-color-surface-primary)] rounded-lg shadow-lg border border-[var(--dc-color-border-default)] py-1 z-50"
                   role="menu"
                 >
                   <button
@@ -347,13 +349,16 @@ export default function DashboardPage() {
                     </svg>
                     Duplicate
                   </button>
-                  <div className="my-1 border-t border-gray-200" role="separator" />
+                  <div
+                    className="my-1 border-t border-[var(--dc-color-border-default)]"
+                    role="separator"
+                  />
                   <button
                     onClick={() => {
                       setOpenMenuId(null)
                       setDeleteTarget(project)
                     }}
-                    className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50
+                    className="w-full text-left px-4 py-2.5 text-sm text-[var(--dc-color-status-error)] hover:bg-[var(--dc-color-interactive-destructive-subtle)]
                                transition-colors min-h-[44px] flex items-center gap-2"
                     role="menuitem"
                   >
@@ -404,7 +409,9 @@ export default function DashboardPage() {
         >
           {isImporting ? 'Importing...' : 'Import from a backup file'}
         </button>
-        {importError && <p className="text-sm text-red-600 mt-1">{importError}</p>}
+        {importError && (
+          <p className="text-sm text-[var(--dc-color-status-error)] mt-1">{importError}</p>
+        )}
         <div className="mt-2">
           <Link
             href="/help"
@@ -418,7 +425,7 @@ export default function DashboardPage() {
       {/* Rename dialog */}
       {renameTarget && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--dc-color-surface-overlay)]"
           role="dialog"
           aria-modal="true"
           aria-labelledby="rename-dialog-title"
@@ -438,8 +445,8 @@ export default function DashboardPage() {
                 if (e.key === 'Enter') handleRenameSubmit()
                 if (e.key === 'Escape') setRenameTarget(null)
               }}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-[var(--dc-color-border-strong)] rounded-lg text-sm
+                         focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)] focus:border-transparent"
               maxLength={500}
               autoFocus
             />
@@ -448,7 +455,7 @@ export default function DashboardPage() {
                 onClick={() => setRenameTarget(null)}
                 disabled={isRenaming}
                 className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-secondary)] bg-[var(--dc-color-surface-tertiary)] rounded-lg
-                           hover:bg-gray-200 transition-colors min-h-[44px]
+                           hover:bg-[var(--dc-color-surface-tertiary)] transition-colors min-h-[44px]
                            disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Cancel
@@ -456,8 +463,8 @@ export default function DashboardPage() {
               <button
                 onClick={handleRenameSubmit}
                 disabled={isRenaming || !renameValue.trim()}
-                className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg
-                           hover:bg-gray-800 transition-colors min-h-[44px]
+                className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-inverse)] bg-[var(--dc-color-text-primary)] rounded-lg
+                           hover:bg-[var(--dc-color-text-secondary)] transition-colors min-h-[44px]
                            disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isRenaming ? 'Saving...' : 'Save'}
@@ -470,7 +477,7 @@ export default function DashboardPage() {
       {/* Duplicate confirmation dialog */}
       {duplicateTarget && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--dc-color-surface-overlay)]"
           role="dialog"
           aria-modal="true"
           aria-labelledby="duplicate-dialog-title"
@@ -491,7 +498,7 @@ export default function DashboardPage() {
                 onClick={() => setDuplicateTarget(null)}
                 disabled={isDuplicating}
                 className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-secondary)] bg-[var(--dc-color-surface-tertiary)] rounded-lg
-                           hover:bg-gray-200 transition-colors min-h-[44px]
+                           hover:bg-[var(--dc-color-surface-tertiary)] transition-colors min-h-[44px]
                            disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Cancel
@@ -499,8 +506,8 @@ export default function DashboardPage() {
               <button
                 onClick={handleDuplicateConfirm}
                 disabled={isDuplicating}
-                className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg
-                           hover:bg-gray-800 transition-colors min-h-[44px]
+                className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-inverse)] bg-[var(--dc-color-text-primary)] rounded-lg
+                           hover:bg-[var(--dc-color-text-secondary)] transition-colors min-h-[44px]
                            disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isDuplicating ? 'Duplicating...' : 'Duplicate'}

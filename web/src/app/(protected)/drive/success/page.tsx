@@ -160,9 +160,9 @@ export default function DriveSuccessPage() {
     <div className="flex min-h-[60vh] items-center justify-center p-4">
       <div className="w-full max-w-md text-center">
         {/* Success checkmark */}
-        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--dc-color-success-bg)]">
           <svg
-            className="h-8 w-8 text-green-600"
+            className="h-8 w-8 text-[var(--dc-color-status-success)]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -198,7 +198,7 @@ export default function DriveSuccessPage() {
         <div className="mt-6">
           <button
             onClick={navigateToDestination}
-            className="inline-flex items-center justify-center rounded-lg bg-gray-900 px-6 py-2 text-sm font-medium text-white hover:bg-gray-800 transition-colors"
+            className="inline-flex items-center justify-center rounded-lg bg-[var(--dc-color-text-primary)] px-6 py-2 text-sm font-medium text-[var(--dc-color-text-inverse)] hover:bg-[var(--dc-color-text-secondary)] transition-colors"
           >
             Continue
           </button>

@@ -44,15 +44,15 @@ export function SourcesSection({ onBrowseConnection, onAddSource }: SourcesSecti
   )
 
   return (
-    <div className="border-t border-gray-100 px-3 py-2">
+    <div className="border-t border-[var(--dc-color-border-subtle)] px-3 py-2">
       {/* Section label */}
       <div className="flex items-center gap-2 min-h-[32px] mb-1">
         <div className="flex-1 flex items-center gap-2">
-          <div className="h-px bg-gray-200 flex-1" />
+          <div className="h-px bg-[var(--dc-color-border-default)] flex-1" />
           <span className="text-[10px] font-semibold tracking-wider text-[var(--dc-color-text-placeholder)] uppercase shrink-0">
             Connections
           </span>
-          <div className="h-px bg-gray-200 flex-1" />
+          <div className="h-px bg-[var(--dc-color-border-default)] flex-1" />
         </div>
       </div>
 
@@ -70,7 +70,7 @@ export function SourcesSection({ onBrowseConnection, onAddSource }: SourcesSecti
                 <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor">
                   <path
                     d="M7.71 3.5L1.15 15l3.43 5.99L11.01 9.5 7.71 3.5zm1.14 0l6.87 12H22.86l-3.43-6-6.87-12H8.85l-.01 0 .01-.01zm6.88 12.01H2.58l3.43 6h13.15l-3.43-6z"
-                    className="text-blue-500"
+                    className="text-[var(--dc-color-interactive-primary)]"
                   />
                 </svg>
                 <div className="flex-1 min-w-0">
@@ -87,7 +87,7 @@ export function SourcesSection({ onBrowseConnection, onAddSource }: SourcesSecti
                 {/* Browse button */}
                 <button
                   onClick={() => onBrowseConnection(connection)}
-                  className="text-xs text-blue-600 hover:text-blue-700 transition-colors
+                  className="text-xs text-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary-hover)] transition-colors
                                min-h-[44px] px-2 flex items-center shrink-0"
                 >
                   Browse
@@ -97,7 +97,7 @@ export function SourcesSection({ onBrowseConnection, onAddSource }: SourcesSecti
                 {confirmingId !== connection.id && (
                   <button
                     onClick={() => setConfirmingId(connection.id)}
-                    className="text-xs text-[var(--dc-color-text-placeholder)] hover:text-red-600 transition-colors
+                    className="text-xs text-[var(--dc-color-text-placeholder)] hover:text-[var(--dc-color-status-error)] transition-colors
                                  min-h-[44px] flex items-center shrink-0"
                   >
                     Remove
@@ -116,7 +116,7 @@ export function SourcesSection({ onBrowseConnection, onAddSource }: SourcesSecti
                     <button
                       onClick={() => handleUnlink(connection.id)}
                       disabled={isUnlinking}
-                      className="text-xs font-medium text-red-600 hover:text-red-700
+                      className="text-xs font-medium text-[var(--dc-color-status-error)] hover:text-[var(--dc-color-interactive-destructive-hover)]
                                    min-h-[36px] px-2 disabled:opacity-50"
                     >
                       {isUnlinking ? 'Removing...' : 'Confirm'}
@@ -140,7 +140,7 @@ export function SourcesSection({ onBrowseConnection, onAddSource }: SourcesSecti
       {/* Connect a Source button */}
       <button
         onClick={onAddSource}
-        className="flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-700
+        className="flex items-center gap-1.5 text-xs text-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary-hover)]
                    transition-colors min-h-[44px] px-1 mt-1"
       >
         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

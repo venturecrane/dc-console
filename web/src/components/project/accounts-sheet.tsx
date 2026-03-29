@@ -55,7 +55,7 @@ export function AccountsSheet({
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-black/20 z-50 ${isClosing ? 'backdrop-fade-out' : 'backdrop-fade-in'}`}
+        className={`fixed inset-0 bg-[var(--dc-color-surface-overlay)] z-50 ${isClosing ? 'backdrop-fade-out' : 'backdrop-fade-in'}`}
         onClick={onClose}
         aria-hidden="true"
       />
@@ -68,7 +68,7 @@ export function AccountsSheet({
         aria-label="Google Accounts"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 h-14 border-b border-gray-200 shrink-0">
+        <div className="flex items-center justify-between px-4 h-14 border-b border-[var(--dc-color-border-default)] shrink-0">
           <h2 className="text-lg font-semibold text-[var(--dc-color-text-primary)]">
             Google Accounts
           </h2>
@@ -108,8 +108,8 @@ export function AccountsSheet({
               </p>
               <button
                 onClick={onConnectAccount}
-                className="px-4 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg
-                           hover:bg-blue-700 transition-colors min-h-[44px]"
+                className="px-4 py-2.5 bg-[var(--dc-color-interactive-primary)] text-[var(--dc-color-text-inverse)] text-sm font-medium rounded-lg
+                           hover:bg-[var(--dc-color-interactive-primary-hover)] transition-colors min-h-[44px]"
               >
                 Connect Google Account
               </button>
@@ -138,7 +138,7 @@ export function AccountsSheet({
                         onDisconnectAccount(account.id)
                       }
                     }}
-                    className="ml-3 px-3 py-1.5 text-xs text-red-600 hover:bg-red-50 rounded-md
+                    className="ml-3 px-3 py-1.5 text-xs text-[var(--dc-color-status-error)] hover:bg-[var(--dc-color-interactive-destructive-subtle)] rounded-md
                                transition-colors min-h-[44px] shrink-0"
                     aria-label={`Disconnect ${account.email}`}
                   >
@@ -152,11 +152,11 @@ export function AccountsSheet({
 
         {/* Footer: Add Account */}
         {accounts.length > 0 && accounts.length < 3 && (
-          <div className="px-4 py-3 border-t border-gray-200 shrink-0">
+          <div className="px-4 py-3 border-t border-[var(--dc-color-border-default)] shrink-0">
             <button
               onClick={onConnectAccount}
               className="w-full flex items-center justify-center gap-2 px-4 py-2.5
-                         text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100
+                         text-sm font-medium text-[var(--dc-color-interactive-primary)] bg-[var(--dc-color-interactive-primary-subtle)] hover:bg-[var(--dc-color-interactive-primary-subtle)]
                          rounded-lg transition-colors min-h-[44px]"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

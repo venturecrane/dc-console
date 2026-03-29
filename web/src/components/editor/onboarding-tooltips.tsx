@@ -154,7 +154,7 @@ export function OnboardingTooltips() {
     <div className="pointer-events-none fixed inset-0 z-[100]">
       {/* Semi-transparent backdrop to draw attention */}
       <div
-        className="pointer-events-auto absolute inset-0 bg-black/20"
+        className="pointer-events-auto absolute inset-0 bg-[var(--dc-color-surface-overlay)]"
         onClick={handleSkip}
         aria-hidden="true"
       />

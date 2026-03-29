@@ -43,7 +43,7 @@ export function DeleteChapterDialog({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--dc-color-surface-overlay)]"
       role="dialog"
       aria-modal="true"
       aria-labelledby="delete-chapter-title"
@@ -51,9 +51,9 @@ export function DeleteChapterDialog({
     >
       <div className="bg-[var(--dc-color-surface-primary)] rounded-xl shadow-2xl max-w-md w-full mx-4 p-6">
         {/* Warning icon */}
-        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
+        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--dc-color-interactive-destructive-subtle)]">
           <svg
-            className="h-6 w-6 text-red-600"
+            className="h-6 w-6 text-[var(--dc-color-status-error)]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -91,7 +91,7 @@ export function DeleteChapterDialog({
             onClick={onCancel}
             disabled={isDeleting}
             className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-secondary)] bg-[var(--dc-color-surface-tertiary)] rounded-lg
-                       hover:bg-gray-200 transition-colors min-h-[44px]
+                       hover:bg-[var(--dc-color-surface-tertiary)] transition-colors min-h-[44px]
                        disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancel
@@ -99,8 +99,8 @@ export function DeleteChapterDialog({
           <button
             onClick={handleConfirm}
             disabled={isDeleting}
-            className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg
-                       hover:bg-red-700 transition-colors min-h-[44px]
+            className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-inverse)] bg-[var(--dc-color-interactive-destructive)] rounded-lg
+                       hover:bg-[var(--dc-color-interactive-destructive-hover)] transition-colors min-h-[44px]
                        disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isDeleting ? 'Deleting...' : 'Delete Chapter'}

@@ -20,7 +20,7 @@ export function CrashRecoveryDialog({ recovery, onAccept, onDismiss }: CrashReco
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--dc-color-surface-overlay)]"
       role="dialog"
       aria-modal="true"
       aria-labelledby="recovery-title"
@@ -42,7 +42,7 @@ export function CrashRecoveryDialog({ recovery, onAccept, onDismiss }: CrashReco
           <button
             onClick={onDismiss}
             className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-secondary)] bg-[var(--dc-color-surface-tertiary)] rounded-lg
-                       hover:bg-gray-200 transition-colors min-h-[44px]"
+                       hover:bg-[var(--dc-color-surface-tertiary)] transition-colors min-h-[44px]"
           >
             Discard
           </button>
