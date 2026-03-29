@@ -289,7 +289,7 @@ function EditorPageInner() {
   // --- Loading / Error states ---
   if (isLoading) {
     return (
-      <div className="flex h-dvh items-center justify-center">
+      <div className="flex h-[calc(100dvh-3.5rem)] items-center justify-center">
         <div className="text-muted-foreground">Loading project...</div>
       </div>
     )
@@ -297,7 +297,7 @@ function EditorPageInner() {
 
   if (error) {
     return (
-      <div className="flex h-dvh items-center justify-center p-4">
+      <div className="flex h-[calc(100dvh-3.5rem)] items-center justify-center p-4">
         <div className="text-center">
           <p className="text-red-600 mb-4">{error}</p>
           <button
@@ -314,7 +314,7 @@ function EditorPageInner() {
   return (
     <SourcesProvider projectId={projectId} editorRef={editorRef}>
       <SkipLink />
-      <div className="flex h-dvh">
+      <div className="flex h-[calc(100dvh-3.5rem)]">
         <OnboardingTooltips />
 
         {/* Screen reader announcements for panel state changes (#330) */}
@@ -395,6 +395,7 @@ function EditorPageInner() {
               onSaveRetry={saveNow}
               viewMode={viewMode}
               onViewModeChange={handleViewModeChange}
+              isEditorPanelOpen={editorPanelOpen}
               onToggleEditorPanel={handleToggleEditorPanel}
               projectId={projectId}
               activeChapterId={activeChapterId}
@@ -407,8 +408,6 @@ function EditorPageInner() {
               onSignOut={handleSignOut}
               isSigningOut={isSigningOut}
               onChapterSelect={handleChapterSelect}
-              onToggleSidebar={() => setMobileOverlayOpen(!mobileOverlayOpen)}
-              isSidebarOpen={mobileOverlayOpen}
             />
           )}
 

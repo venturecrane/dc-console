@@ -21,11 +21,12 @@ interface EditorToolbarProps {
   saveStatus: SaveStatus
   onSaveRetry: () => void
 
-  // View mode
+  // View mode (#318)
   viewMode: ViewMode
   onViewModeChange: (mode: ViewMode) => void
 
-  // Editor Panel (keyboard shortcut only — toggle lives in sidebar)
+  // Editor Panel (#317)
+  isEditorPanelOpen?: boolean
   onToggleEditorPanel?: () => void
 
   // Export
@@ -44,20 +45,16 @@ interface EditorToolbarProps {
 
   // Chapter navigation (for breadcrumb)
   onChapterSelect?: (chapterId: string) => void
-
-  // Sidebar
-  onToggleSidebar?: () => void
-  isSidebarOpen?: boolean
 }
 
 /**
- * EditorToolbar — Minimal toolbar per approved Stitch design.
+ * EditorToolbar — Minimal top toolbar with spatial panel toggles and breadcrumb nav.
  *
- * Layout: [Logomark] [Book Title ▾ > Chapter] ... [Saved] [Export] [⚙️] [📚]
+ * Layout: [✏️ Editor] — [≡ Book Title ▾ / Chapter] — [SaveIndicator] [⚙️] [📚 Library]
  *
- * The logomark opens the sidebar overlay (navigation hub with chapters,
- * AI Editor, Library access). The Library icon stays in the toolbar
- * for quick access. Editor toggle is in the sidebar, not the toolbar.
+ * The Editor toggle sits far-left, Library far-right, reinforcing the
+ * spatial metaphor: left = AI editor, right = research library.
+ * The breadcrumb replaces both the ProjectSwitcher and the Chapter/Book toggle.
  */
 export function EditorToolbar({
   projectData,
@@ -67,6 +64,7 @@ export function EditorToolbar({
   onSaveRetry,
   viewMode,
   onViewModeChange,
+  isEditorPanelOpen = false,
   onToggleEditorPanel,
   projectId,
   activeChapterId,
@@ -79,8 +77,6 @@ export function EditorToolbar({
   onSignOut,
   isSigningOut,
   onChapterSelect,
-  onToggleSidebar,
-  isSidebarOpen = false,
 }: EditorToolbarProps) {
   const { isPanelOpen, togglePanel, connections } = useSourcesContext()
   const [announcement, setAnnouncement] = useState('')
@@ -111,10 +107,16 @@ export function EditorToolbar({
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [onToggleEditorPanel, togglePanel, viewMode, onViewModeChange])
 
+  // aria-live announcements (#393)
   const announce = useCallback((msg: string) => {
     setAnnouncement('')
     requestAnimationFrame(() => setAnnouncement(msg))
   }, [])
+
+  const handleToggleEditor = useCallback(() => {
+    onToggleEditorPanel?.()
+    announce(isEditorPanelOpen ? 'Editor panel closed' : 'Editor panel opened')
+  }, [onToggleEditorPanel, isEditorPanelOpen, announce])
 
   const handleToggleLibrary = useCallback(() => {
     togglePanel()
@@ -129,11 +131,7 @@ export function EditorToolbar({
     [onChapterSelect, onViewModeChange]
   )
 
-  const handleToggleSidebar = useCallback(() => {
-    onToggleSidebar?.()
-    announce(isSidebarOpen ? 'Navigation closed' : 'Navigation opened')
-  }, [onToggleSidebar, isSidebarOpen, announce])
-
+  // Build chapter list for breadcrumb
   const chapters = projectData.chapters.map((ch) => ({
     id: ch.id,
     title: ch.title,
@@ -147,26 +145,27 @@ export function EditorToolbar({
       aria-label="Editor toolbar"
       aria-orientation="horizontal"
     >
-      {/* Far left: Logomark — opens sidebar */}
-      <button
-        onClick={handleToggleSidebar}
-        className={`min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg transition-colors ${
-          isSidebarOpen
-            ? 'bg-[var(--dc-color-interactive-primary-subtle)]'
-            : 'hover:bg-[var(--dc-color-surface-tertiary)]'
-        }`}
-        aria-label={isSidebarOpen ? 'Close navigation' : 'Open navigation'}
-        aria-pressed={isSidebarOpen}
-      >
-        <svg
-          className="w-6 h-6 text-[var(--dc-color-interactive-primary)]"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l5 4.5-5 4.5z" />
-        </svg>
-      </button>
+      {/* Far left: Editor panel toggle (icon only) */}
+      <div className="shrink-0">
+        {onToggleEditorPanel && (
+          <PanelToggleButton
+            label="Editor"
+            icon={
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                />
+              </svg>
+            }
+            isOpen={isEditorPanelOpen}
+            onToggle={handleToggleEditor}
+            zone="editor"
+          />
+        )}
+      </div>
 
       {/* Center: Breadcrumb navigation */}
       <div className="flex-1 flex items-center min-w-0 px-2">
@@ -189,7 +188,7 @@ export function EditorToolbar({
         />
       </div>
 
-      {/* Right cluster: Save + Export + Settings + Library */}
+      {/* Right cluster: Save + Export + Settings + Library toggle */}
       <div className="flex items-center gap-1 shrink-0">
         {viewMode !== 'book' && <SaveIndicator status={saveStatus} onRetry={onSaveRetry} />}
 
@@ -231,7 +230,7 @@ export function EditorToolbar({
         />
       </div>
 
-      {/* Screen reader announcements */}
+      {/* Screen reader announcements (#393) */}
       <div className="sr-only" aria-live="polite" aria-atomic="true">
         {announcement}
       </div>
