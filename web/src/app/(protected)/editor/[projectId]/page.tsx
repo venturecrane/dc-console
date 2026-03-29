@@ -407,6 +407,7 @@ function EditorPageInner() {
               onDeleteProject={openDeleteDialog}
               onSignOut={handleSignOut}
               isSigningOut={isSigningOut}
+              onChapterSelect={handleChapterSelect}
             />
           )}
 
