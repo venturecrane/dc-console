@@ -395,7 +395,6 @@ function EditorPageInner() {
               onSaveRetry={saveNow}
               viewMode={viewMode}
               onViewModeChange={handleViewModeChange}
-              isEditorPanelOpen={editorPanelOpen}
               onToggleEditorPanel={handleToggleEditorPanel}
               projectId={projectId}
               activeChapterId={activeChapterId}
@@ -408,6 +407,8 @@ function EditorPageInner() {
               onSignOut={handleSignOut}
               isSigningOut={isSigningOut}
               onChapterSelect={handleChapterSelect}
+              onToggleSidebar={() => setMobileOverlayOpen(!mobileOverlayOpen)}
+              isSidebarOpen={mobileOverlayOpen}
             />
           )}
 
