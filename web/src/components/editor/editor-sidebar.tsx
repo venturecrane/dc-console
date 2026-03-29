@@ -26,7 +26,7 @@ interface EditorSidebarProps {
  *
  * Handles the desktop persistent sidebar and the mobile overlay pattern
  * per PRD Section 14 (iPad-First Design):
- * - Sidebar persistent in landscape (240-280pt), hidden in portrait with "Ch X" pill
+ * - Sidebar persistent in landscape (240-280pt), hidden in portrait (breadcrumb nav handles chapter switching)
  * - Touch targets 44x44pt minimum
  */
 export function EditorSidebar({

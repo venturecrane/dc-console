@@ -77,7 +77,7 @@ export interface SidebarProps {
  *
  * Per PRD Section 9 (Sidebar Responsive Behavior):
  * - iPad Landscape (1024pt+): Persistent, 240-280pt wide, collapsible
- * - iPad Portrait (768pt): Hidden by default with "Ch X" pill indicator
+ * - iPad Portrait (768pt): Hidden by default (breadcrumb nav handles chapter switching)
  * - Desktop (1200pt+): Persistent
  *
  * Per PRD US-013 (Rename Chapter):
@@ -220,22 +220,9 @@ export function Sidebar({
   }, [onChapterReorder, activeChapterId, sortedChapters])
 
   if (collapsed) {
-    // Collapsed state - show only a pill indicator
-    const activeChapter = sortedChapters.find((ch) => ch.id === activeChapterId)
-    const activeIndex = activeChapter ? sortedChapters.indexOf(activeChapter) + 1 : 1
-
-    return (
-      <button
-        onClick={onToggleCollapsed}
-        className="fixed left-2 top-1/2 -translate-y-1/2 z-40
-                   px-3 py-2 rounded-full bg-blue-600 text-white text-sm font-medium
-                   shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500
-                   transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
-        aria-label={`Chapter ${activeIndex}. Tap to open chapter list.`}
-      >
-        Ch {activeIndex}
-      </button>
-    )
+    // Breadcrumb nav in the toolbar now handles chapter indication and switching.
+    // No pill needed — return nothing when collapsed.
+    return null
   }
 
   // Find the dragged chapter for overlay rendering
