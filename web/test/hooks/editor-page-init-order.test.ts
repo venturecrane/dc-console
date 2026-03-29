@@ -19,7 +19,7 @@ import path from 'path'
 describe('EditorPage initialization order (#119 TDZ regression)', () => {
   const editorPagePath = path.resolve(
     __dirname,
-    '../../src/app/(protected)/(editor)/editor/[projectId]/page.tsx'
+    '../../src/app/(protected)/editor/[projectId]/page.tsx'
   )
   const pageSource = fs.readFileSync(editorPagePath, 'utf-8')
 
