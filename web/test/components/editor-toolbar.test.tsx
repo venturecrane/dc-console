@@ -5,8 +5,8 @@ import { EditorToolbar } from '@/components/editor/editor-toolbar'
 /**
  * Tests for EditorToolbar — the top toolbar for the writing environment.
  *
- * Contains: ProjectSwitcher, SaveIndicator, Editor panel toggle,
- * Library toggle, ExportMenu, SettingsMenu.
+ * Contains: BreadcrumbNav (replaces ProjectSwitcher + WorkspaceToggle),
+ * SaveIndicator, Editor panel toggle, Library toggle, ExportMenu, SettingsMenu.
  *
  * Mock strategy: We mock all child components to isolate toolbar behavior.
  */
@@ -21,9 +21,9 @@ vi.mock('@/contexts/sources-context', () => ({
 }))
 
 // Mock child components to avoid their dependencies
-vi.mock('@/components/project/project-switcher', () => ({
-  ProjectSwitcher: ({ currentProject }: { currentProject: { id: string; title: string } }) => (
-    <div data-testid="project-switcher">{currentProject.title}</div>
+vi.mock('@/components/editor/breadcrumb-nav', () => ({
+  BreadcrumbNav: ({ currentProject }: { currentProject: { id: string; title: string } }) => (
+    <div data-testid="breadcrumb-nav">{currentProject.title}</div>
   ),
 }))
 
@@ -91,10 +91,10 @@ describe('EditorToolbar', () => {
   // Core sub-components are rendered
   // ────────────────────────────────────────────
 
-  it('renders project switcher with project title', () => {
+  it('renders breadcrumb nav with project title', () => {
     render(<EditorToolbar {...makeProps()} />)
 
-    expect(screen.getByTestId('project-switcher')).toHaveTextContent('My Book')
+    expect(screen.getByTestId('breadcrumb-nav')).toHaveTextContent('My Book')
   })
 
   it('renders save indicator', () => {
