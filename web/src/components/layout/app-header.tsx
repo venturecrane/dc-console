@@ -13,7 +13,7 @@ import Link from 'next/link'
 export function AppHeader() {
   const pathname = usePathname()
 
-  if (pathname.startsWith('/editor/')) return null
+  if (pathname.startsWith('/editor/') || pathname === '/setup') return null
 
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b border-[var(--dc-color-border-default)] bg-[var(--dc-color-surface-primary)] px-4 pt-[env(safe-area-inset-top)]">
