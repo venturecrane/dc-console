@@ -52,7 +52,8 @@ export default function SetupPage() {
         })
         if (res.ok) {
           const data = await res.json()
-          setHasProjects(Array.isArray(data) && data.length > 0)
+          const list = data?.projects ?? data
+          setHasProjects(Array.isArray(list) && list.length > 0)
         }
       } catch {
         // Silently fail — just don't show Cancel
