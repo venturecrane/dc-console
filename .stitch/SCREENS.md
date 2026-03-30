@@ -24,10 +24,12 @@ Examples: `Setup - New Book (Tablet)`, `Dashboard - Empty State (Mobile)`, `Edit
 
 ### Dashboard
 
-| Screen ID                          | Title                              | Viewport | Status      | Notes                                                                                                                      |
-| ---------------------------------- | ---------------------------------- | -------- | ----------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `4fb43593955e4ad388282e04abb3530b` | DraftCrane Dashboard (Empty State) | Mobile   | exploration | Empty state with hero, feature cards, bottom tabs. Aspirational — includes social proof and tab bar that won't ship as-is. |
-| `e4b30f2a9fdc4866b51561e6561bae73` | DraftCrane Dashboard (Tablet)      | Desktop  | exploration | Populated dashboard with project cards. Good directional reference for card layout.                                        |
+| Screen ID                          | Title                                   | Viewport | Status      | Notes                                                                                                                       |
+| ---------------------------------- | --------------------------------------- | -------- | ----------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `4fb43593955e4ad388282e04abb3530b` | DraftCrane Dashboard (Empty State)      | Mobile   | exploration | Empty state with hero, feature cards, bottom tabs. Aspirational — includes social proof and tab bar that won't ship as-is.  |
+| `e4b30f2a9fdc4866b51561e6561bae73` | DraftCrane Dashboard (Tablet)           | Desktop  | retired     | Original populated dashboard. Superseded by warm literary version.                                                          |
+| `49f6f747de8e40449d032fc42425f684` | DraftCrane Populated Dashboard (Tablet) | Desktop  | retired     | V1 warm literary dashboard — had extra nav tabs and icons. Superseded by cleaned-up version.                                |
+| `4329b26f1ba94c84850d44be6548466f` | DraftCrane Product Dashboard            | Desktop  | approved    | **CURRENT** — Cleaned-up populated dashboard. Minimal header, Newsreader titles, warm cards with subtle borders, no extras. |
 
 ### Setup / New Book
 
