@@ -16,10 +16,10 @@ export function AppHeader() {
   if (pathname.startsWith('/editor/') || pathname === '/setup') return null
 
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between border-b border-[var(--dc-color-border-default)] bg-[var(--dc-color-surface-primary)] px-4 pt-[env(safe-area-inset-top)]">
+    <header className="flex h-14 shrink-0 items-center justify-between border-b border-[var(--dc-color-border-subtle)] bg-[var(--dc-color-surface-primary)] px-4 pt-[env(safe-area-inset-top)]">
       <Link
         href="/dashboard"
-        className="flex h-11 items-center font-serif text-xl font-semibold text-[var(--dc-color-text-primary)]"
+        className="flex h-11 items-center font-serif text-xl font-semibold italic text-[var(--dc-color-text-primary)]"
       >
         DraftCrane
       </Link>

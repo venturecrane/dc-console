@@ -150,7 +150,7 @@ export default function DashboardPage() {
               clearProjectsError()
               fetchProjects()
             }}
-            className="px-4 py-2 rounded-lg bg-[var(--dc-color-text-primary)] text-[var(--dc-color-text-inverse)] hover:bg-[var(--dc-color-text-secondary)]"
+            className="px-4 py-2 rounded-[var(--dc-radius-md)] bg-[var(--dc-color-interactive-primary)] text-[var(--dc-color-text-inverse)] hover:bg-[var(--dc-color-interactive-primary-hover)]"
           >
             Try Again
           </button>
@@ -174,7 +174,7 @@ export default function DashboardPage() {
           <div>
             <Link
               href="/setup"
-              className="inline-flex h-12 items-center justify-center rounded-lg bg-[var(--dc-color-text-primary)] px-8 text-lg font-medium text-[var(--dc-color-text-inverse)] hover:bg-[var(--dc-color-text-secondary)] transition-colors"
+              className="inline-flex h-12 items-center justify-center rounded-[var(--dc-radius-md)] bg-[var(--dc-color-interactive-primary)] px-8 text-lg font-medium text-[var(--dc-color-text-inverse)] hover:bg-[var(--dc-color-interactive-primary-hover)] transition-colors"
             >
               Create Your First Book
             </Link>
@@ -230,302 +230,304 @@ export default function DashboardPage() {
 
   // Project card grid
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="font-serif text-2xl font-semibold text-[var(--dc-color-text-primary)]">
-          Your Books
-        </h1>
-        <Link
-          href="/setup"
-          className="inline-flex h-11 items-center justify-center rounded-lg bg-[var(--dc-color-text-primary)] px-5 text-sm font-medium text-[var(--dc-color-text-inverse)] hover:bg-[var(--dc-color-text-secondary)] transition-colors"
-        >
-          New Book
-        </Link>
-      </div>
-
-      {/* Card grid: 1 col mobile, 2 cols tablet, 3 cols desktop */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {projects.map((project) => (
-          <div
-            key={project.id}
-            className="relative bg-[var(--dc-color-surface-primary)] border border-[var(--dc-color-border-default)] rounded-xl p-5 hover:shadow-md transition-shadow group"
-          >
-            {/* Clickable card body */}
-            <Link href={`/editor/${project.id}`} className="block min-h-[100px]">
-              <h2 className="font-serif text-lg font-semibold text-[var(--dc-color-text-primary)] truncate pr-8">
-                {project.title}
-              </h2>
-              <div className="mt-2 flex items-center gap-3 text-sm text-[var(--dc-color-text-muted)]">
-                <span>
-                  {project.chapterCount} {project.chapterCount === 1 ? 'chapter' : 'chapters'}
-                </span>
-                <span className="text-[var(--dc-color-border-strong)]">&middot;</span>
-                <span className="tabular-nums">{project.wordCount.toLocaleString()} words</span>
-              </div>
-              <p className="mt-3 text-xs text-[var(--dc-color-text-placeholder)]">
-                Last edited {relativeTime(project.updatedAt)}
-              </p>
-            </Link>
-
-            {/* Overflow menu trigger */}
-            <div
-              className="absolute top-4 right-4"
-              ref={openMenuId === project.id ? menuRef : undefined}
-            >
-              <button
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  setOpenMenuId(openMenuId === project.id ? null : project.id)
-                }}
-                className="h-9 w-9 flex items-center justify-center rounded-lg hover:bg-[var(--dc-color-surface-tertiary)]
-                           transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
-                aria-label={`Actions for ${project.title}`}
-                aria-haspopup="true"
-                aria-expanded={openMenuId === project.id}
-              >
-                <svg
-                  className="w-5 h-5 text-[var(--dc-color-text-muted)]"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <circle cx="12" cy="6" r="1.5" />
-                  <circle cx="12" cy="12" r="1.5" />
-                  <circle cx="12" cy="18" r="1.5" />
-                </svg>
-              </button>
-
-              {/* Overflow menu dropdown */}
-              {openMenuId === project.id && (
-                <div
-                  className="absolute right-0 top-full mt-1 w-48 bg-[var(--dc-color-surface-primary)] rounded-lg shadow-lg border border-[var(--dc-color-border-default)] py-1 z-50"
-                  role="menu"
-                >
-                  <button
-                    onClick={() => {
-                      setOpenMenuId(null)
-                      setRenameValue(project.title)
-                      setRenameTarget(project)
-                    }}
-                    className="w-full text-left px-4 py-2.5 text-sm text-[var(--dc-color-text-secondary)] hover:bg-[var(--dc-color-surface-tertiary)]
-                               transition-colors min-h-[44px] flex items-center gap-2"
-                    role="menuitem"
-                  >
-                    <svg
-                      className="w-4 h-4 shrink-0"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                      />
-                    </svg>
-                    Rename
-                  </button>
-                  <button
-                    onClick={() => {
-                      setOpenMenuId(null)
-                      setDuplicateTarget(project)
-                    }}
-                    className="w-full text-left px-4 py-2.5 text-sm text-[var(--dc-color-text-secondary)] hover:bg-[var(--dc-color-surface-tertiary)]
-                               transition-colors min-h-[44px] flex items-center gap-2"
-                    role="menuitem"
-                  >
-                    <svg
-                      className="w-4 h-4 shrink-0"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                      />
-                    </svg>
-                    Duplicate
-                  </button>
-                  <div
-                    className="my-1 border-t border-[var(--dc-color-border-default)]"
-                    role="separator"
-                  />
-                  <button
-                    onClick={() => {
-                      setOpenMenuId(null)
-                      setDeleteTarget(project)
-                    }}
-                    className="w-full text-left px-4 py-2.5 text-sm text-[var(--dc-color-status-error)] hover:bg-[var(--dc-color-interactive-destructive-subtle)]
-                               transition-colors min-h-[44px] flex items-center gap-2"
-                    role="menuitem"
-                  >
-                    <svg
-                      className="w-4 h-4 shrink-0"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      />
-                    </svg>
-                    Delete
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Import from backup — below the grid */}
-      <div className="mt-6 text-center">
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".zip"
-          className="hidden"
-          onChange={async (e) => {
-            const file = e.target.files?.[0]
-            if (!file) return
-            const projectId = await importBackup(file)
-            if (projectId) {
-              router.push(`/editor/${projectId}`)
-            }
-            e.target.value = ''
-          }}
-        />
-        <button
-          onClick={() => fileInputRef.current?.click()}
-          disabled={isImporting}
-          className="text-sm text-[var(--dc-color-text-placeholder)] hover:text-[var(--dc-color-text-secondary)] transition-colors
-                     disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isImporting ? 'Importing...' : 'Import from a backup file'}
-        </button>
-        {importError && (
-          <p className="text-sm text-[var(--dc-color-status-error)] mt-1">{importError}</p>
-        )}
-        <div className="mt-2">
+    <div className="min-h-[calc(100dvh-3.5rem)] bg-[var(--dc-color-surface-secondary)]">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-10">
+          <h1 className="font-serif text-3xl font-semibold italic text-[var(--dc-color-text-primary)]">
+            Your Books
+          </h1>
           <Link
-            href="/help"
-            className="text-sm text-[var(--dc-color-text-placeholder)] hover:text-[var(--dc-color-text-secondary)] transition-colors"
+            href="/setup"
+            className="inline-flex h-11 items-center justify-center rounded-[var(--dc-radius-md)] bg-[var(--dc-color-interactive-primary)] px-5 text-sm font-medium text-[var(--dc-color-text-inverse)] hover:bg-[var(--dc-color-interactive-primary-hover)] transition-colors"
           >
-            Help
+            New Book
           </Link>
         </div>
-      </div>
 
-      {/* Rename dialog */}
-      {renameTarget && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--dc-color-surface-overlay)]"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="rename-dialog-title"
-        >
-          <div className="bg-[var(--dc-color-surface-primary)] rounded-xl shadow-2xl max-w-md w-full mx-4 p-6">
-            <h2
-              id="rename-dialog-title"
-              className="text-lg font-semibold text-[var(--dc-color-text-primary)] mb-4"
+        {/* Card grid: 1 col mobile, 2 cols tablet, 3 cols desktop */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {projects.map((project) => (
+            <div
+              key={project.id}
+              className="relative bg-[var(--dc-color-surface-primary)] border border-[var(--dc-color-border-default)] rounded-[var(--dc-radius-lg)] p-6 hover:shadow-[0_4px_6px_-1px_rgba(28,25,23,0.08),0_2px_4px_-2px_rgba(28,25,23,0.05)] transition-shadow group"
             >
-              Rename Book
-            </h2>
-            <input
-              type="text"
-              value={renameValue}
-              onChange={(e) => setRenameValue(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleRenameSubmit()
-                if (e.key === 'Escape') setRenameTarget(null)
-              }}
-              className="w-full px-3 py-2 border border-[var(--dc-color-border-strong)] rounded-lg text-sm
+              {/* Clickable card body */}
+              <Link href={`/editor/${project.id}`} className="block min-h-[100px]">
+                <h2 className="font-serif text-lg font-semibold italic text-[var(--dc-color-text-primary)] truncate pr-8">
+                  {project.title}
+                </h2>
+                <div className="mt-2 flex items-center gap-3 text-sm text-[var(--dc-color-text-muted)]">
+                  <span>
+                    {project.chapterCount} {project.chapterCount === 1 ? 'chapter' : 'chapters'}
+                  </span>
+                  <span className="text-[var(--dc-color-border-strong)]">&middot;</span>
+                  <span className="tabular-nums">{project.wordCount.toLocaleString()} words</span>
+                </div>
+                <p className="mt-3 text-xs text-[var(--dc-color-text-placeholder)]">
+                  Last edited {relativeTime(project.updatedAt)}
+                </p>
+              </Link>
+
+              {/* Overflow menu trigger */}
+              <div
+                className="absolute top-4 right-4"
+                ref={openMenuId === project.id ? menuRef : undefined}
+              >
+                <button
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    setOpenMenuId(openMenuId === project.id ? null : project.id)
+                  }}
+                  className="h-9 w-9 flex items-center justify-center rounded-lg hover:bg-[var(--dc-color-surface-tertiary)]
+                           transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                  aria-label={`Actions for ${project.title}`}
+                  aria-haspopup="true"
+                  aria-expanded={openMenuId === project.id}
+                >
+                  <svg
+                    className="w-5 h-5 text-[var(--dc-color-text-muted)]"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle cx="12" cy="6" r="1.5" />
+                    <circle cx="12" cy="12" r="1.5" />
+                    <circle cx="12" cy="18" r="1.5" />
+                  </svg>
+                </button>
+
+                {/* Overflow menu dropdown */}
+                {openMenuId === project.id && (
+                  <div
+                    className="absolute right-0 top-full mt-1 w-48 bg-[var(--dc-color-surface-primary)] rounded-lg shadow-lg border border-[var(--dc-color-border-default)] py-1 z-50"
+                    role="menu"
+                  >
+                    <button
+                      onClick={() => {
+                        setOpenMenuId(null)
+                        setRenameValue(project.title)
+                        setRenameTarget(project)
+                      }}
+                      className="w-full text-left px-4 py-2.5 text-sm text-[var(--dc-color-text-secondary)] hover:bg-[var(--dc-color-surface-tertiary)]
+                               transition-colors min-h-[44px] flex items-center gap-2"
+                      role="menuitem"
+                    >
+                      <svg
+                        className="w-4 h-4 shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                        />
+                      </svg>
+                      Rename
+                    </button>
+                    <button
+                      onClick={() => {
+                        setOpenMenuId(null)
+                        setDuplicateTarget(project)
+                      }}
+                      className="w-full text-left px-4 py-2.5 text-sm text-[var(--dc-color-text-secondary)] hover:bg-[var(--dc-color-surface-tertiary)]
+                               transition-colors min-h-[44px] flex items-center gap-2"
+                      role="menuitem"
+                    >
+                      <svg
+                        className="w-4 h-4 shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                        />
+                      </svg>
+                      Duplicate
+                    </button>
+                    <div
+                      className="my-1 border-t border-[var(--dc-color-border-default)]"
+                      role="separator"
+                    />
+                    <button
+                      onClick={() => {
+                        setOpenMenuId(null)
+                        setDeleteTarget(project)
+                      }}
+                      className="w-full text-left px-4 py-2.5 text-sm text-[var(--dc-color-status-error)] hover:bg-[var(--dc-color-interactive-destructive-subtle)]
+                               transition-colors min-h-[44px] flex items-center gap-2"
+                      role="menuitem"
+                    >
+                      <svg
+                        className="w-4 h-4 shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Import from backup — below the grid */}
+        <div className="mt-6 text-center">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".zip"
+            className="hidden"
+            onChange={async (e) => {
+              const file = e.target.files?.[0]
+              if (!file) return
+              const projectId = await importBackup(file)
+              if (projectId) {
+                router.push(`/editor/${projectId}`)
+              }
+              e.target.value = ''
+            }}
+          />
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isImporting}
+            className="text-sm text-[var(--dc-color-text-placeholder)] hover:text-[var(--dc-color-text-secondary)] transition-colors
+                     disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isImporting ? 'Importing...' : 'Import from a backup file'}
+          </button>
+          {importError && (
+            <p className="text-sm text-[var(--dc-color-status-error)] mt-1">{importError}</p>
+          )}
+          <div className="mt-2">
+            <Link
+              href="/help"
+              className="text-sm text-[var(--dc-color-text-placeholder)] hover:text-[var(--dc-color-text-secondary)] transition-colors"
+            >
+              Help
+            </Link>
+          </div>
+        </div>
+
+        {/* Rename dialog */}
+        {renameTarget && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--dc-color-surface-overlay)]"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="rename-dialog-title"
+          >
+            <div className="bg-[var(--dc-color-surface-primary)] rounded-xl shadow-2xl max-w-md w-full mx-4 p-6">
+              <h2
+                id="rename-dialog-title"
+                className="text-lg font-semibold text-[var(--dc-color-text-primary)] mb-4"
+              >
+                Rename Book
+              </h2>
+              <input
+                type="text"
+                value={renameValue}
+                onChange={(e) => setRenameValue(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleRenameSubmit()
+                  if (e.key === 'Escape') setRenameTarget(null)
+                }}
+                className="w-full px-3 py-2 border border-[var(--dc-color-border-strong)] rounded-lg text-sm
                          focus:outline-none focus:ring-2 focus:ring-[var(--dc-color-border-focus)] focus:border-transparent"
-              maxLength={500}
-              autoFocus
-            />
-            <div className="flex gap-3 justify-end mt-4">
-              <button
-                onClick={() => setRenameTarget(null)}
-                disabled={isRenaming}
-                className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-secondary)] bg-[var(--dc-color-surface-tertiary)] rounded-lg
+                maxLength={500}
+                autoFocus
+              />
+              <div className="flex gap-3 justify-end mt-4">
+                <button
+                  onClick={() => setRenameTarget(null)}
+                  disabled={isRenaming}
+                  className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-secondary)] bg-[var(--dc-color-surface-tertiary)] rounded-lg
                            hover:bg-[var(--dc-color-surface-tertiary)] transition-colors min-h-[44px]
                            disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleRenameSubmit}
-                disabled={isRenaming || !renameValue.trim()}
-                className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-inverse)] bg-[var(--dc-color-text-primary)] rounded-lg
-                           hover:bg-[var(--dc-color-text-secondary)] transition-colors min-h-[44px]
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleRenameSubmit}
+                  disabled={isRenaming || !renameValue.trim()}
+                  className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-inverse)] bg-[var(--dc-color-interactive-primary)] rounded-lg
+                           hover:bg-[var(--dc-color-interactive-primary-hover)] transition-colors min-h-[44px]
                            disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isRenaming ? 'Saving...' : 'Save'}
-              </button>
+                >
+                  {isRenaming ? 'Saving...' : 'Save'}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Duplicate confirmation dialog */}
-      {duplicateTarget && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--dc-color-surface-overlay)]"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="duplicate-dialog-title"
-        >
-          <div className="bg-[var(--dc-color-surface-primary)] rounded-xl shadow-2xl max-w-md w-full mx-4 p-6">
-            <h2
-              id="duplicate-dialog-title"
-              className="text-lg font-semibold text-[var(--dc-color-text-primary)] mb-2"
-            >
-              Duplicate Book
-            </h2>
-            <p className="text-sm text-[var(--dc-color-text-muted)] mb-6">
-              Duplicate &ldquo;{duplicateTarget.title}&rdquo;? This creates a full copy of all
-              chapters.
-            </p>
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={() => setDuplicateTarget(null)}
-                disabled={isDuplicating}
-                className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-secondary)] bg-[var(--dc-color-surface-tertiary)] rounded-lg
+        {/* Duplicate confirmation dialog */}
+        {duplicateTarget && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--dc-color-surface-overlay)]"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="duplicate-dialog-title"
+          >
+            <div className="bg-[var(--dc-color-surface-primary)] rounded-xl shadow-2xl max-w-md w-full mx-4 p-6">
+              <h2
+                id="duplicate-dialog-title"
+                className="text-lg font-semibold text-[var(--dc-color-text-primary)] mb-2"
+              >
+                Duplicate Book
+              </h2>
+              <p className="text-sm text-[var(--dc-color-text-muted)] mb-6">
+                Duplicate &ldquo;{duplicateTarget.title}&rdquo;? This creates a full copy of all
+                chapters.
+              </p>
+              <div className="flex gap-3 justify-end">
+                <button
+                  onClick={() => setDuplicateTarget(null)}
+                  disabled={isDuplicating}
+                  className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-secondary)] bg-[var(--dc-color-surface-tertiary)] rounded-lg
                            hover:bg-[var(--dc-color-surface-tertiary)] transition-colors min-h-[44px]
                            disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDuplicateConfirm}
-                disabled={isDuplicating}
-                className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-inverse)] bg-[var(--dc-color-text-primary)] rounded-lg
-                           hover:bg-[var(--dc-color-text-secondary)] transition-colors min-h-[44px]
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleDuplicateConfirm}
+                  disabled={isDuplicating}
+                  className="px-4 py-2 text-sm font-medium text-[var(--dc-color-text-inverse)] bg-[var(--dc-color-interactive-primary)] rounded-lg
+                           hover:bg-[var(--dc-color-interactive-primary-hover)] transition-colors min-h-[44px]
                            disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isDuplicating ? 'Duplicating...' : 'Duplicate'}
-              </button>
+                >
+                  {isDuplicating ? 'Duplicating...' : 'Duplicate'}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Delete confirmation dialog — reuses existing component */}
-      <DeleteProjectDialog
-        projectTitle={deleteTarget?.title || ''}
-        isOpen={!!deleteTarget}
-        onConfirm={handleDeleteProject}
-        onCancel={() => setDeleteTarget(null)}
-      />
+        {/* Delete confirmation dialog — reuses existing component */}
+        <DeleteProjectDialog
+          projectTitle={deleteTarget?.title || ''}
+          isOpen={!!deleteTarget}
+          onConfirm={handleDeleteProject}
+          onCancel={() => setDeleteTarget(null)}
+        />
+      </div>
     </div>
   )
 }
