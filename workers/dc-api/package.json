@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "test": "vitest run",
+    "test": "vitest run --project unit --project harness",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "db:migrate:local": "wrangler d1 migrations apply dc-main --local",
@@ -23,6 +23,7 @@
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.13.3",
     "@cloudflare/workers-types": "^4.20250124.0",
+    "@venturecrane/crane-test-harness": "https://github.com/venturecrane/crane-console/releases/download/crane-test-harness-v0.1.0/venturecrane-crane-test-harness-0.1.0.tgz",
     "@types/sanitize-html": "^2.16.0",
     "typescript": "^5.7.0",
     "vitest": "^4.1.1",
