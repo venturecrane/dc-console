@@ -4,3 +4,8 @@ node_modules
 dist
 coverage
 *.sql
+
+# Local/agent/tool artifacts that may sit in the working tree but are
+# not part of the source.
+**/.claude/settings.local.json
+**/next-env.d.ts
