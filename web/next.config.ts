@@ -15,12 +15,12 @@ const isDev = process.env.NODE_ENV !== 'production'
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval' " : ''}https://*.clerk.accounts.dev https://*.clerk.com https://apis.google.com;
+  script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval' " : ''}https://*.clerk.accounts.dev https://*.clerk.com https://apis.google.com https://challenges.cloudflare.com;
   style-src 'self' 'unsafe-inline';
   img-src 'self' blob: data: https://*.clerk.com https://img.clerk.com https://lh3.googleusercontent.com;
   font-src 'self';
   connect-src 'self' https://*.clerk.accounts.dev https://*.clerk.com https://api.draftcrane.app https://*.googleapis.com;
-  frame-src 'self' https://*.clerk.accounts.dev https://*.clerk.com https://docs.google.com https://accounts.google.com;
+  frame-src 'self' https://*.clerk.accounts.dev https://*.clerk.com https://docs.google.com https://accounts.google.com https://challenges.cloudflare.com;
   worker-src 'self' blob:;
   object-src 'none';
   base-uri 'self';
