@@ -14,6 +14,7 @@ import { sources } from './routes/sources.js'
 import { research } from './routes/research.js'
 import { aiInstructions } from './routes/ai-instructions.js'
 import { feedback } from './routes/feedback.js'
+import { waitlist } from './routes/waitlist.js'
 import type { ErrorCode } from './types/index.js'
 
 const app = new Hono<{ Bindings: Env }>()
@@ -91,9 +92,11 @@ app.use('*', requestLogger)
 // - /health: no auth required
 // - /auth/webhook: Svix signature verification (not JWT)
 // - /drive/callback: OAuth CSRF state token (not JWT)
+// - /waitlist: public POST endpoint, anti-abuse via Cloudflare Turnstile
 app.route('/health', health)
 app.route('/auth', auth)
 app.route('/drive', driveCallback)
+app.route('/waitlist', waitlist)
 
 // --- Global authentication barrier ---
 // All routes below this line require a valid Clerk JWT.

@@ -31,4 +31,10 @@ export interface Env {
   API_BASE_URL?: string // Base URL for API (used in export download URLs)
   ENCRYPTION_KEY: string
   ALLOW_TEST_AUTH?: string
+
+  // Waitlist (public POST /waitlist endpoint)
+  RESEND_API_KEY: string // Resend transactional email API key
+  RESEND_FROM_EMAIL?: string // Sender, default: "DraftCrane <hello@mail.draftcrane.app>"
+  WAITLIST_NOTIFY_EMAIL?: string // Where to notify on signup, default: smdurgan@venturecrane.com
+  TURNSTILE_SECRET_KEY: string // Cloudflare Turnstile server-side verification secret
 }

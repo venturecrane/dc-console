@@ -34,6 +34,8 @@ id = "15db632cefe04003a94f1e6e7460c858"
 # AI_API_KEY            - AI rewrite API key (frontier tier)
 # CF_API_TOKEN           - Cloudflare Browser Rendering (PDF export)
 # ENCRYPTION_KEY         - AES-256-GCM token encryption
+# RESEND_API_KEY         - Resend transactional email (waitlist confirmations + Captain notify)
+# TURNSTILE_SECRET_KEY   - Cloudflare Turnstile server-side verification
 
 # Workers AI
 [ai]
