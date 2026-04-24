@@ -12,6 +12,7 @@ const isPublicRoute = createRouteMatcher([
   '/privacy',
   '/terms',
   '/spike(.*)',
+  '/api/waitlist',
 ])
 
 /**
