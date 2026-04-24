@@ -1,5 +1,8 @@
 import Link from 'next/link'
 
+// Sign-in CTA is intentionally hidden during private alpha. The /sign-in
+// route still exists; just unlinked from the public marketing surface.
+// Re-add when public beta opens.
 export function Nav() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--dc-color-surface-primary)]/90 backdrop-blur-sm border-b border-[var(--dc-color-border-default)]/50">
@@ -17,20 +20,12 @@ export function Nav() {
             DraftCrane
           </span>
         </Link>
-        <div className="flex items-center gap-6">
-          <a
-            href="#waitlist"
-            className="hidden sm:inline text-sm text-[var(--dc-color-text-muted)] hover:text-[var(--dc-color-interactive-primary)] transition-colors"
-          >
-            Join the list
-          </a>
-          <Link
-            href="/sign-in"
-            className="text-sm font-medium text-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary-hover)] transition-colors"
-          >
-            Sign in
-          </Link>
-        </div>
+        <a
+          href="#waitlist"
+          className="text-sm font-medium text-[var(--dc-color-interactive-primary)] hover:text-[var(--dc-color-interactive-primary-hover)] transition-colors"
+        >
+          Join the list
+        </a>
       </div>
     </nav>
   )

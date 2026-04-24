@@ -21,12 +21,6 @@ export function Footer() {
             Join the list
           </a>
           <Link
-            href="/sign-in"
-            className="text-sm tracking-wide uppercase text-[var(--dc-color-text-muted)] hover:text-[var(--dc-color-interactive-primary)] transition-colors"
-          >
-            Sign in
-          </Link>
-          <Link
             href="/privacy"
             className="text-sm tracking-wide uppercase text-[var(--dc-color-text-muted)] hover:text-[var(--dc-color-interactive-primary)] transition-colors"
           >
