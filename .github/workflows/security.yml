@@ -10,11 +10,13 @@ on:
     - cron: '0 6 * * *'
   workflow_dispatch:
 
-# Explicit minimum permissions — workflow only reads repo contents.
+# Explicit minimum permissions. contents: read for repo access;
+# packages: read to install @venturecrane/* org packages from GHCR.
 # Explicit block supersedes repo default and prevents write-capable
 # tokens from leaking into authenticated curl calls below.
 permissions:
   contents: read
+  packages: read
 
 jobs:
   npm-audit:
