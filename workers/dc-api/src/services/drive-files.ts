@@ -13,6 +13,7 @@
  */
 
 import { validateDriveId, escapeDriveQuery } from '../utils/drive-query.js'
+import { sanitizeGoogleDocsHtml } from '../utils/html-sanitize.js'
 
 /** Google Drive file metadata */
 export interface DriveFile {
@@ -664,8 +665,8 @@ export class DriveFileService {
 
     switch (meta.mimeType) {
       case GOOGLE_DOC_MIME_TYPE: {
-        const content = await this.exportFile(accessToken, fileId, 'text/html')
-        return { content, format: 'html' }
+        const rawHtml = await this.exportFile(accessToken, fileId, 'text/html')
+        return { content: sanitizeGoogleDocsHtml(rawHtml), format: 'html' }
       }
 
       case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': {
