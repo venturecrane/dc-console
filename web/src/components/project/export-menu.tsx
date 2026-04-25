@@ -654,7 +654,7 @@ export function ExportMenu({
 
       {/* Confirmation toast (auto-delivered with default) */}
       {state.phase === 'complete' && deliveryPhase === 'auto-delivered' && (
-        <div className="fixed bottom-4 right-4 bg-[var(--dc-color-success-bg)] border border-[var(--dc-color-status-success)] rounded-lg px-4 py-3 shadow-lg z-50 max-w-sm">
+        <div className="fixed bottom-4 right-4 bg-[var(--dc-color-status-success-bg)] border border-[var(--dc-color-status-success)] rounded-lg px-4 py-3 shadow-lg z-50 max-w-sm">
           <div className="flex items-start gap-3">
             <svg
               className="w-5 h-5 text-[var(--dc-color-status-success)] shrink-0 mt-0.5"

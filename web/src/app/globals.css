@@ -1,97 +1,33 @@
+@import '@venturecrane/tokens/dc.css';
 @import 'tailwindcss';
 
+/*
+ * DraftCrane (DC) — Warm Literary Palette (Stitch V2)
+ * Stream C3 (2026-04-25): color primitives now sourced from
+ * @venturecrane/tokens/dc.css. The package emits 38 --dc-color-* tokens
+ * plus shared base text/space/motion. Non-color tokens (radius, shadow,
+ * source's text scale, motion alias names, z-index, layout, touch-target,
+ * font stacks) and alias-only tokens (feedback-*, onboarding-card-*,
+ * help-*) remain venture-local — they aren't in the package today.
+ *
+ * The @theme inline {} block aliases Tailwind v4's utility-spawning
+ * namespaces (--color-*, --font-*, --spacing-*, --radius-*) onto the
+ * --dc-* primitives so utility classes (bg-primary, text-dc-text-primary,
+ * font-sans, p-dc-md, rounded-dc-md, etc.) generate from the same single
+ * source of truth.
+ */
+
 :root {
+  /* Tailwind v4 legacy bare-name conventions (R6) — kept for body styling */
   --background: #fdfcfb;
   --foreground: #1c1917;
 
   /* ================================================================
-   * COLOR TOKENS — Warm Literary Palette (Stitch V2)
-   * Derived from Stitch "Full Product Design" experiment (2026-03-29)
-   * Seed: #6B5B4B, Variant: TONAL_SPOT, Stone scale
-   * Naming: --dc-color-{category}-{variant}
-   * ================================================================ */
-
-  /* --- Text --- */
-  --dc-color-text-primary: #1c1917; /* 16.5:1 vs paper — headings, prominent labels */
-  --dc-color-text-secondary: #44403c; /* 9.2:1 — body text, descriptions */
-  --dc-color-text-muted: #78716c; /* 4.6:1 — captions, hints, idle labels */
-  --dc-color-text-placeholder: #a8a29e; /* 2.8:1 (large text only) — input placeholders */
-  --dc-color-text-inverse: #fdfcfb; /* Text on dark/colored backgrounds */
-
-  /* --- Surfaces --- */
-  --dc-color-surface-primary: #fdfcfb; /* Writing surface, panel backgrounds */
-  --dc-color-surface-secondary: #f5f5f4; /* Dashboard bg, subtle tint */
-  --dc-color-surface-tertiary: #e7e5e4; /* Toggle tracks, hover backgrounds */
-  --dc-color-surface-overlay: rgba(28, 25, 23, 0.5); /* Modal/dialog backdrops (warm black) */
-
-  /* --- Borders --- */
-  --dc-color-border-default: #e7e5e4; /* Standard borders */
-  --dc-color-border-subtle: #f5f5f4; /* Dividers, separators */
-  --dc-color-border-strong: #d6d3d1; /* Emphasized borders, input outlines */
-
-  /* --- Interactive: Primary (Warm Brown — Author's domain) --- */
-  --dc-color-interactive-primary: #6b5b4b; /* Primary actions, links */
-  --dc-color-interactive-primary-subtle: #f5f2ed; /* Light warm tint backgrounds */
-  --dc-color-interactive-primary-on-subtle: #4a3f35; /* Dark text on primary-subtle */
-  --dc-color-interactive-primary-hover: #57534e; /* Hover state */
-  --dc-color-interactive-primary-active: #4a3f35; /* Active/pressed state */
-  --dc-color-interactive-primary-border: #a8a29e; /* Focus/selection borders */
-
-  /* --- Interactive: Escalation (Warm Plum — Editor's domain) --- */
-  --dc-color-interactive-escalation: #7b5b6b; /* Editor actions, AI escalation */
-  --dc-color-interactive-escalation-subtle: #f5f0f3; /* Light plum tint backgrounds */
-  --dc-color-interactive-escalation-hover: #6b4b5b; /* Hover state */
-  --dc-color-interactive-escalation-border: #c4a8b8; /* Focus/selection borders */
-
-  /* --- Interactive: Destructive --- */
-  --dc-color-interactive-destructive: #b91c1c; /* Delete buttons, destructive actions */
-  --dc-color-interactive-destructive-hover: #991b1b; /* Hover on destructive actions */
-  --dc-color-interactive-destructive-subtle: #fef2f2; /* Light red tint backgrounds */
-
-  /* --- Status --- */
-  --dc-color-status-error: #b91c1c;
-  --dc-color-error-bg: #fef2f2;
-  --dc-color-status-success: #047857;
-  --dc-color-success-bg: #ecfdf5;
-  --dc-color-status-success-subtle: #ecfdf5; /* Alias for consistency */
-  --dc-color-status-warning: #b45309; /* Warnings, cautions */
-  --dc-color-status-warning-bg: #fffbeb; /* Warning background tint */
-
-  /* --- Focus --- */
-  --dc-color-border-focus: #6b5b4b; /* Focus rings — uses primary accent */
-
-  /* --- Highlight --- */
-  --dc-color-highlight: #fde68a; /* Text selection, AI rewrite focus (warm amber) */
-
-  /* --- Help & Support (#344, #367) --- */
-  --dc-color-feedback-surface: var(--dc-color-surface-primary);
-  --dc-color-feedback-border: var(--dc-color-border-default);
-  --dc-color-feedback-type-active-bg: var(--dc-color-interactive-primary);
-  --dc-color-feedback-type-active-text: #fdfcfb;
-  --dc-color-feedback-type-inactive-bg: var(--dc-color-surface-secondary);
-  --dc-color-feedback-type-inactive-text: var(--dc-color-text-secondary);
-  --dc-color-feedback-success-bg: var(--dc-color-status-success-subtle);
-  --dc-color-feedback-success-icon: var(--dc-color-status-success);
-  --dc-color-feedback-success-text: var(--dc-color-text-primary);
-
-  /* --- Onboarding (#344) --- */
-  --dc-color-onboarding-card-bg: var(--dc-color-surface-primary);
-  --dc-color-onboarding-card-border: var(--dc-color-border-default);
-  --dc-color-onboarding-backdrop: rgba(28, 25, 23, 0.4);
-  --dc-color-onboarding-dot-active: var(--dc-color-interactive-primary);
-  --dc-color-onboarding-dot-inactive: #d6d3d1;
-  --dc-color-onboarding-arrow: var(--dc-color-surface-primary);
-
-  /* --- Help Page (#344) --- */
-  --dc-color-help-accordion-bg: var(--dc-color-surface-primary);
-  --dc-color-help-accordion-hover: var(--dc-color-surface-secondary);
-  --dc-color-help-accordion-border: var(--dc-color-border-default);
-  --dc-color-help-section-heading: var(--dc-color-text-primary);
-
-  /* ================================================================
    * SPACING TOKENS
    * Naming: --dc-spacing-{size}
-   * Values aligned to 4px grid
+   * Values aligned to 4px grid.
+   * Note: package emits --dc-space-section/card/row/stack from base;
+   * DC keeps its own --dc-spacing-{xs..3xl} scale for backward compat.
    * ================================================================ */
 
   --dc-spacing-xs: 4px;
@@ -109,11 +45,13 @@
   --dc-safe-area-right: env(safe-area-inset-right, 0px);
 
   /* ================================================================
-   * TYPOGRAPHY TOKENS
-   * Naming: --dc-font-{role}, --dc-text-{size}, --dc-leading-{size}
+   * TYPOGRAPHY TOKENS (venture-local font stacks + size scale)
+   * Note: package emits --dc-text-size-display/title/heading/... from
+   * base; DC keeps its own --dc-text-{xs..3xl} sizing for Tailwind-style
+   * usage and venture text scale.
    * ================================================================ */
 
-  /* Font stacks */
+  /* Font stacks (Next.js font CSS variables) */
   --dc-font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --dc-font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
   --dc-font-mono: var(--font-geist-mono), ui-monospace, monospace;
@@ -159,10 +97,10 @@
   --dc-shadow-ai-glow: 0 0 20px rgba(107, 91, 75, 0.05); /* Warm AI panel glow */
 
   /* ================================================================
-   * MOTION TOKENS
-   * Naming: --dc-motion-{property}
-   * Maximum animation duration: 300ms
-   * All animations respect prefers-reduced-motion
+   * MOTION TOKENS (venture-local naming kept for backward compat)
+   * Note: package emits --dc-motion-duration-instant/fast/base/slow and
+   * --dc-motion-easing-standard/decelerate/accelerate from base; DC keeps
+   * its own short names referenced across components.
    * ================================================================ */
 
   --dc-motion-instant: 100ms;
@@ -222,6 +160,36 @@
 
   /* Help page layout */
   --dc-help-content-max-width: 640px;
+
+  /* ================================================================
+   * ALIAS-ONLY COLOR TOKENS — venture-local (#344, #367)
+   * Reference primitives from @venturecrane/tokens/dc.css.
+   * Not in the package today; kept as runtime aliases here so existing
+   * consumers don't break. Captain follow-up: surface to dc.json.
+   * ================================================================ */
+
+  /* Help & Support */
+  --dc-color-feedback-surface: var(--dc-color-surface-primary);
+  --dc-color-feedback-border: var(--dc-color-border-default);
+  --dc-color-feedback-type-active-bg: var(--dc-color-interactive-primary);
+  --dc-color-feedback-type-active-text: #fdfcfb;
+  --dc-color-feedback-type-inactive-bg: var(--dc-color-surface-secondary);
+  --dc-color-feedback-type-inactive-text: var(--dc-color-text-secondary);
+  --dc-color-feedback-success-bg: var(--dc-color-status-success-subtle);
+  --dc-color-feedback-success-icon: var(--dc-color-status-success);
+  --dc-color-feedback-success-text: var(--dc-color-text-primary);
+
+  /* Onboarding */
+  --dc-color-onboarding-card-bg: var(--dc-color-surface-primary);
+  --dc-color-onboarding-card-border: var(--dc-color-border-default);
+  --dc-color-onboarding-dot-active: var(--dc-color-interactive-primary);
+  --dc-color-onboarding-arrow: var(--dc-color-surface-primary);
+
+  /* Help Page */
+  --dc-color-help-accordion-bg: var(--dc-color-surface-primary);
+  --dc-color-help-accordion-hover: var(--dc-color-surface-secondary);
+  --dc-color-help-accordion-border: var(--dc-color-border-default);
+  --dc-color-help-section-heading: var(--dc-color-text-primary);
 }
 
 @theme inline {
@@ -280,7 +248,7 @@
   --color-dc-border-focus: var(--dc-color-border-focus);
 
   /* ================================================================
-   * DC SEMANTIC COLORS — INTERACTIVE: PRIMARY (Blue)
+   * DC SEMANTIC COLORS — INTERACTIVE: PRIMARY (Warm Brown)
    * Utilities: bg-dc-interactive-primary, hover:bg-dc-interactive-primary-hover, etc.
    * ================================================================ */
   --color-dc-interactive-primary: var(--dc-color-interactive-primary);
@@ -291,7 +259,7 @@
   --color-dc-interactive-primary-border: var(--dc-color-interactive-primary-border);
 
   /* ================================================================
-   * DC SEMANTIC COLORS — INTERACTIVE: ESCALATION (Violet)
+   * DC SEMANTIC COLORS — INTERACTIVE: ESCALATION (Warm Plum)
    * Utilities: bg-dc-interactive-escalation, text-dc-interactive-escalation, etc.
    * ================================================================ */
   --color-dc-interactive-escalation: var(--dc-color-interactive-escalation);
@@ -312,9 +280,9 @@
    * Utilities: text-dc-status-error, bg-dc-error-bg, etc.
    * ================================================================ */
   --color-dc-status-error: var(--dc-color-status-error);
-  --color-dc-error-bg: var(--dc-color-error-bg);
+  --color-dc-error-bg: var(--dc-color-status-error-bg);
   --color-dc-status-success: var(--dc-color-status-success);
-  --color-dc-success-bg: var(--dc-color-success-bg);
+  --color-dc-success-bg: var(--dc-color-status-success-bg);
   --color-dc-success-subtle: var(--dc-color-status-success-subtle);
   --color-dc-status-warning: var(--dc-color-status-warning);
   --color-dc-status-warning-bg: var(--dc-color-status-warning-bg);

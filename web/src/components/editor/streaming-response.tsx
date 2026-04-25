@@ -84,7 +84,7 @@ export function StreamingResponse({
       aria-live="polite"
     >
       {showErrorOnly ? (
-        <div className="bg-[var(--dc-color-error-bg)] border border-[var(--dc-color-status-error)]/20 rounded-[var(--dc-radius-md)] p-3 -m-0.5">
+        <div className="bg-[var(--dc-color-status-error-bg)] border border-[var(--dc-color-status-error)]/20 rounded-[var(--dc-radius-md)] p-3 -m-0.5">
           <span className="text-[var(--dc-color-status-error)] text-xs leading-relaxed">
             {errorMessage}
           </span>
@@ -123,7 +123,7 @@ export function StreamingResponse({
             />
           )}
           {showErrorInline && (
-            <div className="mt-3 bg-[var(--dc-color-error-bg)] border border-[var(--dc-color-status-error)]/20 rounded-[var(--dc-radius-md)] p-3">
+            <div className="mt-3 bg-[var(--dc-color-status-error-bg)] border border-[var(--dc-color-status-error)]/20 rounded-[var(--dc-radius-md)] p-3">
               <span className="text-[var(--dc-color-status-error)] text-xs leading-relaxed">
                 {errorMessage}
               </span>

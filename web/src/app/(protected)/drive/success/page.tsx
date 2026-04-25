@@ -160,7 +160,7 @@ export default function DriveSuccessPage() {
     <div className="flex min-h-[60vh] items-center justify-center p-4">
       <div className="w-full max-w-md text-center">
         {/* Success checkmark */}
-        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--dc-color-success-bg)]">
+        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--dc-color-status-success-bg)]">
           <svg
             className="h-8 w-8 text-[var(--dc-color-status-success)]"
             fill="none"
