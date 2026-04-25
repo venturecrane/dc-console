@@ -115,9 +115,6 @@ jobs:
   typescript:
     name: TypeScript Validation
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        worker: [dc-api]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -129,20 +126,18 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@venturecrane'
 
-      - name: Install root dependencies
+      - name: Install dependencies
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Install from root — workspaces share root node_modules which
+        # includes devDeps (mammoth, unpdf) used by dc-api via dynamic import.
         run: npm ci
 
-      - name: Install worker dependencies
-        working-directory: workers/${{ matrix.worker }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm ci
-
-      - name: TypeScript check
-        working-directory: workers/${{ matrix.worker }}
-        run: npx tsc --noEmit
+      - name: TypeScript check (dc-api)
+        # Run from root via workspace flag to preserve root module resolution,
+        # matching ci.yml's approach. Running tsc from within workers/dc-api
+        # doesn't see root devDeps like mammoth that are in root node_modules.
+        run: npm run typecheck -w dc-api
 
   semgrep:
     name: Static Analysis (Semgrep)
