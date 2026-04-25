@@ -177,6 +177,7 @@ export function DocumentPeekView({
         ) : content ? (
           <div ref={contentRef}>
             {format === 'html' ? (
+              // nosemgrep: typescript.react.security.audit.react-dangerouslysetinnerhtml.react-dangerouslysetinnerhtml — HTML is sanitized by sanitizeGoogleDocsHtml (allowlist tags/attrs, no scripts/styles) in dc-api before reaching this component
               <div className="source-content" dangerouslySetInnerHTML={{ __html: content }} />
             ) : (
               <pre className="whitespace-pre-wrap text-sm text-[var(--dc-color-text-primary)] font-sans">
