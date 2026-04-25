@@ -28,3 +28,6 @@ coverage/
 # Infisical
 .infisical.json
 .vercel
+
+# UI drift audit (CI artifacts, not durable source)
+.design/audits/

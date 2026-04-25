@@ -1,0 +1,9 @@
+{
+  "_comment": "UI drift audit thresholds for DC. Baseline captured 2026-04-25 (Stream C3 — design-system migration to @venturecrane/tokens/dc.css). DC's Next.js app layout puts sources under web/src — the src_dirs override targets that. Pre-existing 21 raw hex/rgb in JSX and 5 raw Tailwind color classes are baseline; this PR introduces no new drift. raw_hex_rgb_in_jsx_max is set above the baseline to keep the gate informative without blocking unrelated work; subsequent design-debt PRs ratchet it to 0. Inline-style hex/rgb is hard-zero (already at zero on main).",
+  "src_dirs": ["web/src/app", "web/src/components"],
+  "thresholds": {
+    "raw_hex_rgb_in_jsx_max": 25,
+    "raw_hex_rgb_in_inline_style_max": 0,
+    "raw_tailwind_color_classes_max": 10
+  }
+}
