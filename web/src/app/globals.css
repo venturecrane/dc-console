@@ -2,7 +2,7 @@
 @import 'tailwindcss';
 
 /*
- * DraftCrane (DC) — Warm Literary Palette (Stitch V2)
+ * DraftCrane (DC) — Warm Literary Palette
  * Stream C3 (2026-04-25): color primitives now sourced from
  * @venturecrane/tokens/dc.css. The package emits 38 --dc-color-* tokens
  * plus shared base text/space/motion. Non-color tokens (radius, shadow,
