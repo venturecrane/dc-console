@@ -21,6 +21,11 @@ dist/
 
 # Test
 coverage/
+playwright-report/
+test-results/
+
+# Playwright Clerk auth state (captured session secret — never commit)
+playwright/.clerk/
 
 # Vercel
 .vercel/
