@@ -9,11 +9,6 @@ import { useDriveAccounts } from '@/hooks/use-drive-accounts'
 const API_URL = process.env.NEXT_PUBLIC_API_URL || ''
 
 /**
- * Book Setup Screen — "Start Your New Book"
- *
- * Matches Stitch screen "New Book Setup — Initial Experience"
- * (8e40cdf0105d4baf8a34d6b4e59fba78).
- *
  * Two variants:
  * - First-time user (0 books): Logo-only header, no Cancel
  * - Returning user (1+ books): Logo + Cancel → /dashboard

@@ -51,8 +51,6 @@ interface EditorToolbarProps {
 }
 
 /**
- * EditorToolbar — Minimal toolbar per approved Stitch design.
- *
  * Layout: [Logomark] [Book Title ▾ > Chapter] ... [Saved] [Export] [⚙️] [📚]
  *
  * The logomark opens the sidebar overlay (navigation hub with chapters,
