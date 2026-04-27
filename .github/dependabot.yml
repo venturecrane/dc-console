@@ -11,3 +11,39 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+
+  # Frontend (Next.js, Tiptap, Clerk)
+  - package-ecosystem: 'npm'
+    directory: '/web'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 5
+    groups:
+      web-patch:
+        update-types:
+          - 'patch'
+      web-minor-dev:
+        dependency-type: 'development'
+        update-types:
+          - 'minor'
+    ignore:
+      # postcss is pinned transitively by next.js. Until next bumps its
+      # bundled postcss past 8.4.31, security_update_not_possible fires
+      # on every retry. Re-evaluate when next.js ships a postcss bump.
+      - dependency-name: 'postcss'
+        versions: ['8.4.x']
+
+  # API worker (Hono, Cloudflare Workers)
+  - package-ecosystem: 'npm'
+    directory: '/workers/dc-api'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 5
+    groups:
+      api-patch:
+        update-types:
+          - 'patch'
+      api-minor-dev:
+        dependency-type: 'development'
+        update-types:
+          - 'minor'
