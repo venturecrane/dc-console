@@ -36,22 +36,15 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@venturecrane'
 
-      - name: Install root dependencies
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm ci
-
-      - name: Install workspace dependencies
-        working-directory: ${{ matrix.workspace }}
+      - name: Install dependencies
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm ci
 
       - name: Run npm audit
-        working-directory: ${{ matrix.workspace }}
         run: |
           echo "## NPM Audit: ${{ matrix.workspace }}" >> $GITHUB_STEP_SUMMARY
-          npm audit --audit-level=high 2>&1 | tee audit-output.txt
+          npm audit --workspace=${{ matrix.workspace }} --audit-level=high 2>&1 | tee audit-output.txt
           if [ ${PIPESTATUS[0]} -ne 0 ]; then
             echo "### Vulnerabilities Found" >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
