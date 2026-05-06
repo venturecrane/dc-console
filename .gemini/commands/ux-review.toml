@@ -1,9 +1,0 @@
-[command]
-name = "ux-review"
-description = "UI/UX Design Review Panel - spawns Designer, PM, and User agents to critique and refine a UI/UX proposal"
-
-[command.steps]
-instruction = """
-Load and follow the skill at `.agents/skills/ux-review/SKILL.md`.
-Arguments: $ARGUMENTS (number of review rounds, default 1)
-"""
