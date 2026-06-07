@@ -25,7 +25,8 @@
     "mammoth": "^1.11.0",
     "pdf-lib": "^1.17.1",
     "prettier": "^3.5.0",
-    "unpdf": "^1.4.0"
+    "unpdf": "^1.4.0",
+    "vitest": "^4.1.8"
   },
   "overrides": {
     "minimatch": "^10.2.1"
