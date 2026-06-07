@@ -22,10 +22,10 @@
     "@tiptap/starter-kit": "^3.19.0",
     "@types/sanitize-html": "^2.16.0",
     "@venturecrane/tokens": "0.0.2-alpha.0",
-    "next": "16.2.3",
+    "next": "16.2.7",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "sanitize-html": "^2.17.3"
+    "sanitize-html": "^2.17.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -41,6 +41,6 @@
     "serwist": "^9.5.6",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vitest": "^4.0.18"
+    "vitest": "^4.1.8"
   }
 }
