@@ -21,7 +21,7 @@
     "unpdf": "^1.4.0"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.13.3",
+    "@cloudflare/vitest-pool-workers": "^0.17.0",
     "@cloudflare/workers-types": "^4.20250124.0",
     "@venturecrane/crane-test-harness": "^0.1.0",
     "@types/sanitize-html": "^2.16.0",
